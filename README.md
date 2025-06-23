@@ -24,7 +24,7 @@
 
 ## Status
 
-- No, it’s not finished. In fact, it doesn't even work at all yet.
+- It’s not finished. It doesn't even work at all yet.
 - This README is the user manual. That should be enough for you.
 
 ---
