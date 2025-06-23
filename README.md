@@ -25,8 +25,7 @@
 ## Status
 
 - No, it’s not finished.  
-- Yes, more details (like screenshots, builds, etc.) will appear **if** it's ever finished.  
-- For now, this README is the user manual. That should be enough for you.
+- This README is the user manual. That should be enough for you.
 
 ---
 
