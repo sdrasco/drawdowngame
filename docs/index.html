@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drawdown</title>
+
+  <!-- Social media preview metadata -->
+  <meta property="og:title" content="Drawdown" />
+  <meta property="og:description" content="A retro market simulator. How low can you go?" />
+  <meta property="og:image" content="images/logo.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Drawdown" />
+  <meta name="twitter:description" content="A retro market simulator. How low can you go?" />
+  <meta name="twitter:image" content="images/logo.png" />
+
+  <style>
+    body {
+      background-color: #000;
+      color: #33ff33;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .choice-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .choice-card {
+      border: 1px solid #33ff33;
+      padding: 20px;
+      max-width: 420px;
+      text-align: center;
+      background-color: #000;
+    }
+
+    .choice-card img {
+      width: 100%;
+      height: auto;
+      border: 1px solid #33ff33;
+      margin-bottom: 15px;
+      background: #000;
+    }
+
+    .caption {
+      white-space: pre-line;
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: #66ff66;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.85rem;
+      color: #33ff33;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
+      }
+      .choice-card {
+        max-width: 90%;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Drawdown</h1>
+
+  <div class="choice-container">
+    <div class="choice-card">
+      <img src="images/logo.png" alt="Drawdown Logo">
+      <div class="caption">
+        A retro market simulator. <br> How low can you go?
+      </div>
+      <div class="tagline">
+        Fake trades. Fake money. Fake market. Real regret.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Steve Drasco. All rights reserved.
+  </footer>
+
+</body>
+</html>
