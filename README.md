@@ -37,8 +37,7 @@ Built as a modern tribute to *Millionaire: The Stock Market Simulation* (1982), 
 
 ## Disclaimer
 
-This is a personal software project. It is **not** financial advice, an investment strategy simulator, a trading aid, or any form of economic guidance.  
-It is a work of creative fiction and software nostalgia. Use it for entertainment only.
+This is a personal software project. It is **not** financial advice, an investment strategy simulator, a trading aid, or any form of economic guidance. It is a work of creative fiction and software nostalgia. Use it for entertainment only.
 
 ---
 
