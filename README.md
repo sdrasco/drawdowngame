@@ -1,4 +1,3 @@
-
 ![Drawdown](images/logo.png)
 
 # Drawdown
@@ -12,8 +11,7 @@
 It’s an homage to a simpler time, when asset bubbles were local, and your broker was a man named Carl.  
 Runs on macOS. If you try anything else, you're on your own.
 
-Built as a modern tribute to *Millionaire: The Stock Market Simulation* (1982), created by Jim Zuber and published by Blue Chip Software for the Apple II, Atari 8-bit, Commodore 64, MS-DOS, and Macintosh.  
-It was the original finance game that made you feel smart, rich, and wrong — often all in the same turn.
+Built as a modern tribute to *Millionaire: The Stock Market Simulation* (1982), created by Jim Zuber and published by Blue Chip Software for the Apple II, Atari 8-bit, Commodore 64, MS-DOS, and Macintosh.  It was a finance game that made you feel smart, rich, and wrong — often all in the same turn.
 
 ## Gameplay Overview
 
@@ -49,3 +47,7 @@ It is a work of creative fiction and software nostalgia. Use it for entertainmen
 ## License
 
 MIT License. Do what you want, but don’t blame me when your portfolio goes to zero.
+
+---
+
+© 2025 Steve Drasco · steve.drasco@gmail.com
