@@ -4,7 +4,7 @@
 
 ---
 
-**Drawdown** is a deliberately lean simulation of stock market decision-making, a modern tribute to [*Millionaire: The Stock Market Simulation*, created by Jim Zuber and published by Blue Chip Software in 1982](https://en.wikipedia.org/wiki/Millionaire:_The_Stock_Market_Simulation).  It made you feel smart, rich, and wrong — often all at once.
+**Drawdown** is a deliberately lean simulation of stock market decision-making, a modern tribute to [*Millionaire: The Stock Market Simulation*, created by Jim Zuber and published by Blue Chip Software in 1982](https://en.wikipedia.org/wiki/Millionaire:_The_Stock_Market_Simulation).  Hopefully it will make you feel smart, rich, and wrong —  all at once.
 
 ## Gameplay Overview
 
