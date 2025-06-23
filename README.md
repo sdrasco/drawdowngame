@@ -1,7 +1,6 @@
 ![Drawdown](docs/images/logo_small.png)
 
 *A retro market simulator.*  
-*How low can you go?*
 
 ---
 
