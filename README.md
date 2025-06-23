@@ -1,4 +1,4 @@
-![Drawdown](images/logo.png)
+![Drawdown](images/logo_small.png)
 
 # Drawdown
 
