@@ -10,9 +10,8 @@ function updateDisplay() {
 
 function nextWeek() {
   state.week += 1;
-  state.netWorth += Math.floor(Math.random() * 2000 - 1000); // simulate win/loss
+  state.netWorth += Math.floor(Math.random() * 2000 - 1000); // simulate win/loss\n  renderChart();
   updateDisplay();
-  renderChart();
 }
 
 function saveGame() {
@@ -25,7 +24,6 @@ function loadGame() {
   if (saved) {
     state = JSON.parse(saved);
     updateDisplay();
-  renderChart();
     alert("Game loaded.");
   } else {
     alert("No save found.");
@@ -35,7 +33,6 @@ function loadGame() {
 function resetGame() {
   state = { week: 1, netWorth: 10000 };
   updateDisplay();
-  renderChart();
   alert("Game reset.");
 }
 
@@ -57,7 +54,6 @@ document.getElementById("fileInput").addEventListener("change", function(event) 
     try {
       state = JSON.parse(e.target.result);
       updateDisplay();
-  renderChart();
       alert("Save loaded from file.");
     } catch {
       alert("Invalid save file.");
@@ -67,15 +63,42 @@ document.getElementById("fileInput").addEventListener("change", function(event) 
 });
 
 updateDisplay();
-  renderChart();
 
+
+const chartWidth = 40;
+const chartHeight = 10;
+let history = [];
 
 function renderChart() {
   const chartEl = document.getElementById("asciiChart");
-  let output = "";
-  let base = Math.floor(state.netWorth / 1000);
-  for (let i = 0; i < base; i++) {
-    output += "$";
+  history.push(state.netWorth);
+
+  // Determine min and max for Y axis
+  let min = Math.min(...history);
+  let max = Math.max(...history);
+  const range = max - min || 1; // prevent division by zero
+
+  // Normalize values to chart height
+  const scaled = history.map(val => {
+    const relative = (val - min) / range;
+    return chartHeight - 1 - Math.round(relative * (chartHeight - 1));
+  });
+
+  // Build chart grid
+  let grid = Array.from({ length: chartHeight }, () =>
+    Array.from({ length: chartWidth }, () => " ")
+  );
+
+  const start = Math.max(0, scaled.length - chartWidth);
+  for (let x = 0; x < Math.min(chartWidth, scaled.length); x++) {
+    const y = scaled[start + x];
+    grid[y][x] = "*";
   }
-  chartEl.textContent += `Week ${state.week.toString().padStart(3)}: ${output}\n`;
+
+  // Add axis labels
+  const topLabel = ` $${max.toFixed(0).padStart(6)} `;
+  const bottomLabel = ` $${min.toFixed(0).padStart(6)} `;
+  const chartLines = grid.map(row => row.join("")).join("\n");
+
+  chartEl.textContent = `${topLabel}\n${chartLines}\n${bottomLabel}`;
 }
