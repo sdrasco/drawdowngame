@@ -5,9 +5,7 @@
 
 ---
 
-**Drawdown** is a deliberately lean, vaguely depressing simulation of stock market decision-making.  It’s an homage to a simpler time, when asset bubbles were local, and your broker was a man named Carl.  Runs on macOS. If you try anything else, you're on your own.
-
-Built as a modern tribute to *Millionaire: The Stock Market Simulation* (1982), created by Jim Zuber and published by Blue Chip Software for the Apple II, Atari 8-bit, Commodore 64, MS-DOS, and Macintosh.  It was a finance game that made you feel smart, rich, and wrong — often all in the same turn.
+**Drawdown** is a deliberately lean simulation of stock market decision-making.  It’s an homage to a simpler time, built as a modern tribute to [*Millionaire: The Stock Market Simulation*, created by Jim Zuber and published by Blue Chip Software in 1982](https://en.wikipedia.org/wiki/Millionaire:_The_Stock_Market_Simulation).  It made you feel smart, rich, and wrong — often all in the same turn.
 
 ## Gameplay Overview
 
