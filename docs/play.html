@@ -8,6 +8,7 @@
       background: #000;
       color: #33ff33;
       font-family: 'Courier New', Courier, monospace;
+      margin: 0;
       padding: 2rem;
     }
     input, button {
@@ -27,7 +28,15 @@
       color: #000;
     }
     .section {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    #asciiChart {
+      white-space: pre;
+      background: #111;
+      padding: 0.5rem;
+      border: 1px solid #33ff33;
+      font-size: 0.85rem;
+      line-height: 1.1rem;
     }
   </style>
 </head>
@@ -36,24 +45,20 @@
   <h1>Drawdown (Demo)</h1>
 
   <div class="section">
-    <pre id="asciiChart" style="white-space: pre; background:#111; padding:1rem; border:1px solid #33ff33; max-height: 300px; overflow-y: auto;"></pre>
-
     <p><strong>Week:</strong> <span id="week">1</span></p>
     <p><strong>Net Worth:</strong> $<span id="netWorth">10000</span></p>
     <button onclick="nextWeek()">Advance Week</button>
   </div>
 
-  <div class="section">
-    <pre id="asciiChart" style="white-space: pre; background:#111; padding:1rem; border:1px solid #33ff33; max-height: 300px; overflow-y: auto;"></pre>
+  <pre id="asciiChart"></pre>
 
+  <div class="section">
     <button onclick="saveGame()">Save Game</button>
     <button onclick="loadGame()">Load Game</button>
     <button onclick="resetGame()">Reset</button>
   </div>
 
   <div class="section">
-    <pre id="asciiChart" style="white-space: pre; background:#111; padding:1rem; border:1px solid #33ff33; max-height: 300px; overflow-y: auto;"></pre>
-
     <button onclick="exportSave()">Download Save</button>
     <input type="file" id="fileInput" />
   </div>
