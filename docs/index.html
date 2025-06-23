@@ -70,13 +70,24 @@
     }
 
     .readme-link {
-      font-size: 0.9rem;
-      text-decoration: underline;
+      font-size: 0.95rem;
       color: #33ff33;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .readme-link::after {
+      content: "█";
+      animation: blink 1s step-start infinite;
+      margin-left: 6px;
     }
 
     .readme-link:hover {
       color: #66ff66;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
     }
 
     footer {
@@ -112,7 +123,7 @@
       </div>
       <div>
         <a class="readme-link" href="https://github.com/sdrasco/drawdowngame/blob/main/README.md" target="_blank">
-          Get in the game.
+          Get in the game
         </a>
       </div>
     </div>
