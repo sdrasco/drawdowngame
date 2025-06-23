@@ -23,7 +23,7 @@ Built as a modern tribute to *Millionaire: The Stock Market Simulation* (1982), 
 | → Player Actions       | Access graphs, research, buy/sell stocks or options, borrow, check portfolio     |
 | → Advance Week         | Player commits — market updates, interest charged, options decay, prices shift   |
 | **Level Up**           | As net worth increases, unlock: margin, call options, puts, loans                |
-| **Game End**           | After 104 weeks or $3.3M net worth; show final score, time-to-millionaire        |
+| **Game End**           | After 104 weeks or $3.3M net worth; show final score, time-to-victory        |
 
 ---
 
