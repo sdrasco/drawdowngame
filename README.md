@@ -1,7 +1,5 @@
 ![Drawdown](docs/images/logo_small.png)
 
-# Drawdown
-
 *A retro market simulator.*  
 *How low can you go?*
 
