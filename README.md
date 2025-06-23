@@ -1,0 +1,51 @@
+
+![Drawdown](images/logo.png)
+
+# Drawdown
+
+*A retro market simulator.*  
+*How low can you go?*
+
+---
+
+**Drawdown** is a deliberately lean, vaguely depressing simulation of stock market decision-making.  
+It’s an homage to a simpler time, when asset bubbles were local, and your broker was a man named Carl.  
+Runs on macOS. If you try anything else, you're on your own.
+
+Built as a modern tribute to *Millionaire: The Stock Market Simulation* (1982), created by Jim Zuber and published by Blue Chip Software for the Apple II, Atari 8-bit, Commodore 64, MS-DOS, and Macintosh.  
+It was the original finance game that made you feel smart, rich, and wrong — often all in the same turn.
+
+## Gameplay Overview
+
+| **Phase**              | **What Happens**                                                                 |
+|------------------------|-----------------------------------------------------------------------------------|
+| **Start Game**         | Player chooses new game or resume; gets $35,000 and “Novice” status              |
+| **Weekly Loop (×104)** |                                                                                   |
+| → Market Opens         | Show updated overall index graph + selected industry trend                       |
+| → News Packet          | ~10 headlines (macro, sector, company-specific); foreshadows price shifts        |
+| → Price Report         | Show current prices, highs/lows, changes for a subset (or all) of 500 stocks     |
+| → Player Actions       | Access graphs, research, buy/sell stocks or options, borrow, check portfolio     |
+| → Advance Week         | Player commits — market updates, interest charged, options decay, prices shift   |
+| **Level Up**           | As net worth increases, unlock: margin, call options, puts, loans                |
+| **Game End**           | After 104 weeks or $3.3M net worth; show final score, time-to-millionaire        |
+
+---
+
+## Status
+
+- No, it’s not finished.  
+- Yes, more details (like screenshots, builds, etc.) will appear **if** it's ever finished.  
+- For now, this README is the user manual. That should be enough for you.
+
+---
+
+## Disclaimer
+
+This is a personal software project. It is **not** financial advice, an investment strategy simulator, a trading aid, or any form of economic guidance.  
+It is a work of creative fiction and software nostalgia. Use it for entertainment only.
+
+---
+
+## License
+
+MIT License. Do what you want, but don’t blame me when your portfolio goes to zero.
