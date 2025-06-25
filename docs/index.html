@@ -81,7 +81,7 @@
       background: #222;
       padding: 8px 12px;
       margin: 10px 0;
-      display: inline-block;
+      display: block;
       cursor: pointer;
     }
 
@@ -97,15 +97,6 @@
       color: #000;
     }
 
-    .blink-link::after {
-      content: "█";
-      animation: blink 1s step-start infinite;
-      margin-left: 6px;
-    }
-
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
 
     footer {
       margin-top: 60px;
@@ -139,7 +130,7 @@
         Fake trades. Fake money. Fake market. <br>Real regret.
       </div>
       <div class="link-wrapper">
-        <a class="link blink-link" href="play.html" onclick="localStorage.removeItem('drawdownSave');">
+        <a class="link" href="play.html" onclick="localStorage.removeItem('drawdownSave');">
           New Game
         </a>
       </div>
