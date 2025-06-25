@@ -6,28 +6,20 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-  <h1>Drawdown (Demo)</h1>
-
-  <div class="section">
-    <p><strong>Week:</strong> <span id="week">1</span></p>
-    <p><strong>Net Worth:</strong> $<span id="netWorth">10000</span></p>
-    <button onclick="nextWeek()">Advance Week</button>
+  <h1>Drawdown</h1>
+  <div id="status" class="status">
+    <div>Week: <span id="week">14</span></div>
+    <div>Rank: <span id="rank">Novice</span></div>
+    <div>Net Worth: $<span id="netWorth">35000</span></div>
+    <div>Cash: $<span id="cash">35000</span></div>
   </div>
-
-  <pre id="asciiChart"></pre>
-
-  <div class="section">
-    <button onclick="saveGame()">Save Game</button>
-    <button onclick="loadGame()">Load Game</button>
-    <button onclick="resetGame()">Reset</button>
+  <div class="menu">
+    <button id="newsBtn">news</button>
+    <button id="dataBtn">data</button>
+    <button id="portfolioBtn">portfolio</button>
+    <button id="tradeBtn">trade</button>
+    <button id="doneBtn">done</button>
   </div>
-
-  <div class="section">
-    <button onclick="exportSave()">Download Save</button>
-    <input type="file" id="fileInput" />
-  </div>
-
-  <script src="js/main.js"></script>
+  <script src="js/game.js"></script>
 </body>
 </html>
