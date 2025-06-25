@@ -38,6 +38,8 @@ function nextWeek() {
   gameState.netWorth += change;
   updateRank();
   updateStatus();
+  updateMarket();
+  renderNews();
 }
 
 function showPlaceholder(msg) {
@@ -53,4 +55,6 @@ document.getElementById('portfolioBtn').addEventListener('click', () => showPlac
 document.getElementById('tradeBtn').addEventListener('click', () => showPlaceholder('Trade'));
 
 updateStatus();
+renderMarketChart();
+renderNews();
 
