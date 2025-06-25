@@ -1,10 +1,15 @@
-const gameState = {
-  week: 14,
-  maxWeeks: 104,
-  cash: 35000,
-  netWorth: 35000,
-  rank: 'Novice'
-};
+let gameState = loadState();
+if (!gameState) {
+  gameState = {
+    week: 14,
+    maxWeeks: 104,
+    cash: 35000,
+    netWorth: 35000,
+    rank: 'Novice',
+    headlines: {}
+  };
+  saveState(gameState);
+}
 
 function updateStatus() {
   document.getElementById('week').textContent = gameState.week;
@@ -39,6 +44,7 @@ function nextWeek() {
   updateRank();
   updateStatus();
   updateMarket();
+  saveState(gameState);
   renderNews();
 }
 

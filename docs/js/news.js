@@ -12,7 +12,12 @@ function renderNews() {
   const container = document.getElementById('news');
   if (!container) return;
   container.innerHTML = '';
-  const headlines = headlinePool.sort(() => 0.5 - Math.random()).slice(0, 4);
+  let headlines = gameState.headlines[gameState.week];
+  if (!headlines) {
+    headlines = headlinePool.sort(() => 0.5 - Math.random()).slice(0, 4);
+    gameState.headlines[gameState.week] = headlines;
+    saveState(gameState);
+  }
   headlines.forEach(text => {
     const div = document.createElement('div');
     div.className = 'headline';
