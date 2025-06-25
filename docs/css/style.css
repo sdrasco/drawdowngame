@@ -1,0 +1,39 @@
+body {
+  background: #000;
+  color: #33ff33;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 2rem;
+}
+
+input, button {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+}
+
+button {
+  background: #222;
+  color: #33ff33;
+  border: 1px solid #33ff33;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #33ff33;
+  color: #000;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+#asciiChart {
+  white-space: pre;
+  background: #111;
+  padding: 0.5rem;
+  border: 1px solid #33ff33;
+  font-size: 0.85rem;
+  line-height: 1.1rem;
+}
