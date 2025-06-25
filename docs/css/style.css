@@ -31,15 +31,15 @@ button:hover {
 
 
 .status {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem 1rem;
   margin-bottom: 1.5rem;
 }
 
 .status div {
   min-width: 120px;
+  text-align: center;
 }
 
 .menu {
