@@ -93,7 +93,7 @@ function updateStatus() {
 function displayUsername() {
   const el = document.getElementById('username');
   if (el) {
-    el.textContent = getUser();
+    el.textContent = `trading as: ${getUser()}`;
   }
 }
 
