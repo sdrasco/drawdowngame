@@ -45,7 +45,6 @@ function showPlaceholder(msg) {
 }
 
 document.getElementById('doneBtn').addEventListener('click', nextWeek);
-document.getElementById('newsBtn').addEventListener('click', () => showPlaceholder('News'));
 document.getElementById('dataBtn').addEventListener('click', () => showPlaceholder('Data'));
 // TODO: replace placeholder with a full portfolio screen showing
 // open positions and trading performance metrics like max drawdown,
