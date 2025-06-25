@@ -19,7 +19,9 @@
         "consumer",
         "blue chip"
       ],
-      "initial_price": 187.25
+      "initial_price": 187.25,
+      "mu": 0.006232,
+      "sigma": 0.076162
     },
     {
       "id": 2,
@@ -40,7 +42,9 @@
         "cloud",
         "blue chip"
       ],
-      "initial_price": 345.12
+      "initial_price": 345.12,
+      "mu": 0.006844,
+      "sigma": 0.079219
     },
     {
       "id": 3,
@@ -61,7 +65,9 @@
         "AI",
         "growth"
       ],
-      "initial_price": 1223.5
+      "initial_price": 1223.5,
+      "mu": 0.008109,
+      "sigma": 0.085547
     },
     {
       "id": 4,
@@ -82,7 +88,9 @@
         "PC",
         "international"
       ],
-      "initial_price": 23.78
+      "initial_price": 23.78,
+      "mu": 0.004169,
+      "sigma": 0.065844
     },
     {
       "id": 5,
@@ -95,7 +103,7 @@
       "market_cap_category": "Mega Cap",
       "founded": 1999,
       "headquarters": "Irving, Texas, USA",
-      "description": "One of the world\u2019s largest publicly traded oil and gas companies.",
+      "description": "One of the world’s largest publicly traded oil and gas companies.",
       "tagline": "Energy lives here.",
       "tags": [
         "energy",
@@ -103,7 +111,9 @@
         "gas",
         "dividend"
       ],
-      "initial_price": 112.8
+      "initial_price": 112.8,
+      "mu": 0.005726,
+      "sigma": 0.073628
     },
     {
       "id": 6,
@@ -124,7 +134,9 @@
         "gas",
         "integrated"
       ],
-      "initial_price": 155.35
+      "initial_price": 155.35,
+      "mu": 0.006046,
+      "sigma": 0.075228
     },
     {
       "id": 7,
@@ -145,7 +157,9 @@
         "gas",
         "renewables"
       ],
-      "initial_price": 36.1
+      "initial_price": 36.1,
+      "mu": 0.004586,
+      "sigma": 0.067931
     },
     {
       "id": 8,
@@ -166,7 +180,9 @@
         "gas",
         "SOE"
       ],
-      "initial_price": 52.75
+      "initial_price": 52.75,
+      "mu": 0.004966,
+      "sigma": 0.069828
     },
     {
       "id": 9,
@@ -187,7 +203,9 @@
         "retail",
         "tech"
       ],
-      "initial_price": 182.55
+      "initial_price": 182.55,
+      "mu": 0.006207,
+      "sigma": 0.076035
     },
     {
       "id": 10,
@@ -200,7 +218,7 @@
       "market_cap_category": "Mega Cap",
       "founded": 1962,
       "headquarters": "Bentonville, Arkansas, USA",
-      "description": "The world\u2019s largest brick-and-mortar retailer, with a major online presence.",
+      "description": "The world’s largest brick-and-mortar retailer, with a major online presence.",
       "tagline": "Save money. Live better.",
       "tags": [
         "retail",
@@ -208,7 +226,9 @@
         "mass market",
         "consumer"
       ],
-      "initial_price": 68.4
+      "initial_price": 68.4,
+      "mu": 0.005225,
+      "sigma": 0.071127
     },
     {
       "id": 11,
@@ -229,7 +249,9 @@
         "bulk",
         "membership"
       ],
-      "initial_price": 855.75
+      "initial_price": 855.75,
+      "mu": 0.007752,
+      "sigma": 0.08376
     },
     {
       "id": 12,
@@ -250,7 +272,9 @@
         "cloud",
         "platform"
       ],
-      "initial_price": 72.2
+      "initial_price": 72.2,
+      "mu": 0.005279,
+      "sigma": 0.071397
     },
     {
       "id": 13,
@@ -264,14 +288,16 @@
       "founded": 2003,
       "headquarters": "Austin, Texas, USA",
       "description": "Electric vehicle and clean energy company, known for innovation and volatility.",
-      "tagline": "Accelerating the world\u2019s transition to sustainable energy.",
+      "tagline": "Accelerating the world’s transition to sustainable energy.",
       "tags": [
         "auto",
         "EV",
         "tech",
         "growth"
       ],
-      "initial_price": 182.9
+      "initial_price": 182.9,
+      "mu": 0.006209,
+      "sigma": 0.076045
     },
     {
       "id": 14,
@@ -292,7 +318,9 @@
         "EV",
         "manufacturing"
       ],
-      "initial_price": 12.35
+      "initial_price": 12.35,
+      "mu": 0.003514,
+      "sigma": 0.062568
     },
     {
       "id": 15,
@@ -305,7 +333,7 @@
       "market_cap_category": "Mega Cap",
       "founded": 1937,
       "headquarters": "Toyota City, Aichi, Japan",
-      "description": "World\u2019s largest automaker by volume, pioneering hybrid and efficient vehicles.",
+      "description": "World’s largest automaker by volume, pioneering hybrid and efficient vehicles.",
       "tagline": "Let's Go Places.",
       "tags": [
         "auto",
@@ -313,7 +341,9 @@
         "global",
         "manufacturing"
       ],
-      "initial_price": 195.8
+      "initial_price": 195.8,
+      "mu": 0.006277,
+      "sigma": 0.076385
     },
     {
       "id": 16,
@@ -334,7 +364,9 @@
         "china",
         "tech"
       ],
-      "initial_price": 8.91
+      "initial_price": 8.91,
+      "mu": 0.003187,
+      "sigma": 0.060936
     },
     {
       "id": 17,
@@ -355,7 +387,9 @@
         "mining",
         "industry"
       ],
-      "initial_price": 322.25
+      "initial_price": 322.25,
+      "mu": 0.006775,
+      "sigma": 0.078877
     },
     {
       "id": 18,
@@ -376,7 +410,9 @@
         "precision",
         "farming"
       ],
-      "initial_price": 377.8
+      "initial_price": 377.8,
+      "mu": 0.006934,
+      "sigma": 0.079672
     },
     {
       "id": 19,
@@ -397,7 +433,9 @@
         "manufacturing",
         "plastics"
       ],
-      "initial_price": 53.9
+      "initial_price": 53.9,
+      "mu": 0.004987,
+      "sigma": 0.069936
     },
     {
       "id": 20,
@@ -418,7 +456,9 @@
         "cement",
         "SOE"
       ],
-      "initial_price": 3.75
+      "initial_price": 3.75,
+      "mu": 0.002322,
+      "sigma": 0.056609
     }
   ]
 }
