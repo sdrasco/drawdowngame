@@ -29,11 +29,40 @@ button:hover {
   margin-bottom: 1.5rem;
 }
 
-#asciiChart {
-  white-space: pre;
-  background: #111;
-  padding: 0.5rem;
-  border: 1px solid #33ff33;
-  font-size: 0.85rem;
-  line-height: 1.1rem;
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.status div {
+  min-width: 120px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.menu button {
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: none;
+  }
+  .menu button {
+    flex: 1 0 150px;
+  }
 }
