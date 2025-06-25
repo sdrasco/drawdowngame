@@ -69,14 +69,10 @@
       margin-bottom: 1rem;
     }
 
-    .link {
+    .link-wrapper {
       font-size: 0.95rem;
       color: #33ff33;
       text-decoration: none;
-      position: relative;
-    }
-
-    .link-wrapper {
       border: 1px solid #33ff33;
       background: #222;
       padding: 8px 12px;
@@ -87,13 +83,6 @@
 
     .link-wrapper:hover {
       background: #33ff33;
-    }
-
-    .link:hover {
-      color: #000;
-    }
-
-    .link-wrapper:hover .link {
       color: #000;
     }
 
@@ -129,16 +118,12 @@
       <div class="tagline">
         Fake trades. Real regret.
       </div>
-      <div class="link-wrapper">
-        <a class="link" href="play.html" onclick="localStorage.removeItem('drawdownSave');">
-          New Game
-        </a>
-      </div>
-      <div class="link-wrapper">
-        <a class="link" href="https://github.com/sdrasco/drawdowngame/blob/main/README.md" target="_blank">
-          About 
-        </a>
-      </div>
+      <a class="link-wrapper" href="play.html" onclick="localStorage.removeItem('drawdownSave');">
+        New Game
+      </a>
+      <a class="link-wrapper" href="https://github.com/sdrasco/drawdowngame/blob/main/README.md" target="_blank">
+        About
+      </a>
     </div>
   </div>
 
