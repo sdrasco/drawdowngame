@@ -113,6 +113,11 @@ function updateRank() {
 function nextWeek() {
   if (gameState.week >= gameState.maxWeeks) {
     alert('Game over');
+    if (window.drawdownHighScores) {
+      window.drawdownHighScores.check(gameState.netWorth, () => {
+        window.location.href = 'high-scores.html';
+      });
+    }
     return;
   }
   gameState.week += 1;
