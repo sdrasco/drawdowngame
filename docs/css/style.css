@@ -69,15 +69,15 @@ button:hover {
 
 @media (max-width: 600px) {
   body {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   input,
   button {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   .status,
   .news {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 
