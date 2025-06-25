@@ -75,6 +75,7 @@ function startGame() {
     saveState(gameState);
   }
   updateStatus();
+  initMarketHistory();
   renderMarketChart();
   renderNews();
 }
