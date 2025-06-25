@@ -1,14 +1,48 @@
-let gameState = loadState();
-if (!gameState) {
-  gameState = {
-    week: 14,
-    maxWeeks: 104,
-    cash: 35000,
-    netWorth: 35000,
-    rank: 'Novice',
-    headlines: {}
-  };
-  saveState(gameState);
+let companies = [];
+let gameState;
+
+fetch('data/company_master_data.json')
+  .then(r => r.json())
+  .then(data => {
+    companies = data.companies;
+    startGame();
+  });
+
+function randPct(mu, sigma) {
+  return mu + sigma * (Math.random() * 2 - 1);
+}
+
+function generateWeekPrices(lastPrice, mu, sigma) {
+  const prices = [];
+  let price = lastPrice;
+  for (let i = 0; i < 5; i++) {
+    price = +(price * (1 + randPct(mu, sigma))).toFixed(2);
+    prices.push(price);
+  }
+  return prices;
+}
+
+function startGame() {
+  gameState = loadState();
+  if (!gameState) {
+    gameState = {
+      week: 1,
+      maxWeeks: 104,
+      cash: 35000,
+      netWorth: 35000,
+      rank: 'Novice',
+      headlines: {},
+      prices: {}
+    };
+    companies.forEach(c => {
+      const weekPrices = generateWeekPrices(c.initial_price, c.mu, c.sigma);
+      gameState.prices[c.symbol] = [weekPrices];
+    });
+    saveState(gameState);
+  }
+  updateStatus();
+  renderMarketChart();
+  renderNews();
 }
 
 function updateStatus() {
@@ -37,6 +71,13 @@ function nextWeek() {
     return;
   }
   gameState.week += 1;
+  Object.keys(gameState.prices).forEach(sym => {
+    const arr = gameState.prices[sym];
+    const prev = arr[arr.length - 1];
+    const last = prev[prev.length - 1];
+    const comp = companies.find(c => c.symbol === sym);
+    arr.push(generateWeekPrices(last, comp.mu, comp.sigma));
+  });
   // simple demo economic change
   const change = Math.floor(Math.random() * 1500 - 500);
   gameState.cash += change;
@@ -59,8 +100,4 @@ document.getElementById('dataBtn').addEventListener('click', () => showPlacehold
 // sharpe ratio, and gain to pain ratio.
 document.getElementById('portfolioBtn').addEventListener('click', () => showPlaceholder('Portfolio'));
 document.getElementById('tradeBtn').addEventListener('click', () => showPlaceholder('Trade'));
-
-updateStatus();
-renderMarketChart();
-renderNews();
 

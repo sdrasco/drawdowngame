@@ -1,5 +1,22 @@
+function getUser() {
+  let user = localStorage.getItem('drawdownUser');
+  if (!user) {
+    user = prompt('Enter a username');
+    if (user) {
+      localStorage.setItem('drawdownUser', user);
+    } else {
+      user = 'default';
+    }
+  }
+  return user;
+}
+
+function getStorageKey() {
+  return 'drawdownSave_' + getUser();
+}
+
 function loadState() {
-  const saved = localStorage.getItem('drawdownSave');
+  const saved = localStorage.getItem(getStorageKey());
   if (!saved) {
     return null;
   }
@@ -11,5 +28,5 @@ function loadState() {
 }
 
 function saveState(state) {
-  localStorage.setItem('drawdownSave', JSON.stringify(state));
+  localStorage.setItem(getStorageKey(), JSON.stringify(state));
 }
