@@ -84,9 +84,10 @@ button:hover {
   }
 }
 
+# chart area
 .chart-wrapper {
   margin: 1rem auto;
-  max-width: 300px;
+  max-width: 500px; /* wider market chart */
   border: 1px solid #33ff33;
 }
 
