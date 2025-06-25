@@ -20,6 +20,17 @@
 | **Level Up**           | As net worth increases, unlock: margin, call options, puts, loans                |
 | **Game End**           | After 104 weeks or $3.3M net worth; show final score, time-to-victory        |
 
+### Portfolio Stats
+
+The in-game portfolio will eventually display standard trading performance
+metrics, including:
+
+- **Max drawdown (%):** the largest peak-to-trough decline in net worth.
+- **Sharpe ratio:** average return divided by the standard deviation of
+  returns.
+- **Gain to Pain ratio:** total return divided by the absolute value of all
+  negative returns.
+
 ---
 
 ## Status
