@@ -69,21 +69,21 @@
       margin-bottom: 1rem;
     }
 
-    .readme-link {
+    .link {
       font-size: 0.95rem;
       color: #33ff33;
       text-decoration: none;
       position: relative;
     }
 
-    .readme-link::after {
+    .link:hover {
+      color: #66ff66;
+    }
+
+    .blink-link::after {
       content: "█";
       animation: blink 1s step-start infinite;
       margin-left: 6px;
-    }
-
-    .readme-link:hover {
-      color: #66ff66;
     }
 
     @keyframes blink {
@@ -122,9 +122,13 @@
         Fake trades. Fake money. Fake market. <br>Real regret.
       </div>
       <div>
-        <a class="readme-link" href="https://github.com/sdrasco/drawdowngame/blob/main/README.md" target="_blank">
-        <!a class="readme-link" href="https://drawdowngame.com/play.html" target="_blank">
-          Get in the game
+        <a class="link blink-link" href="play.html" onclick="localStorage.removeItem('drawdownSave');">
+          Start new game
+        </a>
+      </div>
+      <div>
+        <a class="link" href="https://github.com/sdrasco/drawdowngame/blob/main/README.md" target="_blank">
+          About / Under the hood
         </a>
       </div>
     </div>
