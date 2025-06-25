@@ -6,15 +6,36 @@ function promptForUser(callback) {
   const promptEl = document.getElementById('usernamePrompt');
   const inputEl = document.getElementById('usernameInput');
   const submitBtn = document.getElementById('usernameSubmit');
+  const randomBtn = document.getElementById('usernameRandom');
+  let nameList = null;
+
+  function finish(value) {
+    localStorage.setItem('drawdownUser', value);
+    promptEl.classList.add('hidden');
+    submitBtn.removeEventListener('click', submit);
+    randomBtn.removeEventListener('click', pickRandom);
+    inputEl.removeEventListener('keypress', keyHandler);
+    callback(value);
+  }
 
   function submit() {
     let value = inputEl.value.trim();
     if (!value) value = 'default';
-    localStorage.setItem('drawdownUser', value);
-    promptEl.classList.add('hidden');
-    submitBtn.removeEventListener('click', submit);
-    inputEl.removeEventListener('keypress', keyHandler);
-    callback(value);
+    finish(value);
+  }
+
+  function pickRandom() {
+    const choose = () => {
+      const value = nameList[Math.floor(Math.random() * nameList.length)];
+      finish(value);
+    };
+    if (nameList) {
+      choose();
+    } else {
+      fetch('data/random_names.json')
+        .then(r => r.json())
+        .then(d => { nameList = d; choose(); });
+    }
   }
 
   function keyHandler(e) {
@@ -24,6 +45,7 @@ function promptForUser(callback) {
   }
 
   submitBtn.addEventListener('click', submit);
+  randomBtn.addEventListener('click', pickRandom);
   inputEl.addEventListener('keypress', keyHandler);
   promptEl.classList.remove('hidden');
   inputEl.focus();
