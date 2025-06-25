@@ -8,7 +8,9 @@ fetch('data/company_master_data.json')
   .then(data => {
     companies = data.companies;
     setupMarketIndex();
-    startGame();
+    ensureUser(() => {
+      startGame();
+    });
   });
 
 function randPct(mu, sigma) {
