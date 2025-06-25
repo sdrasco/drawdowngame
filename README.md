@@ -14,7 +14,7 @@
 | **Weekly Loop (×104)** |                                                                                   |
 | • Market Opens         | Show updated overall index graph + selected industry trend                       |
 | • News Packet          | ~10 headlines (macro, sector, company-specific); foreshadows price shifts        |
-| • Price Report         | Show current prices, highs/lows, changes for a subset (or all) of 500 stocks     |
+| • Price Report         | Show current prices, highs/lows, changes for a subset (or all) of 15 stocks     |
 | • Player Actions       | Access graphs, research, buy/sell stocks or options, borrow, check portfolio     |
 | • Advance Week         | Player commits — market updates, interest charged, options decay, prices shift   |
 | **Level Up**           | As net worth increases, unlock: margin, call options, puts, loans                |
