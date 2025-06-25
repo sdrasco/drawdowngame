@@ -74,6 +74,7 @@ function startGame() {
     gameState.prices[INDEX_SYMBOL] = [computeIndexWeekPrices(0)];
     saveState(gameState);
   }
+  displayUsername();
   updateStatus();
   initMarketHistory();
   renderMarketChart();
@@ -85,6 +86,13 @@ function updateStatus() {
   document.getElementById('rank').textContent = gameState.rank;
   document.getElementById('netWorth').textContent = gameState.netWorth.toLocaleString();
   document.getElementById('cash').textContent = gameState.cash.toLocaleString();
+}
+
+function displayUsername() {
+  const el = document.getElementById('username');
+  if (el) {
+    el.textContent = getUser();
+  }
 }
 
 function updateRank() {
