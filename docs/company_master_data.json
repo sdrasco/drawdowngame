@@ -1,0 +1,424 @@
+{
+  "companies": [
+    {
+      "id": 1,
+      "name": "Apple",
+      "symbol": "AAPL",
+      "industry": "Computer / Tech",
+      "exchange": "NASDAQ",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Mega Cap",
+      "founded": 1976,
+      "headquarters": "Cupertino, California, USA",
+      "description": "Consumer electronics and software giant best known for the iPhone, iPad, and Mac.",
+      "tagline": "Think different.",
+      "tags": [
+        "tech",
+        "hardware",
+        "consumer",
+        "blue chip"
+      ],
+      "initial_price": 187.25
+    },
+    {
+      "id": 2,
+      "name": "Microsoft",
+      "symbol": "MSFT",
+      "industry": "Computer / Tech",
+      "exchange": "NASDAQ",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Mega Cap",
+      "founded": 1975,
+      "headquarters": "Redmond, Washington, USA",
+      "description": "Leading software company and cloud provider, known for Windows and Azure.",
+      "tagline": "Empowering every person and organization on the planet to achieve more.",
+      "tags": [
+        "tech",
+        "software",
+        "cloud",
+        "blue chip"
+      ],
+      "initial_price": 345.12
+    },
+    {
+      "id": 3,
+      "name": "NVIDIA",
+      "symbol": "NVDA",
+      "industry": "Computer / Tech",
+      "exchange": "NASDAQ",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Mega Cap",
+      "founded": 1993,
+      "headquarters": "Santa Clara, California, USA",
+      "description": "Semiconductor company specializing in GPUs, AI, and data center computing.",
+      "tagline": "The AI computing company.",
+      "tags": [
+        "tech",
+        "semiconductor",
+        "AI",
+        "growth"
+      ],
+      "initial_price": 1223.5
+    },
+    {
+      "id": 4,
+      "name": "Lenovo",
+      "symbol": "LNVGY",
+      "industry": "Computer / Tech",
+      "exchange": "OTC",
+      "dual_listed": true,
+      "type": "Public",
+      "market_cap_category": "Large Cap",
+      "founded": 1984,
+      "headquarters": "Beijing, China",
+      "description": "Global PC and server manufacturer headquartered in Beijing, listed in Hong Kong and the U.S.",
+      "tagline": "Smarter technology for all.",
+      "tags": [
+        "tech",
+        "hardware",
+        "PC",
+        "international"
+      ],
+      "initial_price": 23.78
+    },
+    {
+      "id": 5,
+      "name": "ExxonMobil",
+      "symbol": "XOM",
+      "industry": "Oil and Gas",
+      "exchange": "NYSE",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Mega Cap",
+      "founded": 1999,
+      "headquarters": "Irving, Texas, USA",
+      "description": "One of the world\u2019s largest publicly traded oil and gas companies.",
+      "tagline": "Energy lives here.",
+      "tags": [
+        "energy",
+        "oil",
+        "gas",
+        "dividend"
+      ],
+      "initial_price": 112.8
+    },
+    {
+      "id": 6,
+      "name": "Chevron",
+      "symbol": "CVX",
+      "industry": "Oil and Gas",
+      "exchange": "NYSE",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Mega Cap",
+      "founded": 1879,
+      "headquarters": "San Ramon, California, USA",
+      "description": "Multinational energy corporation involved in oil, gas, and geothermal.",
+      "tagline": "The human energy company.",
+      "tags": [
+        "energy",
+        "oil",
+        "gas",
+        "integrated"
+      ],
+      "initial_price": 155.35
+    },
+    {
+      "id": 7,
+      "name": "BP",
+      "symbol": "BP",
+      "industry": "Oil and Gas",
+      "exchange": "NYSE",
+      "dual_listed": true,
+      "type": "Public",
+      "market_cap_category": "Large Cap",
+      "founded": 1909,
+      "headquarters": "London, UK",
+      "description": "British multinational energy company focused on oil, gas, and renewables.",
+      "tagline": "Reimagining energy for people and our planet.",
+      "tags": [
+        "energy",
+        "oil",
+        "gas",
+        "renewables"
+      ],
+      "initial_price": 36.1
+    },
+    {
+      "id": 8,
+      "name": "PetroChina",
+      "symbol": "PTR",
+      "industry": "Oil and Gas",
+      "exchange": "NYSE",
+      "dual_listed": true,
+      "type": "Public",
+      "market_cap_category": "Large Cap",
+      "founded": 1999,
+      "headquarters": "Beijing, China",
+      "description": "State-owned oil and gas producer, dual-listed in Hong Kong and New York.",
+      "tagline": "China's flagship oil and gas company.",
+      "tags": [
+        "energy",
+        "oil",
+        "gas",
+        "SOE"
+      ],
+      "initial_price": 52.75
+    },
+    {
+      "id": 9,
+      "name": "Amazon",
+      "symbol": "AMZN",
+      "industry": "Retail",
+      "exchange": "NASDAQ",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Mega Cap",
+      "founded": 1994,
+      "headquarters": "Seattle, Washington, USA",
+      "description": "E-commerce and cloud computing giant dominating online retail and logistics.",
+      "tagline": "Work hard. Have fun. Make history.",
+      "tags": [
+        "ecommerce",
+        "cloud",
+        "retail",
+        "tech"
+      ],
+      "initial_price": 182.55
+    },
+    {
+      "id": 10,
+      "name": "Walmart",
+      "symbol": "WMT",
+      "industry": "Retail",
+      "exchange": "NYSE",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Mega Cap",
+      "founded": 1962,
+      "headquarters": "Bentonville, Arkansas, USA",
+      "description": "The world\u2019s largest brick-and-mortar retailer, with a major online presence.",
+      "tagline": "Save money. Live better.",
+      "tags": [
+        "retail",
+        "discount",
+        "mass market",
+        "consumer"
+      ],
+      "initial_price": 68.4
+    },
+    {
+      "id": 11,
+      "name": "Costco",
+      "symbol": "COST",
+      "industry": "Retail",
+      "exchange": "NASDAQ",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Large Cap",
+      "founded": 1983,
+      "headquarters": "Issaquah, Washington, USA",
+      "description": "Membership-based wholesale retailer known for bulk goods and loyal customer base.",
+      "tagline": "Do the right thing.",
+      "tags": [
+        "retail",
+        "warehouse",
+        "bulk",
+        "membership"
+      ],
+      "initial_price": 855.75
+    },
+    {
+      "id": 12,
+      "name": "Alibaba",
+      "symbol": "BABA",
+      "industry": "Retail",
+      "exchange": "NYSE",
+      "dual_listed": true,
+      "type": "Public",
+      "market_cap_category": "Large Cap",
+      "founded": 1999,
+      "headquarters": "Hangzhou, China",
+      "description": "E-commerce, logistics, and cloud technology conglomerate based in China.",
+      "tagline": "To make it easy to do business anywhere.",
+      "tags": [
+        "ecommerce",
+        "china",
+        "cloud",
+        "platform"
+      ],
+      "initial_price": 72.2
+    },
+    {
+      "id": 13,
+      "name": "Tesla",
+      "symbol": "TSLA",
+      "industry": "Auto",
+      "exchange": "NASDAQ",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Mega Cap",
+      "founded": 2003,
+      "headquarters": "Austin, Texas, USA",
+      "description": "Electric vehicle and clean energy company, known for innovation and volatility.",
+      "tagline": "Accelerating the world\u2019s transition to sustainable energy.",
+      "tags": [
+        "auto",
+        "EV",
+        "tech",
+        "growth"
+      ],
+      "initial_price": 182.9
+    },
+    {
+      "id": 14,
+      "name": "Ford",
+      "symbol": "F",
+      "industry": "Auto",
+      "exchange": "NYSE",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Large Cap",
+      "founded": 1903,
+      "headquarters": "Dearborn, Michigan, USA",
+      "description": "Historic American carmaker investing heavily in electric and connected vehicles.",
+      "tagline": "Built Ford Tough.",
+      "tags": [
+        "auto",
+        "legacy",
+        "EV",
+        "manufacturing"
+      ],
+      "initial_price": 12.35
+    },
+    {
+      "id": 15,
+      "name": "Toyota",
+      "symbol": "TM",
+      "industry": "Auto",
+      "exchange": "NYSE",
+      "dual_listed": true,
+      "type": "Public",
+      "market_cap_category": "Mega Cap",
+      "founded": 1937,
+      "headquarters": "Toyota City, Aichi, Japan",
+      "description": "World\u2019s largest automaker by volume, pioneering hybrid and efficient vehicles.",
+      "tagline": "Let's Go Places.",
+      "tags": [
+        "auto",
+        "hybrid",
+        "global",
+        "manufacturing"
+      ],
+      "initial_price": 195.8
+    },
+    {
+      "id": 16,
+      "name": "XPeng",
+      "symbol": "XPEV",
+      "industry": "Auto",
+      "exchange": "NYSE",
+      "dual_listed": true,
+      "type": "Public",
+      "market_cap_category": "Mid Cap",
+      "founded": 2014,
+      "headquarters": "Guangzhou, China",
+      "description": "Electric vehicle company competing in the premium EV segment in China.",
+      "tagline": "Intelligent mobility for the future.",
+      "tags": [
+        "auto",
+        "EV",
+        "china",
+        "tech"
+      ],
+      "initial_price": 8.91
+    },
+    {
+      "id": 17,
+      "name": "Caterpillar",
+      "symbol": "CAT",
+      "industry": "Heavy Industry / Materials",
+      "exchange": "NYSE",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Large Cap",
+      "founded": 1925,
+      "headquarters": "Deerfield, Illinois, USA",
+      "description": "Manufacturer of construction and mining equipment, engines, and turbines.",
+      "tagline": "Let's do the work.",
+      "tags": [
+        "equipment",
+        "construction",
+        "mining",
+        "industry"
+      ],
+      "initial_price": 322.25
+    },
+    {
+      "id": 18,
+      "name": "Deere & Co.",
+      "symbol": "DE",
+      "industry": "Heavy Industry / Materials",
+      "exchange": "NYSE",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Large Cap",
+      "founded": 1837,
+      "headquarters": "Moline, Illinois, USA",
+      "description": "Leading producer of agricultural machinery and precision farming technology.",
+      "tagline": "Nothing runs like a Deere.",
+      "tags": [
+        "agriculture",
+        "equipment",
+        "precision",
+        "farming"
+      ],
+      "initial_price": 377.8
+    },
+    {
+      "id": 19,
+      "name": "Dow Inc.",
+      "symbol": "DOW",
+      "industry": "Heavy Industry / Materials",
+      "exchange": "NYSE",
+      "dual_listed": false,
+      "type": "Public",
+      "market_cap_category": "Large Cap",
+      "founded": 1897,
+      "headquarters": "Midland, Michigan, USA",
+      "description": "Materials science company focused on chemicals, plastics, and industrial production.",
+      "tagline": "Seek Together.",
+      "tags": [
+        "chemicals",
+        "materials",
+        "manufacturing",
+        "plastics"
+      ],
+      "initial_price": 53.9
+    },
+    {
+      "id": 20,
+      "name": "China National Building Material",
+      "symbol": "CBUMY",
+      "industry": "Heavy Industry / Materials",
+      "exchange": "OTC",
+      "dual_listed": true,
+      "type": "Public",
+      "market_cap_category": "Large Cap",
+      "founded": 1984,
+      "headquarters": "Beijing, China",
+      "description": "State-owned supplier of cement, drywall, and construction materials.",
+      "tagline": "Building a beautiful China.",
+      "tags": [
+        "construction",
+        "materials",
+        "cement",
+        "SOE"
+      ],
+      "initial_price": 3.75
+    }
+  ]
+}
