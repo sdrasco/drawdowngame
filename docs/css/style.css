@@ -55,6 +55,16 @@ button:hover {
   width: 100%;
 }
 
+@media (max-width: 600px) {
+  body {
+    font-size: 1.2rem;
+  }
+  input,
+  button {
+    font-size: 1.1rem;
+  }
+}
+
 @media (min-width: 600px) {
   .menu {
     flex-direction: row;

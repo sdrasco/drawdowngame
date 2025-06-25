@@ -78,12 +78,23 @@
 
     .link-wrapper {
       border: 1px solid #33ff33;
+      background: #222;
       padding: 8px 12px;
       margin: 10px 0;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .link-wrapper:hover {
+      background: #33ff33;
     }
 
     .link:hover {
-      color: #66ff66;
+      color: #000;
+    }
+
+    .link-wrapper:hover .link {
+      color: #000;
     }
 
     .blink-link::after {
