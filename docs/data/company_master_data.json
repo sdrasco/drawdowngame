@@ -21,7 +21,31 @@
       ],
       "initial_price": 187.25,
       "mu": 0.006232,
-      "sigma": 0.076162
+      "sigma": 0.076162,
+      "good_news_headlines": [
+        "Apple's latest iPhone shatters sales expectations.",
+        "Apple unveils breakthrough wearable tech.",
+        "Apple beats earnings forecasts on strong services growth.",
+        "Apple announces expansion into new market.",
+        "Apple's stock upgraded by major analyst.",
+        "Apple launches revolutionary chip technology.",
+        "Apple signs landmark partnership deal.",
+        "Apple opens state-of-the-art research center.",
+        "Apple rewarded for commitment to sustainability.",
+        "Apple's cash reserves hit all-time high."
+      ],
+      "bad_news_headlines": [
+        "Apple issues profit warning amid supply chain woes.",
+        "Apple faces antitrust investigation.",
+        "Apple recalls flagship product over safety concerns.",
+        "Apple misses quarterly revenue target.",
+        "Apple workers threaten strike over conditions.",
+        "Apple sued for patent infringement.",
+        "Apple delays much-anticipated product launch.",
+        "Apple's CEO grilled in congressional hearing.",
+        "Apple data breach exposes customer info.",
+        "Apple announces significant job cuts."
+      ]
     },
     {
       "id": 2,
@@ -44,7 +68,31 @@
       ],
       "initial_price": 345.12,
       "mu": 0.006844,
-      "sigma": 0.079219
+      "sigma": 0.079219,
+      "good_news_headlines": [
+        "Microsoft cloud revenue surges past estimates.",
+        "Microsoft unveils AI breakthrough.",
+        "Microsoft secures massive government contract.",
+        "Microsoft's gaming division reports record sales.",
+        "Microsoft stock hits new high after analyst praise.",
+        "Microsoft expands subscription services.",
+        "Microsoft partners with major telecom for 5G rollout.",
+        "Microsoft launches innovative collaboration tools.",
+        "Microsoft wins award for workplace culture.",
+        "Microsoft's cash flow reaches historic levels."
+      ],
+      "bad_news_headlines": [
+        "Microsoft fined for anticompetitive practices.",
+        "Microsoft hit by major service outage.",
+        "Microsoft warns of slowing PC sales.",
+        "Microsoft cancels long-awaited game title.",
+        "Microsoft layoffs spark employee backlash.",
+        "Microsoft faces security breach in cloud division.",
+        "Microsoft misses earnings expectations.",
+        "Microsoft criticized for aggressive licensing tactics.",
+        "Microsoft delays next Windows release.",
+        "Microsoft under investigation for foreign bribery."
+      ]
     },
     {
       "id": 3,
@@ -67,7 +115,31 @@
       ],
       "initial_price": 1223.5,
       "mu": 0.008109,
-      "sigma": 0.085547
+      "sigma": 0.085547,
+      "good_news_headlines": [
+        "NVIDIA GPU demand soars in gaming market.",
+        "NVIDIA announces breakthrough AI chip.",
+        "NVIDIA posts record quarterly revenue.",
+        "NVIDIA partners with automakers for self-driving tech.",
+        "NVIDIA stock upgraded on strong outlook.",
+        "NVIDIA opens cutting-edge research lab.",
+        "NVIDIA reveals ambitious data center expansion.",
+        "NVIDIA wins industry award for innovation.",
+        "NVIDIA signs partnership with top cloud provider.",
+        "NVIDIA's new graphics card sells out instantly."
+      ],
+      "bad_news_headlines": [
+        "NVIDIA faces supply shortage for new chips.",
+        "NVIDIA targeted by antitrust regulators.",
+        "NVIDIA misses revenue expectations amid market slowdown.",
+        "NVIDIA postpones flagship product launch.",
+        "NVIDIA sued over alleged patent violations.",
+        "NVIDIA stock downgraded after weak guidance.",
+        "NVIDIA hit by large-scale cyberattack.",
+        "NVIDIA criticized for high GPU prices.",
+        "NVIDIA workers plan strike at key facility.",
+        "NVIDIA recalls faulty graphics cards."
+      ]
     },
     {
       "id": 4,
@@ -90,7 +162,31 @@
       ],
       "initial_price": 23.78,
       "mu": 0.004169,
-      "sigma": 0.065844
+      "sigma": 0.065844,
+      "good_news_headlines": [
+        "Lenovo laptop sales hit record high.",
+        "Lenovo unveils ultra-thin notebook lineup.",
+        "Lenovo reports strong growth in enterprise services.",
+        "Lenovo forms strategic alliance with leading chipmaker.",
+        "Lenovo expands manufacturing capacity in Europe.",
+        "Lenovo recognized for sustainability initiatives.",
+        "Lenovo opens new design center in Silicon Valley.",
+        "Lenovo smartphone gains positive reviews.",
+        "Lenovo stock jumps after earnings beat.",
+        "Lenovo launches innovative AR headset."
+      ],
+      "bad_news_headlines": [
+        "Lenovo issues warning on weakened demand.",
+        "Lenovo hit by supply chain disruptions.",
+        "Lenovo recalls batteries over fire risk.",
+        "Lenovo misses profit forecasts.",
+        "Lenovo faces lawsuit over software privacy.",
+        "Lenovo criticized for quality issues in new model.",
+        "Lenovo delays flagship phone release.",
+        "Lenovo workforce reductions spark unrest.",
+        "Lenovo's data center division posts loss.",
+        "Lenovo security flaw exposes user data."
+      ]
     },
     {
       "id": 5,
@@ -103,7 +199,7 @@
       "market_cap_category": "Mega Cap",
       "founded": 1999,
       "headquarters": "Irving, Texas, USA",
-      "description": "One of the world’s largest publicly traded oil and gas companies.",
+      "description": "One of the world\u2019s largest publicly traded oil and gas companies.",
       "tagline": "Energy lives here.",
       "tags": [
         "energy",
@@ -113,7 +209,31 @@
       ],
       "initial_price": 112.8,
       "mu": 0.005726,
-      "sigma": 0.073628
+      "sigma": 0.073628,
+      "good_news_headlines": [
+        "ExxonMobil profit surges on higher oil prices.",
+        "ExxonMobil discovers major offshore field.",
+        "ExxonMobil announces dividend increase.",
+        "ExxonMobil expands renewable energy investments.",
+        "ExxonMobil receives approval for new drilling project.",
+        "ExxonMobil stock rises after strong earnings.",
+        "ExxonMobil launches carbon capture initiative.",
+        "ExxonMobil forms partnership for LNG exports.",
+        "ExxonMobil praised for cost-cutting efforts.",
+        "ExxonMobil repurchases shares in buyback program."
+      ],
+      "bad_news_headlines": [
+        "ExxonMobil hit by large oil spill.",
+        "ExxonMobil faces government investigation over emissions.",
+        "ExxonMobil misses earnings expectations.",
+        "ExxonMobil workers strike at key refinery.",
+        "ExxonMobil forced to halt operations after accident.",
+        "ExxonMobil sued for environmental damage.",
+        "ExxonMobil delays major project due to regulations.",
+        "ExxonMobil criticized for climate policy stance.",
+        "ExxonMobil's credit rating outlook lowered.",
+        "ExxonMobil announces layoffs amid downturn."
+      ]
     },
     {
       "id": 6,
@@ -136,7 +256,31 @@
       ],
       "initial_price": 155.35,
       "mu": 0.006046,
-      "sigma": 0.075228
+      "sigma": 0.075228,
+      "good_news_headlines": [
+        "Chevron posts better-than-expected profits.",
+        "Chevron increases renewable energy spending.",
+        "Chevron finds promising new shale reserves.",
+        "Chevron raises dividend for 10th consecutive year.",
+        "Chevron completes major refinery upgrade.",
+        "Chevron awarded exploration rights overseas.",
+        "Chevron's LNG exports hit new record.",
+        "Chevron initiates large share repurchase program.",
+        "Chevron recognized for safety performance.",
+        "Chevron forms joint venture on hydrogen fuel."
+      ],
+      "bad_news_headlines": [
+        "Chevron fined for environmental violations.",
+        "Chevron suffers production setback after equipment failure.",
+        "Chevron earnings slide on weak demand.",
+        "Chevron faces protests over new project.",
+        "Chevron's pipeline leak sparks investigation.",
+        "Chevron cancels expansion due to cost overruns.",
+        "Chevron executives accused of misconduct.",
+        "Chevron delays dividend hike amid uncertainty.",
+        "Chevron targeted by ransomware attack.",
+        "Chevron plans workforce reductions."
+      ]
     },
     {
       "id": 7,
@@ -159,7 +303,31 @@
       ],
       "initial_price": 36.1,
       "mu": 0.004586,
-      "sigma": 0.067931
+      "sigma": 0.067931,
+      "good_news_headlines": [
+        "BP reports strong quarter on higher fuel margins.",
+        "BP accelerates push into renewables.",
+        "BP wins rights to develop large wind farm.",
+        "BP announces dividend increase.",
+        "BP completes successful exploration project.",
+        "BP partners with tech firm for battery research.",
+        "BP praised for emissions reduction plan.",
+        "BP stock rises on analyst upgrade.",
+        "BP launches initiative for electric vehicle charging.",
+        "BP expands LNG trading operations."
+      ],
+      "bad_news_headlines": [
+        "BP faces massive fine for environmental breach.",
+        "BP profits slump amid market volatility.",
+        "BP refinery fire disrupts production.",
+        "BP under investigation for accounting practices.",
+        "BP sued over spill cleanup costs.",
+        "BP delays major project due to safety concerns.",
+        "BP hackers steal confidential data.",
+        "BP criticized for shareholder payouts.",
+        "BP warns of lower output next quarter.",
+        "BP announces job cuts in upstream unit."
+      ]
     },
     {
       "id": 8,
@@ -182,7 +350,31 @@
       ],
       "initial_price": 52.75,
       "mu": 0.004966,
-      "sigma": 0.069828
+      "sigma": 0.069828,
+      "good_news_headlines": [
+        "PetroChina profit climbs on robust demand.",
+        "PetroChina secures new supply contracts.",
+        "PetroChina invests heavily in solar power.",
+        "PetroChina reports successful pipeline expansion.",
+        "PetroChina signs joint venture with international partner.",
+        "PetroChina raises dividend payout.",
+        "PetroChina discovers large natural gas reserve.",
+        "PetroChina wins government award for innovation.",
+        "PetroChina opens new research center.",
+        "PetroChina stock jumps after earnings beat."
+      ],
+      "bad_news_headlines": [
+        "PetroChina fined for environmental violations.",
+        "PetroChina reports sharp drop in profits.",
+        "PetroChina faces corruption allegations.",
+        "PetroChina plant explosion halts operations.",
+        "PetroChina criticized for poor safety record.",
+        "PetroChina delays project over regulatory issues.",
+        "PetroChina targeted by cyberattack.",
+        "PetroChina fails to meet production targets.",
+        "PetroChina sued for breach of contract.",
+        "PetroChina announces workforce reductions."
+      ]
     },
     {
       "id": 9,
@@ -205,7 +397,31 @@
       ],
       "initial_price": 182.55,
       "mu": 0.006207,
-      "sigma": 0.076035
+      "sigma": 0.076035,
+      "good_news_headlines": [
+        "Amazon sales soar during holiday season.",
+        "Amazon expands same-day delivery network.",
+        "Amazon Web Services posts record revenue.",
+        "Amazon announces new line of smart devices.",
+        "Amazon opens state-of-the-art fulfillment center.",
+        "Amazon stock hits all-time high after earnings beat.",
+        "Amazon wins major cloud contract.",
+        "Amazon invests in green energy projects.",
+        "Amazon Prime membership growth accelerates.",
+        "Amazon launches innovative grocery service."
+      ],
+      "bad_news_headlines": [
+        "Amazon workers strike over working conditions.",
+        "Amazon under antitrust scrutiny again.",
+        "Amazon misses profit estimates.",
+        "Amazon faces delays in drone delivery program.",
+        "Amazon criticized for data privacy practices.",
+        "Amazon suffers major website outage.",
+        "Amazon accused of unfair labor practices.",
+        "Amazon cancels high-profile project.",
+        "Amazon hit with large regulatory fine.",
+        "Amazon announces cost-cutting layoffs."
+      ]
     },
     {
       "id": 10,
@@ -218,7 +434,7 @@
       "market_cap_category": "Mega Cap",
       "founded": 1962,
       "headquarters": "Bentonville, Arkansas, USA",
-      "description": "The world’s largest brick-and-mortar retailer, with a major online presence.",
+      "description": "The world\u2019s largest brick-and-mortar retailer, with a major online presence.",
       "tagline": "Save money. Live better.",
       "tags": [
         "retail",
@@ -228,7 +444,31 @@
       ],
       "initial_price": 68.4,
       "mu": 0.005225,
-      "sigma": 0.071127
+      "sigma": 0.071127,
+      "good_news_headlines": [
+        "Walmart beats expectations with strong e-commerce sales.",
+        "Walmart launches new subscription service.",
+        "Walmart raises employee wages nationwide.",
+        "Walmart opens dozens of high-tech distribution centers.",
+        "Walmart stock climbs after upbeat forecast.",
+        "Walmart expands health clinic offerings.",
+        "Walmart partners with fintech startup for payments.",
+        "Walmart recognized for community outreach.",
+        "Walmart unveils sustainable packaging plan.",
+        "Walmart reports record holiday traffic."
+      ],
+      "bad_news_headlines": [
+        "Walmart faces supply chain bottlenecks.",
+        "Walmart profits drop amid rising costs.",
+        "Walmart sued over wage disputes.",
+        "Walmart recalls contaminated food products.",
+        "Walmart store closures spark backlash.",
+        "Walmart data breach impacts customers.",
+        "Walmart delays expansion plans.",
+        "Walmart criticized for labor practices.",
+        "Walmart under investigation for pricing tactics.",
+        "Walmart warns of slower growth ahead."
+      ]
     },
     {
       "id": 11,
@@ -251,7 +491,31 @@
       ],
       "initial_price": 855.75,
       "mu": 0.007752,
-      "sigma": 0.08376
+      "sigma": 0.08376,
+      "good_news_headlines": [
+        "Costco membership renewals hit new high.",
+        "Costco posts double-digit sales growth.",
+        "Costco introduces new private-label products.",
+        "Costco expands delivery services nationwide.",
+        "Costco earns praise for employee benefits.",
+        "Costco stock hits record after earnings beat.",
+        "Costco opens flagship warehouse overseas.",
+        "Costco ramps up solar energy projects.",
+        "Costco recognized for customer satisfaction.",
+        "Costco launches upgraded mobile app."
+      ],
+      "bad_news_headlines": [
+        "Costco profits pressured by higher costs.",
+        "Costco recalls popular product.",
+        "Costco faces lawsuit over membership fees.",
+        "Costco growth slows after pandemic surge.",
+        "Costco supply shortages frustrate shoppers.",
+        "Costco data breach reveals customer info.",
+        "Costco delays new store openings.",
+        "Costco criticized for limited online options.",
+        "Costco warehouse accident injures workers.",
+        "Costco warns of potential price hikes."
+      ]
     },
     {
       "id": 12,
@@ -274,7 +538,31 @@
       ],
       "initial_price": 72.2,
       "mu": 0.005279,
-      "sigma": 0.071397
+      "sigma": 0.071397,
+      "good_news_headlines": [
+        "Alibaba posts strong Singles Day sales.",
+        "Alibaba cloud revenue jumps sharply.",
+        "Alibaba launches innovative logistics hub.",
+        "Alibaba gains approval to list in new market.",
+        "Alibaba invests in cutting-edge AI startups.",
+        "Alibaba shares rise on positive outlook.",
+        "Alibaba expands international retail presence.",
+        "Alibaba forms partnership with global brands.",
+        "Alibaba praised for green initiatives.",
+        "Alibaba unveils new e-commerce platform."
+      ],
+      "bad_news_headlines": [
+        "Alibaba fined by regulators for antitrust violations.",
+        "Alibaba growth slows in core commerce segment.",
+        "Alibaba executives questioned in corruption probe.",
+        "Alibaba faces widespread delivery delays.",
+        "Alibaba accused of data privacy breaches.",
+        "Alibaba cancels high-profile IPO.",
+        "Alibaba earnings miss analyst expectations.",
+        "Alibaba workers protest over overtime policies.",
+        "Alibaba targeted in major cyberattack.",
+        "Alibaba issues profit warning."
+      ]
     },
     {
       "id": 13,
@@ -288,7 +576,7 @@
       "founded": 2003,
       "headquarters": "Austin, Texas, USA",
       "description": "Electric vehicle and clean energy company, known for innovation and volatility.",
-      "tagline": "Accelerating the world’s transition to sustainable energy.",
+      "tagline": "Accelerating the world\u2019s transition to sustainable energy.",
       "tags": [
         "auto",
         "EV",
@@ -297,7 +585,31 @@
       ],
       "initial_price": 182.9,
       "mu": 0.006209,
-      "sigma": 0.076045
+      "sigma": 0.076045,
+      "good_news_headlines": [
+        "Tesla delivers record number of vehicles.",
+        "Tesla unveils breakthrough battery technology.",
+        "Tesla expands production at new gigafactory.",
+        "Tesla stock surges after earnings surprise.",
+        "Tesla wins government approval for self-driving.",
+        "Tesla announces affordable model for mass market.",
+        "Tesla builds massive solar project.",
+        "Tesla's energy storage division posts strong growth.",
+        "Tesla sets ambitious delivery forecast.",
+        "Tesla secures major fleet order."
+      ],
+      "bad_news_headlines": [
+        "Tesla recalls vehicles over safety concerns.",
+        "Tesla misses production targets.",
+        "Tesla CEO faces legal trouble again.",
+        "Tesla under investigation for autopilot crashes.",
+        "Tesla delays launch of new model.",
+        "Tesla margins squeezed by rising costs.",
+        "Tesla hit with supply chain shortages.",
+        "Tesla sued for workplace discrimination.",
+        "Tesla suffers factory shutdown.",
+        "Tesla announces price increases."
+      ]
     },
     {
       "id": 14,
@@ -320,7 +632,31 @@
       ],
       "initial_price": 12.35,
       "mu": 0.003514,
-      "sigma": 0.062568
+      "sigma": 0.062568,
+      "good_news_headlines": [
+        "Ford posts better-than-expected earnings.",
+        "Ford launches highly anticipated electric truck.",
+        "Ford expands partnership for autonomous vehicles.",
+        "Ford reduces debt ahead of schedule.",
+        "Ford wins major government contract.",
+        "Ford stock climbs on strong sales outlook.",
+        "Ford unveils new hybrid lineup.",
+        "Ford invests in high-tech manufacturing plant.",
+        "Ford praised for improved quality ratings.",
+        "Ford announces share buyback program."
+      ],
+      "bad_news_headlines": [
+        "Ford issues recall affecting thousands of vehicles.",
+        "Ford workers strike at key assembly plant.",
+        "Ford profit outlook cut due to supply issues.",
+        "Ford delays new model launch.",
+        "Ford criticized for poor fuel efficiency.",
+        "Ford hit by semiconductor shortage.",
+        "Ford faces lawsuit over safety defects.",
+        "Ford sales slump in international markets.",
+        "Ford under investigation for emissions cheating.",
+        "Ford plans layoffs to reduce costs."
+      ]
     },
     {
       "id": 15,
@@ -333,7 +669,7 @@
       "market_cap_category": "Mega Cap",
       "founded": 1937,
       "headquarters": "Toyota City, Aichi, Japan",
-      "description": "World’s largest automaker by volume, pioneering hybrid and efficient vehicles.",
+      "description": "World\u2019s largest automaker by volume, pioneering hybrid and efficient vehicles.",
       "tagline": "Let's Go Places.",
       "tags": [
         "auto",
@@ -343,7 +679,31 @@
       ],
       "initial_price": 195.8,
       "mu": 0.006277,
-      "sigma": 0.076385
+      "sigma": 0.076385,
+      "good_news_headlines": [
+        "Toyota reports strong global sales growth.",
+        "Toyota leads industry in hybrid vehicle sales.",
+        "Toyota opens new battery plant.",
+        "Toyota shares jump after earnings surprise.",
+        "Toyota unveils futuristic concept car.",
+        "Toyota expands safety technology features.",
+        "Toyota wins reliability award again.",
+        "Toyota increases dividend payout.",
+        "Toyota invests heavily in hydrogen research.",
+        "Toyota secures major fleet deal."
+      ],
+      "bad_news_headlines": [
+        "Toyota recalls vehicles for airbag issue.",
+        "Toyota production halted by supplier fire.",
+        "Toyota profits fall on currency headwinds.",
+        "Toyota sued over sudden-acceleration claims.",
+        "Toyota delays electric model rollout.",
+        "Toyota criticized for slow EV strategy.",
+        "Toyota workers protest wage freeze.",
+        "Toyota faces investigation into test data.",
+        "Toyota hit by cyberattack at supplier.",
+        "Toyota shuts down plant due to chip shortage."
+      ]
     },
     {
       "id": 16,
@@ -366,7 +726,31 @@
       ],
       "initial_price": 8.91,
       "mu": 0.003187,
-      "sigma": 0.060936
+      "sigma": 0.060936,
+      "good_news_headlines": [
+        "XPeng EV deliveries reach new high.",
+        "XPeng launches advanced driver assistance system.",
+        "XPeng receives strong preorders for new model.",
+        "XPeng stock rises after earnings beat.",
+        "XPeng partners with tech giant on autonomous tech.",
+        "XPeng expands charging network rapidly.",
+        "XPeng opens new manufacturing facility.",
+        "XPeng recognized for design innovation.",
+        "XPeng secures large investment from state fund.",
+        "XPeng unveils long-range electric SUV."
+      ],
+      "bad_news_headlines": [
+        "XPeng faces delay in overseas expansion.",
+        "XPeng misses sales targets.",
+        "XPeng under investigation for data privacy.",
+        "XPeng recalls vehicles over battery issues.",
+        "XPeng stock tumbles on cash burn concerns.",
+        "XPeng criticized for heavy losses.",
+        "XPeng hit by supply chain bottlenecks.",
+        "XPeng sued for alleged IP theft.",
+        "XPeng workers protest over wages.",
+        "XPeng lowers guidance for next quarter."
+      ]
     },
     {
       "id": 17,
@@ -389,7 +773,31 @@
       ],
       "initial_price": 322.25,
       "mu": 0.006775,
-      "sigma": 0.078877
+      "sigma": 0.078877,
+      "good_news_headlines": [
+        "Caterpillar profit climbs on infrastructure boom.",
+        "Caterpillar unveils autonomous mining trucks.",
+        "Caterpillar announces large share repurchase.",
+        "Caterpillar opens new parts distribution center.",
+        "Caterpillar beats analyst expectations.",
+        "Caterpillar expands into renewable energy equipment.",
+        "Caterpillar wins defense department contract.",
+        "Caterpillar recognized for dealer network strength.",
+        "Caterpillar launches advanced telematics platform.",
+        "Caterpillar forecasts strong demand ahead."
+      ],
+      "bad_news_headlines": [
+        "Caterpillar hit by slowdown in construction.",
+        "Caterpillar faces investigation over tax practices.",
+        "Caterpillar supply costs surge.",
+        "Caterpillar workers strike at manufacturing plant.",
+        "Caterpillar recalls heavy machinery for defect.",
+        "Caterpillar misses revenue targets.",
+        "Caterpillar CEO faces shareholder revolt.",
+        "Caterpillar delays new product rollout.",
+        "Caterpillar posts steep drop in mining orders.",
+        "Caterpillar announces plant closures."
+      ]
     },
     {
       "id": 18,
@@ -412,7 +820,31 @@
       ],
       "initial_price": 377.8,
       "mu": 0.006934,
-      "sigma": 0.079672
+      "sigma": 0.079672,
+      "good_news_headlines": [
+        "Deere profit soars on strong equipment sales.",
+        "Deere launches next-gen autonomous tractor.",
+        "Deere increases dividend amid robust demand.",
+        "Deere opens high-tech innovation center.",
+        "Deere stock upgraded by analysts.",
+        "Deere expands precision agriculture offerings.",
+        "Deere wins large government equipment bid.",
+        "Deere recognized for sustainability leadership.",
+        "Deere invests in electric farm machinery.",
+        "Deere forecasts record harvest season."
+      ],
+      "bad_news_headlines": [
+        "Deere workers strike for higher wages.",
+        "Deere faces slowdown in commodity markets.",
+        "Deere recall issued for safety problem.",
+        "Deere earnings miss expectations.",
+        "Deere supply chain issues delay shipments.",
+        "Deere criticized for right-to-repair stance.",
+        "Deere sued over equipment malfunction.",
+        "Deere hit by ransomware attack.",
+        "Deere lowers outlook on weak overseas demand.",
+        "Deere announces cost-cutting layoffs."
+      ]
     },
     {
       "id": 19,
@@ -435,7 +867,31 @@
       ],
       "initial_price": 53.9,
       "mu": 0.004987,
-      "sigma": 0.069936
+      "sigma": 0.069936,
+      "good_news_headlines": [
+        "Dow beats forecasts on strong chemical demand.",
+        "Dow launches new line of sustainable plastics.",
+        "Dow announces dividend hike.",
+        "Dow invests in cutting-edge recycling technology.",
+        "Dow signs multi-year supply agreement.",
+        "Dow recognized for employee safety record.",
+        "Dow stock rises after positive outlook.",
+        "Dow expands production capacity in U.S.",
+        "Dow forms strategic joint venture abroad.",
+        "Dow reports surge in specialty chemicals sales."
+      ],
+      "bad_news_headlines": [
+        "Dow fined for hazardous waste violations.",
+        "Dow profits slump on weak industrial demand.",
+        "Dow plant explosion injures workers.",
+        "Dow faces antitrust investigation.",
+        "Dow cancels project due to cost overruns.",
+        "Dow targeted by environmental activists.",
+        "Dow recalls product after contamination.",
+        "Dow executives accused of accounting irregularities.",
+        "Dow supply shortage hits customers.",
+        "Dow announces widespread layoffs."
+      ]
     },
     {
       "id": 20,
@@ -458,7 +914,31 @@
       ],
       "initial_price": 3.75,
       "mu": 0.002322,
-      "sigma": 0.056609
+      "sigma": 0.056609,
+      "good_news_headlines": [
+        "CNBM secures contract for major infrastructure project.",
+        "CNBM profits rise on strong domestic demand.",
+        "CNBM develops eco-friendly cement technology.",
+        "CNBM receives government award for innovation.",
+        "CNBM expands overseas operations.",
+        "CNBM stock climbs after earnings beat.",
+        "CNBM forms joint venture for glass production.",
+        "CNBM opens new factory with advanced automation.",
+        "CNBM reports record sales volume.",
+        "CNBM launches green building initiative."
+      ],
+      "bad_news_headlines": [
+        "CNBM fined for violating safety regulations.",
+        "CNBM earnings slump amid slowdown.",
+        "CNBM plant accident halts production.",
+        "CNBM under investigation for corruption.",
+        "CNBM delays project due to financing issues.",
+        "CNBM criticized for high debt levels.",
+        "CNBM workers protest over layoffs.",
+        "CNBM faces export restrictions.",
+        "CNBM hit by raw material shortages.",
+        "CNBM announces large write-down."
+      ]
     }
   ]
 }
