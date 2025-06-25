@@ -55,6 +55,10 @@ button:hover {
   width: 100%;
 }
 
+.menu button.advance {
+  width: 100%;
+}
+
 @media (max-width: 600px) {
   body {
     font-size: 1.2rem;
@@ -74,5 +78,8 @@ button:hover {
   }
   .menu button {
     flex: 1 0 150px;
+  }
+  .menu button.advance {
+    flex-basis: 100%;
   }
 }
