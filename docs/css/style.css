@@ -83,3 +83,26 @@ button:hover {
     flex-basis: 100%;
   }
 }
+
+.chart-wrapper {
+  margin: 1rem auto;
+  max-width: 300px;
+  border: 1px solid #33ff33;
+}
+
+#marketChart {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+}
+
+.news {
+  margin: 1rem auto;
+  max-width: 300px;
+  min-height: 4.5rem;
+}
+
+.news .headline {
+  margin: 0.25rem 0;
+}
