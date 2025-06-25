@@ -76,6 +76,12 @@
       position: relative;
     }
 
+    .link-wrapper {
+      border: 1px solid #33ff33;
+      padding: 8px 12px;
+      margin: 10px 0;
+    }
+
     .link:hover {
       color: #66ff66;
     }
@@ -121,12 +127,12 @@
       <div class="tagline">
         Fake trades. Fake money. Fake market. <br>Real regret.
       </div>
-      <div>
+      <div class="link-wrapper">
         <a class="link blink-link" href="play.html" onclick="localStorage.removeItem('drawdownSave');">
           Start new game
         </a>
       </div>
-      <div>
+      <div class="link-wrapper">
         <a class="link" href="https://github.com/sdrasco/drawdowngame/blob/main/README.md" target="_blank">
           About / Under the hood
         </a>
