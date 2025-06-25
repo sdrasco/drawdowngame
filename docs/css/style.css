@@ -34,12 +34,20 @@ button:hover {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem 1rem;
-  margin-bottom: 1.5rem;
+  margin: 0 auto 1.5rem;
+  max-width: 600px;
 }
 
 .status div {
   min-width: 120px;
-  text-align: center;
+}
+
+.status div:nth-child(odd) {
+  text-align: left;
+}
+
+.status div:nth-child(even) {
+  text-align: right;
 }
 
 .menu {
@@ -47,7 +55,7 @@ button:hover {
   flex-direction: column;
   align-items: stretch;
   gap: 0.5rem;
-  max-width: 300px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -72,7 +80,7 @@ button:hover {
 @media (min-width: 600px) {
   /* Keep buttons stacked vertically on larger screens */
   .menu {
-    max-width: 300px;
+    max-width: 600px;
   }
 }
 
@@ -97,4 +105,13 @@ button:hover {
 
 .news .headline {
   margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.news .headline::before {
+  content: '\25ba';
+  position: absolute;
+  left: 0;
+  color: #33ff33;
 }
