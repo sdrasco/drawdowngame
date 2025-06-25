@@ -85,6 +85,8 @@ function startGame() {
 
 function updateStatus() {
   document.getElementById('week').textContent = gameState.week;
+  const maxEl = document.getElementById('maxWeek');
+  if (maxEl) maxEl.textContent = gameState.maxWeeks;
   document.getElementById('rank').textContent = gameState.rank;
   document.getElementById('netWorth').textContent = gameState.netWorth.toLocaleString();
   document.getElementById('cash').textContent = gameState.cash.toLocaleString();
@@ -142,6 +144,17 @@ function nextWeek() {
   renderNews();
 }
 
+function cashOut() {
+  alert('Game over');
+  if (window.drawdownHighScores) {
+    window.drawdownHighScores.check(gameState.netWorth, () => {
+      window.location.href = 'high-scores.html';
+    });
+  } else {
+    window.location.href = 'high-scores.html';
+  }
+}
+
 function showPlaceholder(msg) {
   alert(msg + ' screen goes here.');
 }
@@ -153,4 +166,5 @@ document.getElementById('dataBtn').addEventListener('click', () => showPlacehold
 // sharpe ratio, and gain to pain ratio.
 document.getElementById('portfolioBtn').addEventListener('click', () => showPlaceholder('Portfolio'));
 document.getElementById('tradeBtn').addEventListener('click', () => showPlaceholder('Trade'));
+document.getElementById('cashOutBtn').addEventListener('click', cashOut);
 
