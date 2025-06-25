@@ -1,10 +1,13 @@
 let companies = [];
 let gameState;
+const INDEX_SYMBOL = 'INDEX';
+let indexShares = {};
 
 fetch('data/company_master_data.json')
   .then(r => r.json())
   .then(data => {
     companies = data.companies;
+    setupMarketIndex();
     startGame();
   });
 
@@ -22,6 +25,35 @@ function generateWeekPrices(lastPrice, mu, sigma) {
   return prices;
 }
 
+function setupMarketIndex() {
+  if (companies.some(c => c.symbol === INDEX_SYMBOL)) return;
+  companies.push({
+    id: companies.length + 1,
+    name: 'Market Index',
+    symbol: INDEX_SYMBOL,
+    initial_price: companies.length * 1000,
+    isIndex: true
+  });
+  indexShares = {};
+  companies.forEach(c => {
+    if (c.isIndex) return;
+    indexShares[c.symbol] = 1000 / c.initial_price;
+  });
+}
+
+function computeIndexWeekPrices(weekIdx) {
+  const values = [0, 0, 0, 0, 0];
+  companies.forEach(c => {
+    if (c.isIndex) return;
+    const prices = gameState.prices[c.symbol][weekIdx];
+    const shares = indexShares[c.symbol];
+    for (let i = 0; i < 5; i++) {
+      values[i] += shares * prices[i];
+    }
+  });
+  return values.map(v => +v.toFixed(2));
+}
+
 function startGame() {
   gameState = loadState();
   if (!gameState) {
@@ -35,9 +67,11 @@ function startGame() {
       prices: {}
     };
     companies.forEach(c => {
+      if (c.isIndex) return;
       const weekPrices = generateWeekPrices(c.initial_price, c.mu, c.sigma);
       gameState.prices[c.symbol] = [weekPrices];
     });
+    gameState.prices[INDEX_SYMBOL] = [computeIndexWeekPrices(0)];
     saveState(gameState);
   }
   updateStatus();
@@ -72,12 +106,15 @@ function nextWeek() {
   }
   gameState.week += 1;
   Object.keys(gameState.prices).forEach(sym => {
+    if (sym === INDEX_SYMBOL) return;
     const arr = gameState.prices[sym];
     const prev = arr[arr.length - 1];
     const last = prev[prev.length - 1];
     const comp = companies.find(c => c.symbol === sym);
     arr.push(generateWeekPrices(last, comp.mu, comp.sigma));
   });
+  const indexWeek = computeIndexWeekPrices(gameState.prices[INDEX_SYMBOL].length);
+  gameState.prices[INDEX_SYMBOL].push(indexWeek);
   // simple demo economic change
   const change = Math.floor(Math.random() * 1500 - 500);
   gameState.cash += change;
