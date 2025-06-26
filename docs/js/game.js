@@ -187,7 +187,39 @@ document.getElementById('portfolioBtn').addEventListener('click', () => {
   window.location.href = 'portfolio.html';
 });
 
+function populateTradeSymbols() {
+  const select = document.getElementById('tradeSymbol');
+  if (!select) return;
+  if (select.childElementCount > 0) return; // already populated
+  companies.filter(c => !c.isIndex).forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.symbol;
+    opt.textContent = `${c.symbol} - ${c.name}`;
+    select.appendChild(opt);
+  });
+}
+
+function updateTradeInfo() {
+  const sym = document.getElementById('tradeSymbol').value;
+  const weeks = gameState.prices[sym];
+  if (!weeks) return;
+  const week = weeks[weeks.length - 1];
+  const price = week[week.length - 1];
+  document.getElementById('tradePrice').textContent = price.toFixed(2);
+
+  const slider = document.getElementById('tradeQtySlider');
+  const input = document.getElementById('tradeQty');
+  const maxBuy = Math.floor(gameState.cash / price);
+  const holdings = (gameState.positions[sym] && gameState.positions[sym].qty) || 0;
+  const max = Math.max(maxBuy, holdings, 1);
+  slider.max = max;
+  slider.value = 1;
+  input.value = 1;
+}
+
 function openTrade() {
+  populateTradeSymbols();
+  updateTradeInfo();
   document.getElementById('tradeForm').classList.remove('hidden');
 }
 
@@ -211,6 +243,7 @@ function doBuy() {
   } else {
     updateRank();
     updateStatus();
+    updateTradeInfo();
     saveState(gameState);
   }
 }
@@ -231,6 +264,7 @@ function doSell() {
   } else {
     updateRank();
     updateStatus();
+    updateTradeInfo();
     saveState(gameState);
   }
 }
@@ -240,4 +274,11 @@ document.getElementById('tradeCloseBtn').addEventListener('click', closeTrade);
 document.getElementById('buyBtn').addEventListener('click', doBuy);
 document.getElementById('sellBtn').addEventListener('click', doSell);
 document.getElementById('cashOutBtn').addEventListener('click', cashOut);
+document.getElementById('tradeSymbol').addEventListener('change', updateTradeInfo);
+document.getElementById('tradeQtySlider').addEventListener('input', e => {
+  document.getElementById('tradeQty').value = e.target.value;
+});
+document.getElementById('tradeQty').addEventListener('input', e => {
+  document.getElementById('tradeQtySlider').value = e.target.value;
+});
 
