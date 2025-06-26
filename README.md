@@ -5,20 +5,19 @@
 ---
 
 **Drawdown** is a deliberately lean simulation of stock market decision-making, a modern tribute to [*Millionaire: The Stock Market Simulation*, created by Jim Zuber and published by Blue Chip Software in 1982](https://en.wikipedia.org/wiki/Millionaire:_The_Stock_Market_Simulation).  Hopefully it will make you feel smart, rich, and wrong —  all at once.
+Play it online at [drawdowngame.com](https://drawdowngame.com).
 
 ## Gameplay Overview
 
-| **Phase**              | **What Happens**                                                                 |
-|------------------------|-----------------------------------------------------------------------------------|
-| **Start Game**         | Player chooses new game or resume; gets $35,000 and “Novice” status              |
-| **Weekly Loop (×104)** |                                                                                   |
-| • Market Opens         | Show updated overall index graph + selected industry trend                       |
-| • News Packet          | ~10 headlines (macro, sector, company-specific); foreshadows price shifts        |
-| • Price Report         | Show current prices, highs/lows, changes for a subset (or all) of 15 stocks     |
-| • Player Actions       | Access graphs, research, buy/sell stocks or options, borrow, check portfolio     |
-| • Advance Week         | Player commits — market updates, interest charged, options decay, prices shift   |
-| **Level Up**           | As net worth increases, unlock: margin, call options, puts, loans                |
-| **Game End**           | After 104 weeks or $3.3M net worth; show final score, time-to-victory        |
+| **Phase**              | **What Happens** |
+|------------------------|------------------------------------------------|
+| **Start Game**         | Choose new or resume; you start with $35k, a "Novice" badge and a few weeks of history. |
+| **Weekly Loop (up to 104)** | |
+| • Index Update         | The market chart gets another data point. |
+| • Headlines            | About ten news blurbs hint at coming moves. |
+| • Trade                | Check Analysis, peek at your Portfolio, then buy or sell a few shares. |
+| • Advance Week         | Commit your trades. Prices jump and your rank might improve. |
+| **Retire**             | Cash out any time—or after week 104—and join the high score list. |
 
 ### Portfolio Stats
 
