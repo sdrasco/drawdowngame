@@ -58,6 +58,8 @@ function renderMarketChart() {
   ctx.restore();
 
   const xStep = chartWidth / Math.max(1, marketHistory.length - 1);
+
+  // draw price line
   ctx.beginPath();
   marketHistory.forEach((val, idx) => {
     const x = paddingLeft + idx * xStep;
@@ -67,13 +69,17 @@ function renderMarketChart() {
     } else {
       ctx.lineTo(x, y);
     }
+  });
+  ctx.stroke();
 
+  // draw x-axis ticks
+  marketHistory.forEach((_, idx) => {
+    const x = paddingLeft + idx * xStep;
     ctx.beginPath();
     ctx.moveTo(x, paddingTop + chartHeight);
     ctx.lineTo(x, paddingTop + chartHeight + 5);
     ctx.stroke();
   });
-  ctx.stroke();
 
   ctx.fillText('Week', paddingLeft + chartWidth / 2 - 15, canvas.height - 5);
 }
