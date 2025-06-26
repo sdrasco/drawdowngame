@@ -75,13 +75,67 @@ export function watchBoard(callback) {
   });
 }
 
+// Prompt the player for a leaderboard name using the retro style overlay
+function promptForScoreName(defaultName) {
+  return new Promise(resolve => {
+    const promptEl = document.getElementById('scorePrompt');
+    const inputEl = document.getElementById('scoreInput');
+    const submitBtn = document.getElementById('scoreSubmit');
+    const randomBtn = document.getElementById('scoreRandom');
+    let nameList = null;
+
+    function finish(value) {
+      promptEl.classList.add('hidden');
+      submitBtn.removeEventListener('click', submit);
+      randomBtn.removeEventListener('click', pickRandom);
+      inputEl.removeEventListener('keypress', keyHandler);
+      resolve(value);
+    }
+
+    function submit() {
+      let value = inputEl.value.trim();
+      if (!value) value = defaultName || 'default';
+      finish(value);
+    }
+
+    function pickRandom() {
+      const choose = () => {
+        const value = nameList[Math.floor(Math.random() * nameList.length)];
+        finish(value);
+      };
+      if (nameList) {
+        choose();
+      } else {
+        fetch('data/random_names.json')
+          .then(r => r.json())
+          .then(d => { nameList = d; choose(); });
+      }
+    }
+
+    function keyHandler(e) {
+      if (e.key === 'Enter') {
+        submit();
+      }
+    }
+
+    submitBtn.addEventListener('click', submit);
+    randomBtn.addEventListener('click', pickRandom);
+    inputEl.addEventListener('keypress', keyHandler);
+    inputEl.value = defaultName || '';
+    promptEl.classList.remove('hidden');
+    inputEl.focus();
+  });
+}
+
 // 8. Determine if a score qualifies and submit if so
 export async function check(score, cb) {
   const board = await loadBoard();
   const needsSave = board.length < MAX_SCORES ||
     (board.length && score > board[board.length - 1].score);
   if (needsSave) {
-    await submitScore(window.getUser(), score);
+    alert('Congratulations! You made the high score board!');
+    const name = await promptForScoreName(window.getUser());
+    await submitScore(name, score);
   }
   if (typeof cb === 'function') cb();
 }
