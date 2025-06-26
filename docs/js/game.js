@@ -19,11 +19,18 @@ function randPct(mu, sigma) {
   return mu + sigma * (Math.random() * 2 - 1);
 }
 
-function generateWeekPrices(lastPrice, mu, sigma) {
+function generateWeekPrices(lastPrice, mu, sigma, newsImpact = 0) {
   const prices = [];
   let price = lastPrice;
-  // Randomize drift direction each week so stocks don't persistently trend one way
-  const weeklyMu = Math.abs(mu) * (Math.random() < 0.5 ? -1 : 1);
+  let weeklyMu;
+  if (newsImpact === 1) {
+    weeklyMu = Math.abs(mu) * 1.5;
+  } else if (newsImpact === -1) {
+    weeklyMu = -Math.abs(mu) * 1.5;
+  } else {
+    // Randomize drift direction each week so stocks don't persistently trend one way
+    weeklyMu = Math.abs(mu) * (Math.random() < 0.5 ? -1 : 1);
+  }
   for (let i = 0; i < 5; i++) {
     price = +(price * (1 + randPct(weeklyMu, sigma))).toFixed(2);
     prices.push(price);
@@ -58,6 +65,20 @@ function computeIndexWeekPrices(weekIdx) {
     }
   });
   return values.map(v => +v.toFixed(2));
+}
+
+function newsImpactsForWeek(week) {
+  const impacts = {};
+  const headlines = gameState.headlines[week] || [];
+  headlines.forEach(h => {
+    if (h && h.impact && h.symbol) {
+      const sign = h.type === 'good' ? 1 : h.type === 'bad' ? -1 : 0;
+      if (sign !== 0) {
+        impacts[h.symbol] = (impacts[h.symbol] || 0) + sign;
+      }
+    }
+  });
+  return impacts;
 }
 
 function startGame() {
@@ -156,13 +177,15 @@ function nextWeek() {
     return;
   }
   gameState.week += 1;
+  const impacts = newsImpactsForWeek(gameState.week - 1);
   Object.keys(gameState.prices).forEach(sym => {
     if (sym === INDEX_SYMBOL) return;
     const arr = gameState.prices[sym];
     const prev = arr[arr.length - 1];
     const last = prev[prev.length - 1];
     const comp = companies.find(c => c.symbol === sym);
-    arr.push(generateWeekPrices(last, comp.mu, comp.sigma));
+    const impact = impacts[sym] || 0;
+    arr.push(generateWeekPrices(last, comp.mu, comp.sigma, impact));
   });
   const indexWeek = computeIndexWeekPrices(gameState.prices[INDEX_SYMBOL].length);
   gameState.prices[INDEX_SYMBOL].push(indexWeek);
