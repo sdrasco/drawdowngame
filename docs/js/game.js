@@ -153,16 +153,48 @@ function updateRank() {
   }
 }
 
+function showGameOverDialog() {
+  const dialogEl = document.getElementById('gameOverDialog');
+  if (!dialogEl) return;
+  const admireBtn = document.getElementById('gameOverAdmire');
+  const newBtn = document.getElementById('gameOverNew');
+  const menuBtn = document.getElementById('gameOverMenu');
+
+  function cleanup() {
+    admireBtn.removeEventListener('click', onAdmire);
+    newBtn.removeEventListener('click', onNew);
+    menuBtn.removeEventListener('click', onMenu);
+    dialogEl.classList.add('hidden');
+  }
+
+  function onAdmire() {
+    cleanup();
+    window.location.href = 'game-over.html';
+  }
+
+  function onNew() {
+    cleanup();
+    sessionStorage.removeItem('backTo');
+    localStorage.clear();
+    window.location.href = 'play.html';
+  }
+
+  function onMenu() {
+    cleanup();
+    sessionStorage.removeItem('backTo');
+    localStorage.clear();
+    window.location.href = 'index.html';
+  }
+
+  admireBtn.addEventListener('click', onAdmire);
+  newBtn.addEventListener('click', onNew);
+  menuBtn.addEventListener('click', onMenu);
+  dialogEl.classList.remove('hidden');
+}
+
 function endGame() {
   const afterScore = () => {
-    const admire = confirm('Game over.\nClick OK to admire your work or Cancel to start a new game.');
-    if (admire) {
-      window.location.href = 'game-over.html';
-    } else {
-      sessionStorage.removeItem('backTo');
-      localStorage.clear();
-      window.location.href = 'play.html';
-    }
+    showGameOverDialog();
   };
   if (window.drawdownHighScores) {
     window.drawdownHighScores.check(gameState.netWorth, afterScore);
