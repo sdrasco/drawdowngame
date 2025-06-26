@@ -169,7 +169,9 @@ function showPlaceholder(msg) {
 }
 
 document.getElementById('doneBtn').addEventListener('click', nextWeek);
-document.getElementById('dataBtn').addEventListener('click', () => showPlaceholder('Data'));
+document.getElementById('dataBtn').addEventListener('click', () => {
+  window.location.href = 'analysis.html';
+});
 // TODO: replace placeholder with a full portfolio screen showing
 // open positions and trading performance metrics like max drawdown,
 // sharpe ratio, and gain to pain ratio.
