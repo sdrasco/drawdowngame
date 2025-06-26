@@ -179,8 +179,37 @@ select {
   margin: 1rem auto;
 }
 
+.trade-container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#tradeForm {
+  margin-bottom: 1rem;
+}
+
+#tradeHistoryTable {
+  margin: 1rem auto;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 400px;
+}
+
+#tradeHistoryTable th,
+#tradeHistoryTable td {
+  border: 1px solid #33ff33;
+  padding: 0.5rem;
+}
+
+.confirm-message {
+  margin: 0.5rem auto;
+  color: #66ff66;
+}
+
 #tradeQtySlider {
   width: 100%;
+  accent-color: #33ff33;
 }
 
 .portfolio-container {
