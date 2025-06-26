@@ -7,15 +7,19 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <h1>Portfolio</h1>
-  <div>Net Worth: $<span id="pNetWorth">0</span></div>
-  <div>Cash: $<span id="pCash">0</span></div>
-  <div>Max Drawdown: <span id="maxDrawdown">0</span>%</div>
-  <div>Sharpe Ratio: <span id="sharpeRatio">0</span></div>
-  <div>Gain to Pain: <span id="gainToPain">0</span></div>
-  <table id="positionsTable"></table>
-  <div class="analysis-nav">
-    <button id="backBtn" type="button">Back</button>
+  <div class="portfolio-container">
+    <h1>Portfolio</h1>
+    <table class="metrics-table">
+      <tr><th>Net Worth</th><td>$<span id="pNetWorth">0</span></td></tr>
+      <tr><th>Cash</th><td>$<span id="pCash">0</span></td></tr>
+      <tr><th>Max Drawdown</th><td><span id="maxDrawdown">0</span>%</td></tr>
+      <tr><th>Sharpe Ratio</th><td><span id="sharpeRatio">0</span></td></tr>
+      <tr><th>Gain to Pain</th><td><span id="gainToPain">0</span></td></tr>
+    </table>
+    <table id="positionsTable"></table>
+    <div class="analysis-nav">
+      <button id="backBtn" type="button">Back to Overview</button>
+    </div>
   </div>
   <script src="js/storage.js"></script>
   <script src="js/player.js"></script>
