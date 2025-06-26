@@ -32,8 +32,9 @@ function renderMarketChart() {
 
   ctx.strokeStyle = '#39ff14';
   ctx.lineWidth = 2;
-  ctx.shadowColor = '#39ff14';
-  ctx.shadowBlur = 4;
+  // draw axes without glow
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
   ctx.beginPath();
   ctx.moveTo(paddingLeft, paddingTop);
   ctx.lineTo(paddingLeft, paddingTop + chartHeight);
@@ -76,6 +77,9 @@ function renderMarketChart() {
       y: paddingTop + chartHeight - ((val - min) / range) * chartHeight
     };
   });
+  // enable glow for the index line
+  ctx.shadowColor = '#39ff14';
+  ctx.shadowBlur = 4;
   ctx.beginPath();
   if (points.length > 0) {
     ctx.moveTo(points[0].x, points[0].y);
@@ -87,6 +91,9 @@ function renderMarketChart() {
     ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
   }
   ctx.stroke();
+  // disable glow for remaining elements
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
 
   // draw x-axis ticks and labels
   const startWeek = gameState.week - marketHistory.length + 1;
