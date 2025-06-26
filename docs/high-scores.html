@@ -36,6 +36,37 @@
   <h1>High Scores</h1>
   <table id="scoresTable"></table>
   <p><a href="index.html">Back</a></p>
-  <script src="js/highscores.js"></script>
+
+  <script type="module">
+    import { initScores, loadBoard, watchBoard } from './js/highscores.js';
+
+    // Render function: builds the table rows
+    function render(scores) {
+      const tbl = document.getElementById('scoresTable');
+      if (!tbl) return;
+      tbl.innerHTML = '';
+      // header
+      const header = document.createElement('tr');
+      header.innerHTML = '<th>Rank</th><th>Name</th><th>Net Worth</th>';
+      tbl.appendChild(header);
+      // rows
+      scores.forEach((s, idx) => {
+        const row = document.createElement('tr');
+        row.innerHTML =
+          `<td>${idx + 1}</td>` +
+          `<td>${s.player}</td>` +
+          `<td>$${s.score.toLocaleString()}</td>`;
+        tbl.appendChild(row);
+      });
+    }
+
+    // On page load: seed if needed, then show & watch the board
+    document.addEventListener('DOMContentLoaded', () => {
+      initScores().then(() => {
+        loadBoard().then(render);
+        watchBoard(render);
+      });
+    });
+  </script>
 </body>
 </html>
