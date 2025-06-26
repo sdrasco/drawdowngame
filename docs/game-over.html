@@ -20,9 +20,7 @@
   <div class="menu">
     <button id="dataBtn">Analysis</button>
     <button id="portfolioBtn">Portfolio</button>
-    <button id="tradeBtn" onclick="location.href='trade.html'">Trade</button>
-    <button id="doneBtn" class="advance">Advance to Next Week</button>
-    <button id="cashOutBtn">Retire</button>
+    <button id="newGameBtn">Start New Game</button>
   </div>
   <div id="username" class="username"></div>
   <div id="usernamePrompt" class="username-prompt hidden">
@@ -48,7 +46,7 @@
   <script type="module" src="js/highscores.js"></script>
   <script src="js/game.js"></script>
   <script>
-    sessionStorage.setItem('backTo', 'play.html');
+    sessionStorage.setItem('backTo', 'game-over.html');
   </script>
 </body>
 </html>

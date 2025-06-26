@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('pCash').textContent = gameState.cash.toLocaleString();
   renderPositions();
   renderMetrics();
+  const back = document.getElementById('backBtn');
+  if (back) back.addEventListener('click', () => {
+    const dest = sessionStorage.getItem('backTo') || 'play.html';
+    window.location.href = dest;
+  });
 });
 
 function renderPositions() {
