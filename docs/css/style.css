@@ -182,3 +182,25 @@ select {
 #tradeQtySlider {
   width: 100%;
 }
+
+.portfolio-container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.metrics-table,
+#positionsTable {
+  margin: 1rem auto;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 400px;
+}
+
+.metrics-table th,
+.metrics-table td,
+#positionsTable th,
+#positionsTable td {
+  border: 1px solid #33ff33;
+  padding: 0.5rem;
+}
