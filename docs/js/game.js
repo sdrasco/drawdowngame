@@ -199,86 +199,10 @@ function populateTradeSymbols() {
   });
 }
 
-function updateTradeInfo() {
-  const sym = document.getElementById('tradeSymbol').value;
-  const weeks = gameState.prices[sym];
-  if (!weeks) return;
-  const week = weeks[weeks.length - 1];
-  const price = week[week.length - 1];
-  document.getElementById('tradePrice').textContent = price.toFixed(2);
-
-  const slider = document.getElementById('tradeQtySlider');
-  const input = document.getElementById('tradeQty');
-  const maxBuy = Math.floor(gameState.cash / price);
-  const holdings = (gameState.positions[sym] && gameState.positions[sym].qty) || 0;
-  const max = Math.max(maxBuy, holdings, 1);
-  slider.max = max;
-  slider.value = 1;
-  input.value = 1;
-}
-
 function openTrade() {
-  populateTradeSymbols();
-  updateTradeInfo();
-  document.getElementById('tradeForm').classList.remove('hidden');
-}
-
-function closeTrade() {
-  document.getElementById('tradeForm').classList.add('hidden');
-}
-
-function doBuy() {
-  const sym = document.getElementById('tradeSymbol').value.trim().toUpperCase();
-  const qty = parseInt(document.getElementById('tradeQty').value, 10);
-  if (!sym || !qty) return;
-  const weeks = gameState.prices[sym];
-  if (!weeks) {
-    alert('Unknown symbol');
-    return;
-  }
-  const week = weeks[weeks.length - 1];
-  const price = week[week.length - 1];
-  if (!buyStock(gameState, sym, qty, price)) {
-    alert('Not enough cash');
-  } else {
-    updateRank();
-    updateStatus();
-    updateTradeInfo();
-    saveState(gameState);
-  }
-}
-
-function doSell() {
-  const sym = document.getElementById('tradeSymbol').value.trim().toUpperCase();
-  const qty = parseInt(document.getElementById('tradeQty').value, 10);
-  if (!sym || !qty) return;
-  const weeks = gameState.prices[sym];
-  if (!weeks) {
-    alert('Unknown symbol');
-    return;
-  }
-  const week = weeks[weeks.length - 1];
-  const price = week[week.length - 1];
-  if (!sellStock(gameState, sym, qty, price)) {
-    alert('Not enough shares');
-  } else {
-    updateRank();
-    updateStatus();
-    updateTradeInfo();
-    saveState(gameState);
-  }
+  window.location.href = 'trade.html';
 }
 
 document.getElementById('tradeBtn').addEventListener('click', openTrade);
-document.getElementById('tradeCloseBtn').addEventListener('click', closeTrade);
-document.getElementById('buyBtn').addEventListener('click', doBuy);
-document.getElementById('sellBtn').addEventListener('click', doSell);
 document.getElementById('cashOutBtn').addEventListener('click', cashOut);
-document.getElementById('tradeSymbol').addEventListener('change', updateTradeInfo);
-document.getElementById('tradeQtySlider').addEventListener('input', e => {
-  document.getElementById('tradeQty').value = e.target.value;
-});
-document.getElementById('tradeQty').addEventListener('input', e => {
-  document.getElementById('tradeQtySlider').value = e.target.value;
-});
 

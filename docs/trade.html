@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drawdown - Trade</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h1>Trade</h1>
+  <div id="tradeForm">
+    <label for="tradeSymbol">Symbol</label><br/>
+    <select id="tradeSymbol"></select><br/>
+    <div>Price: $<span id="tradePrice">0.00</span></div>
+    <label for="tradeQty">Quantity</label><br/>
+    <input id="tradeQty" type="number" min="1" value="1" /><br/>
+    <input id="tradeQtySlider" type="range" min="1" value="1" /><br/>
+    <button type="button" id="buyBtn">Buy</button>
+    <button type="button" id="sellBtn">Sell</button>
+  </div>
+  <div class="analysis-nav">
+    <button type="button" onclick="location.href='play.html'">Back</button>
+  </div>
+  <script src="js/storage.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/trade.js"></script>
+</body>
+</html>
