@@ -32,17 +32,20 @@ const MAX_SCORES = 10;
 
 // 4. Seed initial fake scores if the collection is empty
 export async function initScores() {
-  // check if any score exists
-  const checkSnap = await getDocs(query(scoresRef, limit(1)));
-  if (!checkSnap.empty) return; // already seeded
+  // check how many scores exist
+  const existingSnap = await getDocs(scoresRef);
+  const existingCount = existingSnap.size;
+  if (existingCount >= MAX_SCORES) return; // already seeded
+
+  const seedCount = MAX_SCORES - existingCount;
 
   // load random names
   const resp = await fetch('data/random_names.json');
   const names = await resp.json();
 
-  // build & write MAX_SCORES fake entries
+  // build & write seedCount fake entries
   const writes = [];
-  for (let i = 0; i < MAX_SCORES; i++) {
+  for (let i = 0; i < seedCount; i++) {
     const player = names[Math.floor(Math.random() * names.length)];
     const score  = Math.floor(Math.random() * 500000 + 5000);
     writes.push(
