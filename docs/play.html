@@ -20,7 +20,7 @@
   <div class="menu">
     <button id="dataBtn">Analysis</button>
     <button id="portfolioBtn">Portfolio</button>
-    <button id="tradeBtn">Trade</button>
+    <button id="tradeBtn" onclick="location.href='trade.html'">Trade</button>
     <button id="doneBtn" class="advance">Advance to Next Week</button>
     <button id="cashOutBtn">Cash Out</button>
   </div>
@@ -39,19 +39,6 @@
       <input id="scoreInput" type="text" autocomplete="off" /><br/>
       <button type="button" id="scoreSubmit">Save</button>
       <button type="button" id="scoreRandom">Random Name</button>
-    </form>
-  </div>
-  <div id="tradeForm" class="username-prompt hidden">
-    <form>
-      <label for="tradeSymbol">Symbol</label><br/>
-      <select id="tradeSymbol"></select><br/>
-      <div>Price: $<span id="tradePrice">0.00</span></div>
-      <label for="tradeQty">Quantity</label><br/>
-      <input id="tradeQty" type="number" min="1" value="1" /><br/>
-      <input id="tradeQtySlider" type="range" min="1" value="1" /><br/>
-      <button type="button" id="buyBtn">Buy</button>
-      <button type="button" id="sellBtn">Sell</button>
-      <button type="button" id="tradeCloseBtn">Close</button>
     </form>
   </div>
   <script src="js/storage.js"></script>
