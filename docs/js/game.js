@@ -59,12 +59,16 @@ function computeIndexWeekPrices(weekIdx) {
 
 function startGame() {
   gameState = loadState();
+  if (gameState && !gameState.positions) {
+    gameState.positions = {};
+  }
   if (!gameState) {
     gameState = {
       week: START_WEEK,
       maxWeeks: 104,
       cash: 35000,
       netWorth: 35000,
+      positions: {},
       rank: 'Novice',
       headlines: {},
       prices: {}
@@ -85,6 +89,7 @@ function startGame() {
     }
     saveState(gameState);
   }
+  computeNetWorth(gameState);
   displayUsername();
   updateStatus();
   initMarketHistory();
@@ -142,10 +147,7 @@ function nextWeek() {
   });
   const indexWeek = computeIndexWeekPrices(gameState.prices[INDEX_SYMBOL].length);
   gameState.prices[INDEX_SYMBOL].push(indexWeek);
-  // simple demo economic change
-  const change = Math.floor(Math.random() * 1500 - 500);
-  gameState.cash += change;
-  gameState.netWorth += change;
+  computeNetWorth(gameState);
   updateRank();
   updateStatus();
   updateMarket();
@@ -175,7 +177,61 @@ document.getElementById('dataBtn').addEventListener('click', () => {
 // TODO: replace placeholder with a full portfolio screen showing
 // open positions and trading performance metrics like max drawdown,
 // sharpe ratio, and gain to pain ratio.
-document.getElementById('portfolioBtn').addEventListener('click', () => showPlaceholder('Portfolio'));
-document.getElementById('tradeBtn').addEventListener('click', () => showPlaceholder('Trade'));
+document.getElementById('portfolioBtn').addEventListener('click', () => {
+  window.location.href = 'portfolio.html';
+});
+
+function openTrade() {
+  document.getElementById('tradeForm').classList.remove('hidden');
+}
+
+function closeTrade() {
+  document.getElementById('tradeForm').classList.add('hidden');
+}
+
+function doBuy() {
+  const sym = document.getElementById('tradeSymbol').value.trim().toUpperCase();
+  const qty = parseInt(document.getElementById('tradeQty').value, 10);
+  if (!sym || !qty) return;
+  const weeks = gameState.prices[sym];
+  if (!weeks) {
+    alert('Unknown symbol');
+    return;
+  }
+  const week = weeks[weeks.length - 1];
+  const price = week[week.length - 1];
+  if (!buyStock(gameState, sym, qty, price)) {
+    alert('Not enough cash');
+  } else {
+    updateRank();
+    updateStatus();
+    saveState(gameState);
+  }
+}
+
+function doSell() {
+  const sym = document.getElementById('tradeSymbol').value.trim().toUpperCase();
+  const qty = parseInt(document.getElementById('tradeQty').value, 10);
+  if (!sym || !qty) return;
+  const weeks = gameState.prices[sym];
+  if (!weeks) {
+    alert('Unknown symbol');
+    return;
+  }
+  const week = weeks[weeks.length - 1];
+  const price = week[week.length - 1];
+  if (!sellStock(gameState, sym, qty, price)) {
+    alert('Not enough shares');
+  } else {
+    updateRank();
+    updateStatus();
+    saveState(gameState);
+  }
+}
+
+document.getElementById('tradeBtn').addEventListener('click', openTrade);
+document.getElementById('tradeCloseBtn').addEventListener('click', closeTrade);
+document.getElementById('buyBtn').addEventListener('click', doBuy);
+document.getElementById('sellBtn').addEventListener('click', doSell);
 document.getElementById('cashOutBtn').addEventListener('click', cashOut);
 
