@@ -165,4 +165,11 @@ function drawChart(history) {
   ctx.fillText('Week', paddingLeft + chartWidth / 2, canvas.height - 10);
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  const back = document.getElementById('backBtn');
+  if (back) back.addEventListener('click', () => {
+    const dest = sessionStorage.getItem('backTo') || 'play.html';
+    window.location.href = dest;
+  });
+});

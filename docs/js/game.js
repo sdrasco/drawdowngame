@@ -129,14 +129,27 @@ function updateRank() {
   }
 }
 
+function endGame() {
+  const afterScore = () => {
+    const admire = confirm('Game over.\nClick OK to admire your work or Cancel to start a new game.');
+    if (admire) {
+      window.location.href = 'game-over.html';
+    } else {
+      sessionStorage.removeItem('backTo');
+      localStorage.clear();
+      window.location.href = 'play.html';
+    }
+  };
+  if (window.drawdownHighScores) {
+    window.drawdownHighScores.check(gameState.netWorth, afterScore);
+  } else {
+    afterScore();
+  }
+}
+
 function nextWeek() {
   if (gameState.week >= gameState.maxWeeks) {
-    alert('Game over');
-    if (window.drawdownHighScores) {
-      window.drawdownHighScores.check(gameState.netWorth, () => {
-        window.location.href = 'high-scores.html';
-      });
-    }
+    endGame();
     return;
   }
   gameState.week += 1;
@@ -162,28 +175,24 @@ function nextWeek() {
 }
 
 function cashOut() {
-  alert('Game over');
-  if (window.drawdownHighScores) {
-    window.drawdownHighScores.check(gameState.netWorth, () => {
-      window.location.href = 'high-scores.html';
-    });
-  } else {
-    window.location.href = 'high-scores.html';
-  }
+  endGame();
 }
 
 function showPlaceholder(msg) {
   alert(msg + ' screen goes here.');
 }
 
-document.getElementById('doneBtn').addEventListener('click', nextWeek);
-document.getElementById('dataBtn').addEventListener('click', () => {
+const doneEl = document.getElementById('doneBtn');
+if (doneEl) doneEl.addEventListener('click', nextWeek);
+const dataEl = document.getElementById('dataBtn');
+if (dataEl) dataEl.addEventListener('click', () => {
   window.location.href = 'analysis.html';
 });
 // TODO: replace placeholder with a full portfolio screen showing
 // open positions and trading performance metrics like max drawdown,
 // sharpe ratio, and gain to pain ratio.
-document.getElementById('portfolioBtn').addEventListener('click', () => {
+const portEl = document.getElementById('portfolioBtn');
+if (portEl) portEl.addEventListener('click', () => {
   window.location.href = 'portfolio.html';
 });
 
@@ -203,6 +212,14 @@ function openTrade() {
   window.location.href = 'trade.html';
 }
 
-document.getElementById('tradeBtn').addEventListener('click', openTrade);
-document.getElementById('cashOutBtn').addEventListener('click', cashOut);
+const tradeEl = document.getElementById('tradeBtn');
+if (tradeEl) tradeEl.addEventListener('click', openTrade);
+const cashEl = document.getElementById('cashOutBtn');
+if (cashEl) cashEl.addEventListener('click', cashOut);
+const newGameEl = document.getElementById('newGameBtn');
+if (newGameEl) newGameEl.addEventListener('click', () => {
+  sessionStorage.removeItem('backTo');
+  localStorage.clear();
+  window.location.href = 'play.html';
+});
 
