@@ -1,5 +1,6 @@
 let companies = [];
 let gameState;
+let currentIndex = 0;
 
 function init() {
   fetch('data/company_master_data.json')
@@ -9,9 +10,25 @@ function init() {
       populateSelect();
       gameState = loadState();
       const sel = document.getElementById('companySelect');
-      sel.addEventListener('change', renderSelection);
+      sel.addEventListener('change', () => {
+        currentIndex = companies.findIndex(c => c.symbol === sel.value);
+        renderSelection();
+      });
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        if (companies.length === 0) return;
+        currentIndex = (currentIndex - 1 + companies.length) % companies.length;
+        sel.value = companies[currentIndex].symbol;
+        renderSelection();
+      });
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        if (companies.length === 0) return;
+        currentIndex = (currentIndex + 1) % companies.length;
+        sel.value = companies[currentIndex].symbol;
+        renderSelection();
+      });
       if (companies.length > 0) {
         sel.value = companies[0].symbol;
+        currentIndex = 0;
         renderSelection();
       }
     });
@@ -36,6 +53,13 @@ function renderSelection() {
   drawChart(closes);
   if (closes.length > 0) {
     document.getElementById('price').textContent = closes[closes.length - 1].toFixed(2);
+    document.getElementById('average').textContent = computeAverage(closes).toFixed(2);
+    document.getElementById('high').textContent = Math.max(...closes).toFixed(2);
+    document.getElementById('low').textContent = Math.min(...closes).toFixed(2);
+  } else {
+    document.getElementById('average').textContent = '0';
+    document.getElementById('high').textContent = '0';
+    document.getElementById('low').textContent = '0';
   }
   const vol = computeVolatility(closes);
   document.getElementById('volatility').textContent = vol.toFixed(4);
@@ -50,6 +74,11 @@ function computeVolatility(prices) {
   const mean = rets.reduce((a, b) => a + b, 0) / rets.length;
   const variance = rets.reduce((a, b) => a + (b - mean) ** 2, 0) / rets.length;
   return Math.sqrt(variance);
+}
+
+function computeAverage(prices) {
+  if (prices.length === 0) return 0;
+  return prices.reduce((a, b) => a + b, 0) / prices.length;
 }
 
 function drawChart(history) {
