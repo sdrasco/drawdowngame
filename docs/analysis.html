@@ -7,25 +7,27 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <h1>Company Analysis</h1>
-  <div>
-    <label for="companySelect">Select Company:</label>
-    <select id="companySelect"></select>
-  </div>
-  <div id="metrics">
-    <div>Price: $<span id="price">0</span></div>
-    <div>Volatility: <span id="volatility">0</span></div>
-    <div>Average: $<span id="average">0</span></div>
-    <div>High: $<span id="high">0</span></div>
-    <div>Low: $<span id="low">0</span></div>
-  </div>
-  <div class="chart-wrapper">
-    <canvas id="companyChart" width="600" height="350"></canvas>
-  </div>
-  <div class="analysis-nav">
-    <button id="prevBtn" type="button">Previous</button>
-    <button id="nextBtn" type="button">Next</button>
-    <button id="backBtn" type="button">Back</button>
+  <div class="analysis-container">
+    <h1>Company Analysis</h1>
+    <div class="company-select">
+      <label for="companySelect">Select Company:</label>
+      <select id="companySelect"></select>
+    </div>
+    <div id="metrics">
+      <div>Price: $<span id="price">0</span></div>
+      <div>Volatility: <span id="volatility">0</span></div>
+      <div>Average: $<span id="average">0</span></div>
+      <div>High: $<span id="high">0</span></div>
+      <div>Low: $<span id="low">0</span></div>
+    </div>
+    <div class="chart-wrapper">
+      <canvas id="companyChart" width="600" height="350"></canvas>
+    </div>
+    <div class="analysis-nav">
+      <button id="nextBtn" type="button">Next Company</button>
+      <button id="prevBtn" type="button">Previous Company</button>
+      <button id="backBtn" type="button">Back to Overview</button>
+    </div>
   </div>
   <script src="js/storage.js"></script>
   <script src="js/analysis.js"></script>
