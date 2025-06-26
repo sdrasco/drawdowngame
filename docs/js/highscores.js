@@ -1,78 +1,73 @@
-(function() {
-  const STORAGE_KEY = 'drawdownHighScores';
-  const MAX_SCORES = 10;
+// highscores.js
+// — Firebase + Firestore high-score board with initial fake seeding
 
-  function loadScores() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    try { return JSON.parse(raw); } catch { return null; }
+// 1. Firebase SDK imports
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  limit,
+  getDocs,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// 2. Your Firebase config (from console)
+const firebaseConfig = {
+  apiKey: "AIzaSyARFwJOMSm3h_nyf4EbS4vPtHhJfiDAVjc",
+  authDomain: "drawdowngame-high-scores.firebaseapp.com",
+  projectId: "drawdowngame-high-scores",
+  storageBucket: "drawdowngame-high-scores.firebasestorage.app",
+  messagingSenderId: "740833941473",
+  appId: "1:740833941473:web:61e4436f417c4f8535e4a0"
+};
+
+// 3. Init Firebase & Firestore refs
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const scoresRef = collection(db, "scores");
+const MAX_SCORES = 10;
+
+// 4. Seed initial fake scores if the collection is empty
+export async function initScores() {
+  // check if any score exists
+  const checkSnap = await getDocs(query(scoresRef, limit(1)));
+  if (!checkSnap.empty) return; // already seeded
+
+  // load random names
+  const resp = await fetch('data/random_names.json');
+  const names = await resp.json();
+
+  // build & write MAX_SCORES fake entries
+  const writes = [];
+  for (let i = 0; i < MAX_SCORES; i++) {
+    const player = names[Math.floor(Math.random() * names.length)];
+    const score  = Math.floor(Math.random() * 500000 + 5000);
+    writes.push(
+      addDoc(scoresRef, { player, score, ts: Date.now() })
+    );
   }
+  await Promise.all(writes);
+}
 
-  function saveScores(scores) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(scores));
-  }
+// 5. Submit a new real score
+export async function submitScore(player, score) {
+  await addDoc(scoresRef, { player, score, ts: Date.now() });
+}
 
-  function initScores() {
-    let scores = loadScores();
-    if (scores) return scores;
-    scores = [];
-    fetch('data/random_names.json')
-      .then(r => r.json())
-      .then(names => {
-        for (let i = 0; i < MAX_SCORES; i++) {
-          const name = names[Math.floor(Math.random() * names.length)];
-          const score = Math.floor(Math.random() * 500000 + 5000);
-          scores.push({ name, score });
-        }
-        scores.sort((a,b) => b.score - a.score);
-        saveScores(scores);
-        render(scores);
-      });
-    return scores;
-  }
+// 6. Load top-10 once
+export async function loadBoard() {
+  const q = query(scoresRef, orderBy("score", "desc"), limit(MAX_SCORES));
+  const snap = await getDocs(q);
+  return snap.docs.map(d => d.data());
+}
 
-  function render(scores) {
-    const tbl = document.getElementById('scoresTable');
-    if (!tbl) return;
-    tbl.innerHTML = '';
-    const header = document.createElement('tr');
-    header.innerHTML = '<th>Rank</th><th>Name</th><th>Net Worth</th>';
-    tbl.appendChild(header);
-    scores.forEach((s, idx) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `<td>${idx + 1}</td><td>${s.name}</td><td>$${s.score.toLocaleString()}</td>`;
-      tbl.appendChild(row);
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const scores = loadScores();
-    if (scores) {
-      render(scores);
-    } else {
-      initScores();
-    }
+// 7. Live-update listener
+export function watchBoard(callback) {
+  const q = query(scoresRef, orderBy("score", "desc"), limit(MAX_SCORES));
+  return onSnapshot(q, snap => {
+    callback(snap.docs.map(d => d.data()));
   });
-
-  window.drawdownHighScores = {
-    check(score, callback) {
-      let scores = loadScores() || initScores();
-      const lowest = scores[scores.length - 1].score;
-      if (scores.length < MAX_SCORES || score > lowest) {
-        const name = prompt('High score! Enter your name:', localStorage.getItem('drawdownUser') || '');
-        if (name !== null) {
-          if (name.trim()) {
-            localStorage.setItem('drawdownUser', name.trim());
-          }
-          scores.push({ name: localStorage.getItem('drawdownUser'), score });
-          scores.sort((a,b) => b.score - a.score);
-          scores = scores.slice(0, MAX_SCORES);
-          saveScores(scores);
-          if (callback) callback();
-        }
-      } else {
-        if (callback) callback();
-      }
-    }
-  };
-})();
+}
