@@ -2,6 +2,7 @@ let companies = [];
 let gameState;
 const INDEX_SYMBOL = 'INDEX';
 let indexShares = {};
+const START_WEEK = 14;
 
 fetch('data/company_master_data.json')
   .then(r => r.json())
@@ -60,7 +61,7 @@ function startGame() {
   gameState = loadState();
   if (!gameState) {
     gameState = {
-      week: 1,
+      week: START_WEEK,
       maxWeeks: 104,
       cash: 35000,
       netWorth: 35000,
@@ -70,10 +71,18 @@ function startGame() {
     };
     companies.forEach(c => {
       if (c.isIndex) return;
-      const weekPrices = generateWeekPrices(c.initial_price, c.mu, c.sigma);
-      gameState.prices[c.symbol] = [weekPrices];
+      gameState.prices[c.symbol] = [];
+      let last = c.initial_price;
+      for (let i = 0; i < START_WEEK; i++) {
+        const weekPrices = generateWeekPrices(last, c.mu, c.sigma);
+        gameState.prices[c.symbol].push(weekPrices);
+        last = weekPrices[weekPrices.length - 1];
+      }
     });
-    gameState.prices[INDEX_SYMBOL] = [computeIndexWeekPrices(0)];
+    gameState.prices[INDEX_SYMBOL] = [];
+    for (let i = 0; i < START_WEEK; i++) {
+      gameState.prices[INDEX_SYMBOL].push(computeIndexWeekPrices(i));
+    }
     saveState(gameState);
   }
   displayUsername();
