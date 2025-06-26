@@ -13,6 +13,12 @@ input, button {
   margin: 0.25rem 0;
 }
 
+input {
+  background: #000;
+  color: #33ff33;
+  border: 1px solid #33ff33;
+}
+
 button {
   background: #222;
   color: #33ff33;
