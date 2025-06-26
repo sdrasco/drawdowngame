@@ -9,18 +9,23 @@ function shuffle(arr) {
 function generateHeadlines() {
   const n = Math.floor(Math.random() * 5); // 0-4
   if (n === 0) {
-    return ['No market headlines this week.'];
+    return [{ text: 'No market headlines this week.' }];
   }
   const available = companies.filter(c => !c.isIndex);
   shuffle(available);
   const chosen = available.slice(0, n);
   const result = [];
   chosen.forEach(c => {
-    const type = Math.random() < 0.5 ? 'good_news_headlines' : 'bad_news_headlines';
-    const pool = c[type] || [];
+    const typeKey = Math.random() < 0.5 ? 'good_news_headlines' : 'bad_news_headlines';
+    const pool = c[typeKey] || [];
     if (pool.length) {
       const idx = Math.floor(Math.random() * pool.length);
-      result.push(pool[idx]);
+      result.push({
+        text: pool[idx],
+        symbol: c.symbol,
+        type: typeKey === 'good_news_headlines' ? 'good' : 'bad',
+        impact: Math.random() < 0.5
+      });
     }
   });
   return result;
@@ -36,9 +41,10 @@ function renderNews() {
     gameState.headlines[gameState.week] = headlines;
     saveState(gameState);
   }
-  headlines.forEach(text => {
+  headlines.forEach(h => {
     const div = document.createElement('div');
     div.className = 'headline';
+    const text = (h && h.text) || h;
     div.textContent = text;
     container.appendChild(div);
   });
