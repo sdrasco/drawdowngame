@@ -178,7 +178,10 @@ function nextWeek() {
 }
 
 function cashOut() {
-  endGame();
+  const confirmMsg = 'Are you sure you want to retire and cash out?';
+  if (confirm(confirmMsg)) {
+    endGame();
+  }
 }
 
 function showPlaceholder(msg) {

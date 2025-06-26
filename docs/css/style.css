@@ -107,7 +107,8 @@ button:hover {
 .news {
   margin: 1rem auto;
   max-width: 600px;
-  min-height: 4.5rem;
+  /* Reserve space for up to four headlines so the menu doesn't shift */
+  min-height: 8rem;
 }
 
 .news .headline {
