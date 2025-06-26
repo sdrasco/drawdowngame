@@ -30,13 +30,28 @@
     a {
       color: #33ff33;
     }
+    .link-wrapper {
+      font-size: 0.95rem;
+      color: #33ff33;
+      text-decoration: none;
+      border: 1px solid #33ff33;
+      background: #222;
+      padding: 8px 12px;
+      margin: 10px 0;
+      display: block;
+      cursor: pointer;
+    }
+    .link-wrapper:hover {
+      background: #33ff33;
+      color: #000;
+    }
   </style>
 </head>
 <body>
   <h1>High Scores</h1>
   <table id="scoresTable"></table>
   <p><a href="index.html">Back</a></p>
-
+  <a class="link-wrapper" href="https://coff.ee/stevedrasco" target="_blank">Coffee for Drawdowns</a>
   <script type="module">
     import { initScores, loadBoard, watchBoard } from './js/highscores.js';
 
