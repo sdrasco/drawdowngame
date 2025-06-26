@@ -7,19 +7,27 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <h1>Trade</h1>
-  <div id="tradeForm">
-    <label for="tradeSymbol">Symbol</label><br/>
-    <select id="tradeSymbol"></select><br/>
-    <div>Price: $<span id="tradePrice">0.00</span></div>
-    <label for="tradeQty">Quantity</label><br/>
-    <input id="tradeQty" type="number" min="1" value="1" /><br/>
-    <input id="tradeQtySlider" type="range" min="1" value="1" /><br/>
-    <button type="button" id="buyBtn">Buy</button>
-    <button type="button" id="sellBtn">Sell</button>
-  </div>
-  <div class="analysis-nav">
-    <button type="button" onclick="location.href='play.html'">Back</button>
+  <div class="trade-container">
+    <h1>Trade</h1>
+    <table class="metrics-table">
+      <tr><th>Net Worth</th><td>$<span id="tNetWorth">0</span></td></tr>
+      <tr><th>Cash</th><td>$<span id="tCash">0</span></td></tr>
+    </table>
+    <div id="tradeForm">
+      <label for="tradeSymbol">Symbol</label><br/>
+      <select id="tradeSymbol"></select><br/>
+      <div>Price: $<span id="tradePrice">0.00</span></div>
+      <label for="tradeQty">Quantity</label><br/>
+      <input id="tradeQty" type="number" min="1" value="1" /><br/>
+      <input id="tradeQtySlider" type="range" min="1" value="1" /><br/>
+      <button type="button" id="buyBtn">Buy</button>
+      <button type="button" id="sellBtn">Sell</button>
+    </div>
+    <div id="tradeConfirm" class="confirm-message"></div>
+    <table id="tradeHistoryTable"></table>
+    <div class="analysis-nav">
+      <button type="button" onclick="location.href='play.html'">Back</button>
+    </div>
   </div>
   <script src="js/storage.js"></script>
   <script src="js/player.js"></script>

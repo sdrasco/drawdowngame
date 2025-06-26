@@ -1,6 +1,32 @@
 let companies = [];
 let gameState;
 
+function renderMetrics() {
+  if (!gameState) return;
+  computeNetWorth(gameState);
+  document.getElementById('tNetWorth').textContent = gameState.netWorth.toLocaleString();
+  document.getElementById('tCash').textContent = gameState.cash.toLocaleString();
+}
+
+function renderTradeHistory() {
+  const tbl = document.getElementById('tradeHistoryTable');
+  if (!tbl) return;
+  tbl.innerHTML = '';
+  const header = document.createElement('tr');
+  header.innerHTML = '<th>Week</th><th>Type</th><th>Symbol</th><th>Qty</th><th>Price</th>';
+  tbl.appendChild(header);
+  (gameState.tradeHistory || []).forEach(t => {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${t.week}</td><td>${t.type}</td><td>${t.symbol}</td><td>${t.qty}</td><td>$${t.price.toFixed(2)}</td>`;
+    tbl.appendChild(row);
+  });
+}
+
+function confirmTrade(msg) {
+  const el = document.getElementById('tradeConfirm');
+  if (el) el.textContent = msg;
+}
+
 function populateTradeSymbols() {
   const select = document.getElementById('tradeSymbol');
   if (!select) return;
@@ -59,8 +85,13 @@ function doBuy() {
     alert('Not enough cash');
   } else {
     updateRank();
+    if (!gameState.tradeHistory) gameState.tradeHistory = [];
+    gameState.tradeHistory.push({ week: gameState.week, type: 'BUY', symbol: sym, qty, price });
     saveState(gameState);
+    confirmTrade(`Bought ${qty} ${sym} @ $${price.toFixed(2)}`);
+    renderMetrics();
     updateTradeInfo();
+    renderTradeHistory();
   }
 }
 
@@ -79,19 +110,28 @@ function doSell() {
     alert('Not enough shares');
   } else {
     updateRank();
+    if (!gameState.tradeHistory) gameState.tradeHistory = [];
+    gameState.tradeHistory.push({ week: gameState.week, type: 'SELL', symbol: sym, qty, price });
     saveState(gameState);
+    confirmTrade(`Sold ${qty} ${sym} @ $${price.toFixed(2)}`);
+    renderMetrics();
     updateTradeInfo();
+    renderTradeHistory();
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   gameState = loadState();
+  renderMetrics();
+  renderTradeHistory();
   fetch('data/company_master_data.json')
     .then(r => r.json())
     .then(data => {
       companies = data.companies;
       populateTradeSymbols();
       updateTradeInfo();
+      renderMetrics();
+      renderTradeHistory();
     });
 
   document.getElementById('tradeSymbol').addEventListener('change', updateTradeInfo);
