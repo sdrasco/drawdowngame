@@ -75,9 +75,13 @@ button:hover {
   button {
     font-size: 1.2rem;
   }
-  .status,
   .news {
     font-size: 1.2rem;
+  }
+
+  /* Keep the status header small to avoid clutter */
+  .status {
+    font-size: 0.8rem;
   }
 }
 
