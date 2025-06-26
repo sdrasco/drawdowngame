@@ -30,7 +30,10 @@ function renderMarketChart() {
   const max = Math.max(...marketHistory);
   const range = max - min || 1;
 
-  ctx.strokeStyle = '#33ff33';
+  ctx.strokeStyle = '#39ff14';
+  ctx.lineWidth = 2;
+  ctx.shadowColor = '#39ff14';
+  ctx.shadowBlur = 4;
   ctx.beginPath();
   ctx.moveTo(paddingLeft, paddingTop);
   ctx.lineTo(paddingLeft, paddingTop + chartHeight);
@@ -59,17 +62,23 @@ function renderMarketChart() {
 
   const xStep = chartWidth / Math.max(1, marketHistory.length - 1);
 
-  // draw price line
-  ctx.beginPath();
-  marketHistory.forEach((val, idx) => {
-    const x = paddingLeft + idx * xStep;
-    const y = paddingTop + chartHeight - ((val - min) / range) * chartHeight;
-    if (idx === 0) {
-      ctx.moveTo(x, y);
-    } else {
-      ctx.lineTo(x, y);
-    }
+  // draw price line (smoothed)
+  const points = marketHistory.map((val, idx) => {
+    return {
+      x: paddingLeft + idx * xStep,
+      y: paddingTop + chartHeight - ((val - min) / range) * chartHeight
+    };
   });
+  ctx.beginPath();
+  if (points.length > 0) {
+    ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 0; i < points.length - 1; i++) {
+      const midX = (points[i].x + points[i + 1].x) / 2;
+      const midY = (points[i].y + points[i + 1].y) / 2;
+      ctx.quadraticCurveTo(points[i].x, points[i].y, midX, midY);
+    }
+    ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+  }
   ctx.stroke();
 
   // draw x-axis ticks
