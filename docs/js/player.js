@@ -15,3 +15,46 @@ function calculateSharpeRatio(returns) {
 function calculateGainToPainRatio(returns) {
   // TODO: implement gain to pain ratio calculation
 }
+
+function buyStock(state, symbol, qty, price) {
+  const cost = qty * price;
+  if (state.cash < cost) return false;
+  state.cash -= cost;
+  if (!state.positions[symbol]) {
+    state.positions[symbol] = { qty: 0, cost: 0 };
+  }
+  state.positions[symbol].qty += qty;
+  state.positions[symbol].cost += cost;
+  computeNetWorth(state);
+  return true;
+}
+
+function sellStock(state, symbol, qty, price) {
+  const pos = state.positions[symbol];
+  if (!pos || pos.qty < qty) return false;
+  const avgCost = pos.cost / pos.qty;
+  pos.qty -= qty;
+  pos.cost -= avgCost * qty;
+  if (pos.qty <= 0) delete state.positions[symbol];
+  state.cash += qty * price;
+  computeNetWorth(state);
+  return true;
+}
+
+function computeNetWorth(state) {
+  let total = state.cash;
+  const posKeys = Object.keys(state.positions || {});
+  posKeys.forEach(sym => {
+    const priceData = state.prices[sym];
+    if (!priceData || priceData.length === 0) return;
+    const week = priceData[priceData.length - 1];
+    const price = week[week.length - 1];
+    total += state.positions[sym].qty * price;
+  });
+  state.netWorth = +total.toFixed(2);
+  return state.netWorth;
+}
+
+if (typeof module !== 'undefined') {
+  module.exports = { buyStock, sellStock, computeNetWorth };
+}

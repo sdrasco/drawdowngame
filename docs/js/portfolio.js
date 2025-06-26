@@ -1,0 +1,30 @@
+let gameState;
+
+document.addEventListener('DOMContentLoaded', () => {
+  gameState = loadState();
+  if (!gameState) return;
+  if (!gameState.positions) gameState.positions = {};
+  computeNetWorth(gameState);
+  document.getElementById('pNetWorth').textContent = gameState.netWorth.toLocaleString();
+  document.getElementById('pCash').textContent = gameState.cash.toLocaleString();
+  renderPositions();
+});
+
+function renderPositions() {
+  const tbl = document.getElementById('positionsTable');
+  tbl.innerHTML = '';
+  const header = document.createElement('tr');
+  header.innerHTML = '<th>Symbol</th><th>Qty</th><th>Value</th>';
+  tbl.appendChild(header);
+  Object.keys(gameState.positions).forEach(sym => {
+    const pos = gameState.positions[sym];
+    const weeks = gameState.prices[sym];
+    if (!weeks) return;
+    const week = weeks[weeks.length - 1];
+    const price = week[week.length - 1];
+    const row = document.createElement('tr');
+    const value = (pos.qty * price).toFixed(2);
+    row.innerHTML = `<td>${sym}</td><td>${pos.qty}</td><td>$${parseFloat(value).toLocaleString()}</td>`;
+    tbl.appendChild(row);
+  });
+}
