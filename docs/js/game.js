@@ -8,6 +8,12 @@ fetch('data/company_master_data.json')
   .then(r => r.json())
   .then(data => {
     companies = data.companies;
+    // make stocks trend downward by flipping the sign of the drift term
+    companies.forEach(c => {
+      if (typeof c.mu === 'number') {
+        c.mu = -Math.abs(c.mu);
+      }
+    });
     setupMarketIndex();
     ensureUser(() => {
       startGame();
