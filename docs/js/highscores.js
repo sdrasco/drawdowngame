@@ -74,3 +74,19 @@ export function watchBoard(callback) {
     callback(snap.docs.map(d => d.data()));
   });
 }
+
+// 8. Determine if a score qualifies and submit if so
+export async function check(score, cb) {
+  const board = await loadBoard();
+  const needsSave = board.length < MAX_SCORES ||
+    (board.length && score > board[board.length - 1].score);
+  if (needsSave) {
+    await submitScore(window.getUser(), score);
+  }
+  if (typeof cb === 'function') cb();
+}
+
+// expose to callers when loaded as a classic script
+if (typeof window !== 'undefined') {
+  window.drawdownHighScores = { check };
+}
