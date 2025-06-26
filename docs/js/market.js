@@ -48,12 +48,16 @@ function renderMarketChart() {
   const yTicks = 4;
   for (let i = 0; i <= yTicks; i++) {
     const y = paddingTop + chartHeight - (i / yTicks) * chartHeight;
-    const value = (min + (i / yTicks) * range).toFixed(0);
+    const raw = min + (i / yTicks) * range;
+    let label = raw.toFixed(0);
+    if (Math.abs(raw) >= 1000) {
+      label = `${Math.round(raw / 1000)}k`;
+    }
     ctx.beginPath();
     ctx.moveTo(paddingLeft - 5, y);
     ctx.lineTo(paddingLeft, y);
     ctx.stroke();
-    ctx.fillText(value, paddingLeft - 8, y);
+    ctx.fillText(label, paddingLeft - 8, y);
   }
 
   ctx.save();
@@ -84,13 +88,20 @@ function renderMarketChart() {
   }
   ctx.stroke();
 
-  // draw x-axis ticks
+  // draw x-axis ticks and labels
+  const startWeek = gameState.week - marketHistory.length + 1;
+  const labelStep = Math.ceil(marketHistory.length / 10);
   marketHistory.forEach((_, idx) => {
     const x = paddingLeft + idx * xStep;
     ctx.beginPath();
     ctx.moveTo(x, paddingTop + chartHeight);
     ctx.lineTo(x, paddingTop + chartHeight + 5);
     ctx.stroke();
+    if (idx % labelStep === 0 || idx === marketHistory.length - 1) {
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.fillText(startWeek + idx, x, paddingTop + chartHeight + 8);
+    }
   });
 
   ctx.textAlign = 'center';
