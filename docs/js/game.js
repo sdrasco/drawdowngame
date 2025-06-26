@@ -90,6 +90,9 @@ function startGame() {
     saveState(gameState);
   }
   computeNetWorth(gameState);
+  if (!gameState.netWorthHistory) {
+    gameState.netWorthHistory = [gameState.netWorth];
+  }
   displayUsername();
   updateStatus();
   initMarketHistory();
@@ -148,6 +151,9 @@ function nextWeek() {
   const indexWeek = computeIndexWeekPrices(gameState.prices[INDEX_SYMBOL].length);
   gameState.prices[INDEX_SYMBOL].push(indexWeek);
   computeNetWorth(gameState);
+  if (gameState.netWorthHistory) {
+    gameState.netWorthHistory.push(gameState.netWorth);
+  }
   updateRank();
   updateStatus();
   updateMarket();

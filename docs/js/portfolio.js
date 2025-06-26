@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('pNetWorth').textContent = gameState.netWorth.toLocaleString();
   document.getElementById('pCash').textContent = gameState.cash.toLocaleString();
   renderPositions();
+  renderMetrics();
 });
 
 function renderPositions() {
@@ -27,4 +28,15 @@ function renderPositions() {
     row.innerHTML = `<td>${sym}</td><td>${pos.qty}</td><td>$${parseFloat(value).toLocaleString()}</td>`;
     tbl.appendChild(row);
   });
+}
+
+function renderMetrics() {
+  const hist = gameState.netWorthHistory || [];
+  const rets = [];
+  for (let i = 1; i < hist.length; i++) {
+    rets.push((hist[i] - hist[i - 1]) / hist[i - 1]);
+  }
+  document.getElementById('maxDrawdown').textContent = calculateMaxDrawdown(hist);
+  document.getElementById('sharpeRatio').textContent = calculateSharpeRatio(rets);
+  document.getElementById('gainToPain').textContent = calculateGainToPainRatio(rets);
 }

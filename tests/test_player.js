@@ -1,4 +1,11 @@
-const { buyStock, sellStock, computeNetWorth } = require('../docs/js/player.js');
+const {
+  buyStock,
+  sellStock,
+  computeNetWorth,
+  calculateMaxDrawdown,
+  calculateSharpeRatio,
+  calculateGainToPainRatio
+} = require('../docs/js/player.js');
 const assert = require('assert');
 
 function testBuySell() {
@@ -23,8 +30,23 @@ function testBuySell() {
   assert.strictEqual(state.netWorth, 1000);
 }
 
+function testMetrics() {
+  const history = [100, 110, 105, 120, 118];
+  const returns = [];
+  for (let i = 1; i < history.length; i++) {
+    returns.push((history[i] - history[i - 1]) / history[i - 1]);
+  }
+  const dd = calculateMaxDrawdown(history);
+  const sr = calculateSharpeRatio(returns);
+  const gp = calculateGainToPainRatio(returns);
+  assert.ok(Math.abs(dd - 4.55) < 0.01);
+  assert.ok(sr > 0.57 && sr < 0.58);
+  assert.ok(gp > 2.9 && gp < 2.92);
+}
+
 try {
   testBuySell();
+  testMetrics();
   console.log('All tests passed');
 } catch (err) {
   console.error('Test failed');
