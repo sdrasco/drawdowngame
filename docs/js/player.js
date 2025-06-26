@@ -5,15 +5,36 @@
 // - Gain to Pain ratio: total return divided by the absolute value of all negative returns
 
 function calculateMaxDrawdown(history) {
-  // TODO: implement max drawdown calculation
+  if (!history || history.length === 0) return 0;
+  let peak = history[0];
+  let maxDD = 0;
+  for (let i = 1; i < history.length; i++) {
+    const value = history[i];
+    if (value > peak) {
+      peak = value;
+    } else {
+      const dd = (peak - value) / peak;
+      if (dd > maxDD) maxDD = dd;
+    }
+  }
+  return +(maxDD * 100).toFixed(2);
 }
 
 function calculateSharpeRatio(returns) {
-  // TODO: implement sharpe ratio calculation
+  if (!returns || returns.length === 0) return 0;
+  const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
+  const variance = returns.reduce((a, b) => a + (b - mean) ** 2, 0) / returns.length;
+  const std = Math.sqrt(variance);
+  if (std === 0) return 0;
+  return +(mean / std).toFixed(4);
 }
 
 function calculateGainToPainRatio(returns) {
-  // TODO: implement gain to pain ratio calculation
+  if (!returns || returns.length === 0) return 0;
+  const total = returns.reduce((a, b) => a + b, 0);
+  const pain = returns.filter(r => r < 0).reduce((a, b) => a + Math.abs(b), 0);
+  if (pain === 0) return 0;
+  return +(total / pain).toFixed(4);
 }
 
 function buyStock(state, symbol, qty, price) {
@@ -56,5 +77,12 @@ function computeNetWorth(state) {
 }
 
 if (typeof module !== 'undefined') {
-  module.exports = { buyStock, sellStock, computeNetWorth };
+  module.exports = {
+    buyStock,
+    sellStock,
+    computeNetWorth,
+    calculateMaxDrawdown,
+    calculateSharpeRatio,
+    calculateGainToPainRatio
+  };
 }
