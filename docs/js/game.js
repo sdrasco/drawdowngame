@@ -8,12 +8,7 @@ fetch('data/company_master_data.json')
   .then(r => r.json())
   .then(data => {
     companies = data.companies;
-    // make stocks trend downward by flipping the sign of the drift term
-    companies.forEach(c => {
-      if (typeof c.mu === 'number') {
-        c.mu = -Math.abs(c.mu);
-      }
-    });
+    // keep mu as provided; drift direction will change week by week
     setupMarketIndex();
     ensureUser(() => {
       startGame();
@@ -27,8 +22,10 @@ function randPct(mu, sigma) {
 function generateWeekPrices(lastPrice, mu, sigma) {
   const prices = [];
   let price = lastPrice;
+  // Randomize drift direction each week so stocks don't persistently trend one way
+  const weeklyMu = Math.abs(mu) * (Math.random() < 0.5 ? -1 : 1);
   for (let i = 0; i < 5; i++) {
-    price = +(price * (1 + randPct(mu, sigma))).toFixed(2);
+    price = +(price * (1 + randPct(weeklyMu, sigma))).toFixed(2);
     prices.push(price);
   }
   return prices;
