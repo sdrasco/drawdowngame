@@ -44,9 +44,11 @@
   <div id="tradeForm" class="username-prompt hidden">
     <form>
       <label for="tradeSymbol">Symbol</label><br/>
-      <input id="tradeSymbol" type="text" autocomplete="off" /><br/>
+      <select id="tradeSymbol"></select><br/>
+      <div>Price: $<span id="tradePrice">0.00</span></div>
       <label for="tradeQty">Quantity</label><br/>
-      <input id="tradeQty" type="number" min="1" /><br/>
+      <input id="tradeQty" type="number" min="1" value="1" /><br/>
+      <input id="tradeQtySlider" type="range" min="1" value="1" /><br/>
       <button type="button" id="buyBtn">Buy</button>
       <button type="button" id="sellBtn">Sell</button>
       <button type="button" id="tradeCloseBtn">Close</button>
