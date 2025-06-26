@@ -95,7 +95,6 @@ button:hover {
 .chart-wrapper {
   margin: 1rem auto;
   max-width: 600px;
-  border: 1px solid #33ff33;
 }
 
 #marketChart {
