@@ -18,10 +18,10 @@ function renderMarketChart() {
 
   if (marketHistory.length === 0) return;
 
-  const paddingLeft = 40;
+  const paddingLeft = 60;
   const paddingRight = 10;
   const paddingTop = 10;
-  const paddingBottom = 30;
+  const paddingBottom = 40;
 
   const chartWidth = canvas.width - paddingLeft - paddingRight;
   const chartHeight = canvas.height - paddingTop - paddingBottom;
@@ -42,6 +42,8 @@ function renderMarketChart() {
 
   ctx.font = '12px Courier New';
   ctx.fillStyle = '#33ff33';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
 
   const yTicks = 4;
   for (let i = 0; i <= yTicks; i++) {
@@ -51,13 +53,14 @@ function renderMarketChart() {
     ctx.moveTo(paddingLeft - 5, y);
     ctx.lineTo(paddingLeft, y);
     ctx.stroke();
-    ctx.fillText(value, 2, y + 4);
+    ctx.fillText(value, paddingLeft - 8, y);
   }
 
   ctx.save();
-  ctx.translate(10, paddingTop + chartHeight / 2);
+  ctx.translate(15, paddingTop + chartHeight / 2);
   ctx.rotate(-Math.PI / 2);
-  ctx.fillText('Price', 0, 0);
+  ctx.textAlign = 'center';
+  ctx.fillText('Market Index ($)', 0, 0);
   ctx.restore();
 
   const xStep = chartWidth / Math.max(1, marketHistory.length - 1);
@@ -90,7 +93,9 @@ function renderMarketChart() {
     ctx.stroke();
   });
 
-  ctx.fillText('Week', paddingLeft + chartWidth / 2 - 15, canvas.height - 5);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillText('Week', paddingLeft + chartWidth / 2, canvas.height - 10);
 }
 
 function updateMarket() {
