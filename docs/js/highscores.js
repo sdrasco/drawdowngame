@@ -57,7 +57,13 @@ export async function initScores() {
 
 // 5. Submit a new real score
 export async function submitScore(player, score) {
-  await addDoc(scoresRef, { player, score, ts: Date.now() });
+  try {
+    await addDoc(scoresRef, { player, score, ts: Date.now() });
+  } catch (err) {
+    console.error('Failed to save score', err);
+    alert('Saving your score failed. Please try again later.');
+    throw err;
+  }
 }
 
 // 6. Load top-10 once
@@ -135,7 +141,11 @@ export async function check(score, cb) {
   if (needsSave) {
     alert('Congratulations! You made the high score board!');
     const name = await promptForScoreName(window.getUser());
-    await submitScore(name, score);
+    try {
+      await submitScore(name, score);
+    } catch (err) {
+      console.error('submitScore failed', err);
+    }
   }
   if (typeof cb === 'function') cb();
 }
