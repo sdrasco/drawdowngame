@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drawdown - Firestore Diagnostics</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    #board {
+      border: 1px solid #33ff33;
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 600px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Firestore Diagnostics</h1>
+  <div id="board" class="section"></div>
+  <div class="section">
+    <button id="initBtn" type="button">Seed Sample Scores</button>
+    <button id="readBtn" type="button">Load Scores</button>
+    <button id="watchBtn" type="button">Toggle Watch</button>
+  </div>
+  <div class="section">
+    <label for="checkScore">Score:</label>
+    <input id="checkScore" type="number" />
+    <button id="checkBtn" type="button">Run High Score Check</button>
+  </div>
+  <div id="scorePrompt" class="username-prompt hidden">
+    <form>
+      <label for="scoreInput">High score name</label><br/>
+      <input id="scoreInput" type="text" autocomplete="off" /><br/>
+      <button type="button" id="scoreSubmit">Save</button>
+      <button type="button" id="scoreRandom">Random Name</button>
+    </form>
+  </div>
+  <pre id="output" class="section"></pre>
+  <p><a href="index.html">Back</a></p>
+  <script type="module">
+    import { initScores, loadBoard, watchBoard, check } from './js/highscores.js';
+
+    const output = document.getElementById('output');
+    const boardEl = document.getElementById('board');
+    let unwatch = null;
+
+    function render(scores) {
+      boardEl.textContent = JSON.stringify(scores, null, 2);
+    }
+
+    function log(msg) {
+      output.textContent += msg + '\n';
+    }
+
+    document.getElementById('initBtn').addEventListener('click', async () => {
+      log('Seeding scores...');
+      try {
+        await initScores();
+        log('Seed complete');
+      } catch (err) {
+        console.error(err);
+        log('Seed failed: ' + err.message);
+      }
+    });
+
+    document.getElementById('readBtn').addEventListener('click', async () => {
+      log('Loading scores...');
+      try {
+        const board = await loadBoard();
+        render(board);
+        log('Load complete');
+      } catch (err) {
+        console.error(err);
+        log('Load failed: ' + err.message);
+      }
+    });
+
+    document.getElementById('watchBtn').addEventListener('click', () => {
+      if (unwatch) {
+        unwatch();
+        unwatch = null;
+        log('Stopped watching');
+      } else {
+        unwatch = watchBoard(render);
+        log('Watching for updates...');
+      }
+    });
+
+    document.getElementById('checkBtn').addEventListener('click', async () => {
+      const score = Number(document.getElementById('checkScore').value) || 0;
+      log('Running check with score ' + score);
+      try {
+        await check(score, () => log('Check complete'));
+      } catch (err) {
+        console.error(err);
+        log('Check failed: ' + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
