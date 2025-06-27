@@ -4,6 +4,13 @@ const INDEX_SYMBOL = 'INDEX';
 let indexShares = {};
 const START_WEEK = 14;
 
+function randn() {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
 fetch('data/company_master_data.json')
   .then(r => r.json())
   .then(data => {
@@ -14,29 +21,31 @@ fetch('data/company_master_data.json')
       startGame();
     });
   });
-
-function randPct(mu, sigma) {
-  return mu + sigma * (Math.random() * 2 - 1);
+function getBeta(c) {
+  if (c.beta !== undefined) return c.beta;
+  const cat = (c.market_cap_category || "").toLowerCase();
+  if (cat.includes("mega")) c.beta = 0.8;
+  else if (cat.includes("large")) c.beta = 0.7;
+  else c.beta = 0.5;
+  return c.beta;
 }
 
-function generateWeekPrices(lastPrice, mu, sigma, newsImpact = 0) {
-  const prices = [];
-  let price = lastPrice;
-  let weeklyMu;
-  if (newsImpact === 1) {
-    weeklyMu = Math.abs(mu) * 1.5;
-  } else if (newsImpact === -1) {
-    weeklyMu = -Math.abs(mu) * 1.5;
-  } else {
-    // Randomize drift direction each week so stocks don't persistently trend one way
-    weeklyMu = Math.abs(mu) * (Math.random() < 0.5 ? -1 : 1);
-  }
-  for (let i = 0; i < 5; i++) {
-    price = +(price * (1 + randPct(weeklyMu, sigma))).toFixed(2);
-    prices.push(price);
-  }
-  return prices;
+function generateWeekPrices(lastPrice, comp, effect = {}, epsMarket = 0, newsDrift = 0) {
+  const beta = getBeta(comp);
+  let mu = comp.mu + newsDrift;
+  let sigma = comp.sigma;
+  if (effect.vol) sigma *= 1.3;
+  const eta = randn();
+  const eps = beta * epsMarket + Math.sqrt(1 - beta * beta) * eta;
+  let x = Math.log(lastPrice);
+  x += (mu - 0.5 * sigma * sigma) + sigma * eps;
+  if (effect.jump) x += effect.jump;
+  const price = +Math.exp(x).toFixed(2);
+  return [price, price, price, price, price];
 }
+
+
+
 
 function setupMarketIndex() {
   if (companies.some(c => c.symbol === INDEX_SYMBOL)) return;
@@ -71,20 +80,28 @@ function newsImpactsForWeek(week) {
   const impacts = {};
   const headlines = gameState.headlines[week] || [];
   headlines.forEach(h => {
-    if (h && h.impact && h.symbol) {
-      const sign = h.type === 'good' ? 1 : h.type === 'bad' ? -1 : 0;
-      if (sign !== 0) {
-        impacts[h.symbol] = (impacts[h.symbol] || 0) + sign;
-      }
+    if (!h || !h.symbol) return;
+    const sign = h.type === "good" ? 1 : h.type === "bad" ? -1 : 0;
+    if (sign === 0) return;
+    if (!impacts[h.symbol]) impacts[h.symbol] = { drift: 0, jump: 0, vol: false };
+    if (h.impact) {
+      const mag = 0.1 + 0.1 * Math.random();
+      impacts[h.symbol].jump += sign * Math.log(1 + mag);
+      impacts[h.symbol].vol = true;
+    } else {
+      impacts[h.symbol].drift += sign * 0.02;
     }
   });
   return impacts;
-}
 
+}
 function startGame() {
   gameState = loadState();
   if (gameState && !gameState.positions) {
     gameState.positions = {};
+  }
+  if (gameState && !gameState.newsDrift) {
+    gameState.newsDrift = {};
   }
   if (!gameState) {
     gameState = {
@@ -95,22 +112,29 @@ function startGame() {
       positions: {},
       rank: 'Novice',
       headlines: {},
-      prices: {}
+      prices: {},
+      newsDrift: {}
     };
+    const lastPrices = {};
     companies.forEach(c => {
       if (c.isIndex) return;
       gameState.prices[c.symbol] = [];
-      let last = c.initial_price;
-      for (let i = 0; i < START_WEEK; i++) {
-        const weekPrices = generateWeekPrices(last, c.mu, c.sigma);
-        gameState.prices[c.symbol].push(weekPrices);
-        last = weekPrices[weekPrices.length - 1];
-      }
+      lastPrices[c.symbol] = c.initial_price;
+      gameState.newsDrift[c.symbol] = 0;
     });
     gameState.prices[INDEX_SYMBOL] = [];
     for (let i = 0; i < START_WEEK; i++) {
+      const epsMarket = randn();
+      Object.keys(lastPrices).forEach(sym => {
+        const comp = companies.find(cc => cc.symbol === sym);
+        const weekPrices = generateWeekPrices(lastPrices[sym], comp, {}, epsMarket, gameState.newsDrift[sym]);
+        gameState.prices[sym].push(weekPrices);
+        lastPrices[sym] = weekPrices[weekPrices.length - 1];
+        gameState.newsDrift[sym] *= 0.5;
+      });
       gameState.prices[INDEX_SYMBOL].push(computeIndexWeekPrices(i));
     }
+
     saveState(gameState);
   }
   computeNetWorth(gameState);
@@ -209,15 +233,20 @@ function nextWeek() {
     return;
   }
   gameState.week += 1;
-  const impacts = newsImpactsForWeek(gameState.week - 1);
+  const effects = newsImpactsForWeek(gameState.week - 1);
+  const epsMarket = randn();
   Object.keys(gameState.prices).forEach(sym => {
     if (sym === INDEX_SYMBOL) return;
     const arr = gameState.prices[sym];
     const prev = arr[arr.length - 1];
     const last = prev[prev.length - 1];
     const comp = companies.find(c => c.symbol === sym);
-    const impact = impacts[sym] || 0;
-    arr.push(generateWeekPrices(last, comp.mu, comp.sigma, impact));
+    gameState.newsDrift[sym] = (gameState.newsDrift[sym] || 0) * 0.5;
+    const effect = effects[sym];
+    if (effect && effect.drift) {
+      gameState.newsDrift[sym] += effect.drift;
+    }
+    arr.push(generateWeekPrices(last, comp, effect, epsMarket, gameState.newsDrift[sym]));
   });
   const indexWeek = computeIndexWeekPrices(gameState.prices[INDEX_SYMBOL].length);
   gameState.prices[INDEX_SYMBOL].push(indexWeek);
