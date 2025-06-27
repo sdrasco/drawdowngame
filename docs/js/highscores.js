@@ -140,7 +140,11 @@ export async function check(score, cb) {
     (board.length && score > board[board.length - 1].score);
   if (needsSave) {
     alert('Congratulations! You made the high score board!');
-    const name = await promptForScoreName(window.getUser());
+    const defaultName =
+      (typeof window !== 'undefined' && typeof window.getUser === 'function')
+        ? window.getUser()
+        : '';
+    const name = await promptForScoreName(defaultName);
     try {
       await submitScore(name, score);
     } catch (err) {
