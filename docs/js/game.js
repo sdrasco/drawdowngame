@@ -80,16 +80,32 @@ function newsImpactsForWeek(week) {
   const impacts = {};
   const headlines = gameState.headlines[week] || [];
   headlines.forEach(h => {
-    if (!h || !h.symbol) return;
-    const sign = h.type === "good" ? 1 : h.type === "bad" ? -1 : 0;
-    if (sign === 0) return;
-    if (!impacts[h.symbol]) impacts[h.symbol] = { drift: 0, jump: 0, vol: false };
-    if (h.impact) {
-      const mag = 0.1 + 0.1 * Math.random();
-      impacts[h.symbol].jump += sign * Math.log(1 + mag);
-      impacts[h.symbol].vol = true;
-    } else {
-      impacts[h.symbol].drift += sign * 0.02;
+    if (!h) return;
+    if (h.symbol) {
+      const sign = h.type === "good" ? 1 : h.type === "bad" ? -1 : 0;
+      if (sign === 0) return;
+      if (!impacts[h.symbol]) impacts[h.symbol] = { drift: 0, jump: 0, vol: false };
+      if (h.impact) {
+        const mag = 0.1 + 0.1 * Math.random();
+        impacts[h.symbol].jump += sign * Math.log(1 + mag);
+        impacts[h.symbol].vol = true;
+      } else {
+        impacts[h.symbol].drift += sign * 0.02;
+      }
+    } else if (h.industry) {
+      const sign = h.sentiment || 0;
+      if (sign === 0) return;
+      const magKey = h.magnitude || 'small';
+      const mag = magKey === 'large' ? 0.15 : magKey === 'medium' ? 0.1 : 0.05;
+      const jump = sign * Math.log(1 + mag);
+      companies.forEach(c => {
+        if (c.isIndex) return;
+        const ind = h.category || h.industry;
+        if (c.industry !== ind) return;
+        if (!impacts[c.symbol]) impacts[c.symbol] = { drift: 0, jump: 0, vol: false };
+        impacts[c.symbol].jump += jump;
+        impacts[c.symbol].vol = true;
+      });
     }
   });
   return impacts;

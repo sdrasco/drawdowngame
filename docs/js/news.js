@@ -6,15 +6,27 @@ function shuffle(arr) {
   }
 }
 
+const INDUSTRY_MAP = {
+  Software: 'Computer / Tech',
+  Semiconductors: 'Computer / Tech',
+  Retail: 'Retail',
+  Energy: 'Oil and Gas',
+  Banking: 'Heavy Industry / Materials'
+};
+
 function generateHeadlines() {
-  const n = Math.floor(Math.random() * 5); // 0-4
-  if (n === 0) {
+  const result = [];
+  if (typeof maybeGenerateIndustryNews === 'function') {
+    maybeGenerateIndustryNews(result);
+  }
+
+  let n = Math.floor(Math.random() * 5); // 0-4 company headlines
+  if (n === 0 && result.length === 0) {
     return [{ text: 'No market headlines this week.' }];
   }
   const available = companies.filter(c => !c.isIndex);
   shuffle(available);
-  const chosen = available.slice(0, n);
-  const result = [];
+  const chosen = available.slice(0, Math.min(n, 4 - result.length));
   chosen.forEach(c => {
     const typeKey = Math.random() < 0.5 ? 'good_news_headlines' : 'bad_news_headlines';
     const pool = c[typeKey] || [];
@@ -28,7 +40,16 @@ function generateHeadlines() {
       });
     }
   });
-  return result;
+
+  // convert industry events to a common format and limit to 4 total
+  result.forEach(evt => {
+    if (evt.industry) {
+      evt.text = evt.headline;
+      evt.category = INDUSTRY_MAP[evt.industry] || evt.industry;
+    }
+  });
+
+  return result.slice(0, 4);
 }
 
 function renderNews() {
