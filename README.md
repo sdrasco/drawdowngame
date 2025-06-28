@@ -14,9 +14,9 @@ Play drawdown online at [drawdowngame.com](https://drawdowngame.com). Hopefully 
 |------------------------|------------------------------------------------|
 | **Start Game**         | Choose new or resume; you start with $35k, a "Novice" badge and a few weeks of history. |
 | **Weekly Loop (up to 104)** | |
-| • Index Update         | The market chart gets another data point. |
-| • Headlines            | About ten news blurbs hint at coming moves. |
-| • Trade                | Check Analysis, peek at your Portfolio, then buy or sell a few shares (each trade includes a small commission and fee). |
+| • Index Update         | The market chart gets another 5 days of data points. |
+| • Headlines            | News blurbs hint at coming moves. |
+| • Trade                | Check Analysis, peek at your Portfolio, then trade is you like (each trade includes a small commission and fee). |
 | • Advance Week         | Commit your trades. Prices jump and your rank might improve. |
 | **Retire**             | Cash out any time—or after week 104—and join the high score list. |
 
