@@ -9,7 +9,8 @@ function init() {
       companies = data.companies.filter(c => !c.isIndex);
       populateSelect();
       gameState = loadState();
-      if (gameState && (gameState.week >= gameState.maxWeeks || gameState.gameOver)) {
+      const backTo = sessionStorage.getItem('backTo');
+      if (gameState && (gameState.week >= gameState.maxWeeks || gameState.gameOver) && backTo !== 'game-over.html') {
         window.location.href = 'game-over.html';
         return;
       }
