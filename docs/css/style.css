@@ -75,11 +75,11 @@ button:hover {
 
 @media (max-width: 600px) {
   body {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
   }
   input,
   button {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
   }
   .news {
     font-size: 0.8rem;
