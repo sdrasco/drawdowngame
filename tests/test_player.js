@@ -4,7 +4,9 @@ const {
   computeNetWorth,
   calculateMaxDrawdown,
   calculateSharpeRatio,
-  calculateGainToPainRatio
+  calculateGainToPainRatio,
+  TRADE_COMMISSION,
+  TRADE_FEE_RATE
 } = require('../docs/js/player.js');
 const assert = require('assert');
 
@@ -16,18 +18,29 @@ function testBuySell() {
     positions: {}
   };
   const price = 140;
-  assert.ok(buyStock(state, 'AAPL', 5, price));
-  assert.strictEqual(state.cash, 1000 - 5 * price);
+  const buy = buyStock(state, 'AAPL', 5, price);
+  assert.ok(buy.success);
+  const buyFees = +(5 * price * TRADE_FEE_RATE).toFixed(2);
+  const buyTotal = 5 * price + TRADE_COMMISSION + buyFees;
+  assert.strictEqual(buy.fees, buyFees);
+  assert.strictEqual(buy.total, buyTotal);
+  assert.strictEqual(state.cash, 1000 - buyTotal);
   assert.strictEqual(state.positions['AAPL'].qty, 5);
-  assert.strictEqual(state.positions['AAPL'].cost, 5 * price);
+  assert.strictEqual(state.positions['AAPL'].cost, buyTotal);
   computeNetWorth(state);
-  assert.strictEqual(state.netWorth, 1000);
+  assert.strictEqual(state.netWorth, +(1000 - buyFees - TRADE_COMMISSION).toFixed(2));
 
-  assert.ok(sellStock(state, 'AAPL', 2, price));
-  assert.strictEqual(state.cash, 1000 - 5 * price + 2 * price);
+  const sell = sellStock(state, 'AAPL', 2, price);
+  assert.ok(sell.success);
+  const sellFees = +(2 * price * TRADE_FEE_RATE).toFixed(2);
+  const sellTotal = 2 * price - TRADE_COMMISSION - sellFees;
+  assert.strictEqual(sell.fees, sellFees);
+  assert.strictEqual(sell.total, sellTotal);
+  assert.strictEqual(state.cash, 1000 - buyTotal + sellTotal);
   assert.strictEqual(state.positions['AAPL'].qty, 3);
   computeNetWorth(state);
-  assert.strictEqual(state.netWorth, 1000);
+  const finalWorth = 1000 - buyFees - TRADE_COMMISSION - sellFees - TRADE_COMMISSION;
+  assert.strictEqual(state.netWorth, +finalWorth.toFixed(2));
 }
 
 function testMetrics() {

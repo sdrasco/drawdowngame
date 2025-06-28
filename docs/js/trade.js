@@ -13,18 +13,23 @@ function renderTradeHistory() {
   if (!tbl) return;
   tbl.innerHTML = '';
   const header = document.createElement('tr');
-  header.innerHTML = '<th>Week</th><th>Type</th><th>Symbol</th><th>Qty</th><th>Price</th>';
+  header.innerHTML = '<th>Week</th><th>Type</th><th>Symbol</th><th>Qty</th><th>Price</th><th>Commission</th><th>Fees</th><th>Total</th>';
   tbl.appendChild(header);
   (gameState.tradeHistory || []).forEach(t => {
     const row = document.createElement('tr');
-    row.innerHTML = `<td>${t.week}</td><td>${t.type}</td><td>${t.symbol}</td><td>${t.qty}</td><td>$${t.price.toFixed(2)}</td>`;
+    row.innerHTML = `<td>${t.week}</td><td>${t.type}</td><td>${t.symbol}</td><td>${t.qty}</td><td>$${t.price.toFixed(2)}</td><td>$${t.commission.toFixed(2)}</td><td>$${t.fees.toFixed(2)}</td><td>$${t.total.toFixed(2)}</td>`;
     tbl.appendChild(row);
   });
 }
 
-function confirmTrade(msg) {
-  const el = document.getElementById('tradeConfirm');
-  if (el) el.textContent = msg;
+function showTradeDialog(trade) {
+  const totalLabel = trade.type === 'BUY' ? 'Total Cost' : 'Net Proceeds';
+  const msg = `${trade.type} ${trade.qty} ${trade.symbol} @ $${trade.price.toFixed(2)}<br/>` +
+    `Commission: $${trade.commission.toFixed(2)}<br/>Fees: $${trade.fees.toFixed(2)}<br/>` +
+    `${totalLabel}: $${trade.total.toFixed(2)}`;
+  if (typeof showMessage === 'function') {
+    showMessage(msg);
+  }
 }
 
 function populateTradeSymbols() {
@@ -83,16 +88,18 @@ function doBuy() {
   }
   const week = weeks[weeks.length - 1];
   const price = week[week.length - 1];
-  if (!buyStock(gameState, sym, qty, price)) {
+  const result = buyStock(gameState, sym, qty, price);
+  if (!result.success) {
     if (typeof showMessage === 'function') {
       showMessage('Not enough cash');
     }
   } else {
     updateRank();
     if (!gameState.tradeHistory) gameState.tradeHistory = [];
-    gameState.tradeHistory.push({ week: gameState.week, type: 'BUY', symbol: sym, qty, price });
+    const trade = { week: gameState.week, type: 'BUY', symbol: sym, qty, price, commission: result.commission, fees: result.fees, total: result.total };
+    gameState.tradeHistory.push(trade);
     saveState(gameState);
-    confirmTrade(`Bought ${qty} ${sym} @ $${price.toFixed(2)}`);
+    showTradeDialog(trade);
     renderMetrics();
     updateTradeInfo();
     renderTradeHistory();
@@ -112,16 +119,18 @@ function doSell() {
   }
   const week = weeks[weeks.length - 1];
   const price = week[week.length - 1];
-  if (!sellStock(gameState, sym, qty, price)) {
+  const result = sellStock(gameState, sym, qty, price);
+  if (!result.success) {
     if (typeof showMessage === 'function') {
       showMessage('Not enough shares');
     }
   } else {
     updateRank();
     if (!gameState.tradeHistory) gameState.tradeHistory = [];
-    gameState.tradeHistory.push({ week: gameState.week, type: 'SELL', symbol: sym, qty, price });
+    const trade = { week: gameState.week, type: 'SELL', symbol: sym, qty, price, commission: result.commission, fees: result.fees, total: result.total };
+    gameState.tradeHistory.push(trade);
     saveState(gameState);
-    confirmTrade(`Sold ${qty} ${sym} @ $${price.toFixed(2)}`);
+    showTradeDialog(trade);
     renderMetrics();
     updateTradeInfo();
     renderTradeHistory();
