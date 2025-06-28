@@ -22,7 +22,7 @@ Play drawdown online at [drawdowngame.com](https://drawdowngame.com). Hopefully 
 
 ### Portfolio Stats
 
-The in-game portfolio will eventually display standard trading performance
+The in-game portfolio displays standard trading performance
 metrics, including:
 
 - **Max drawdown (%):** the largest peak-to-trough decline in net worth.
