@@ -2,6 +2,10 @@ let gameState;
 
 document.addEventListener('DOMContentLoaded', () => {
   gameState = loadState();
+  if (gameState && (gameState.week >= gameState.maxWeeks || gameState.gameOver)) {
+    window.location.href = 'game-over.html';
+    return;
+  }
   if (!gameState) return;
   if (!gameState.positions) gameState.positions = {};
   computeNetWorth(gameState);

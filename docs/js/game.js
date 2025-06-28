@@ -119,6 +119,9 @@ function startGame() {
   if (gameState && !gameState.newsDrift) {
     gameState.newsDrift = {};
   }
+  if (gameState && gameState.gameOver === undefined) {
+    gameState.gameOver = false;
+  }
   if (!gameState) {
     gameState = {
       week: START_WEEK,
@@ -129,7 +132,8 @@ function startGame() {
       rank: 'Novice',
       headlines: {},
       prices: {},
-      newsDrift: {}
+      newsDrift: {},
+      gameOver: false
     };
     const lastPrices = {};
     companies.forEach(c => {
@@ -162,6 +166,16 @@ function startGame() {
   initMarketHistory();
   renderMarketChart();
   renderNews();
+  if (gameState.week >= gameState.maxWeeks || gameState.gameOver) {
+    gameState.gameOver = true;
+    const done = document.getElementById('doneBtn');
+    if (done) {
+      done.disabled = true;
+      done.classList.add('hidden');
+    }
+    saveState(gameState);
+    showGameOverDialog();
+  }
 }
 
 function updateStatus() {
@@ -197,11 +211,15 @@ function showGameOverDialog() {
   const dialogEl = document.getElementById('gameOverDialog');
   if (!dialogEl) return;
   const admireBtn = document.getElementById('gameOverAdmire');
+  const scoresBtn = document.getElementById('gameOverScores');
   const newBtn = document.getElementById('gameOverNew');
   const menuBtn = document.getElementById('gameOverMenu');
+  const worthEl = document.getElementById('gameOverNetWorth');
+  if (worthEl) worthEl.textContent = gameState.netWorth.toLocaleString();
 
   function cleanup() {
     admireBtn.removeEventListener('click', onAdmire);
+    scoresBtn.removeEventListener('click', onScores);
     newBtn.removeEventListener('click', onNew);
     menuBtn.removeEventListener('click', onMenu);
     dialogEl.classList.add('hidden');
@@ -210,6 +228,11 @@ function showGameOverDialog() {
   function onAdmire() {
     cleanup();
     window.location.href = 'game-over.html';
+  }
+
+  function onScores() {
+    cleanup();
+    window.location.href = 'high-scores.html';
   }
 
   function onNew() {
@@ -227,6 +250,7 @@ function showGameOverDialog() {
   }
 
   admireBtn.addEventListener('click', onAdmire);
+  scoresBtn.addEventListener('click', onScores);
   newBtn.addEventListener('click', onNew);
   menuBtn.addEventListener('click', onMenu);
   dialogEl.classList.remove('hidden');
@@ -236,6 +260,13 @@ function endGame() {
   const afterScore = () => {
     showGameOverDialog();
   };
+  gameState.gameOver = true;
+  const done = document.getElementById('doneBtn');
+  if (done) {
+    done.disabled = true;
+    done.classList.add('hidden');
+  }
+  saveState(gameState);
   if (window.drawdownHighScores) {
     window.drawdownHighScores.check(gameState.netWorth, afterScore);
   } else {
@@ -327,5 +358,17 @@ if (newGameEl) newGameEl.addEventListener('click', () => {
   sessionStorage.removeItem('backTo');
   localStorage.clear();
   window.location.href = 'play.html';
+});
+
+const menuBtnEl = document.getElementById('menuBtn');
+if (menuBtnEl) menuBtnEl.addEventListener('click', () => {
+  sessionStorage.removeItem('backTo');
+  localStorage.clear();
+  window.location.href = 'index.html';
+});
+
+const scoresBtnEl = document.getElementById('scoresBtn');
+if (scoresBtnEl) scoresBtnEl.addEventListener('click', () => {
+  window.location.href = 'high-scores.html';
 });
 

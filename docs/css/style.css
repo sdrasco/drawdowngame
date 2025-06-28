@@ -250,3 +250,8 @@ select {
   border: 1px solid #33ff33;
   padding: 0.5rem;
 }
+
+.final-worth {
+  font-weight: bold;
+  color: #66ff66;
+}
