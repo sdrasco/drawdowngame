@@ -37,29 +37,39 @@ function calculateGainToPainRatio(returns) {
   return +(total / pain).toFixed(4);
 }
 
+const TRADE_COMMISSION = 4.95;
+const TRADE_FEE_RATE = 0.001; // 0.1% of trade value
+
 function buyStock(state, symbol, qty, price) {
-  const cost = qty * price;
-  if (state.cash < cost) return false;
-  state.cash -= cost;
+  const tradeValue = qty * price;
+  const commission = TRADE_COMMISSION;
+  const fees = +(tradeValue * TRADE_FEE_RATE).toFixed(2);
+  const total = tradeValue + commission + fees;
+  if (state.cash < total) return { success: false };
+  state.cash -= total;
   if (!state.positions[symbol]) {
     state.positions[symbol] = { qty: 0, cost: 0 };
   }
   state.positions[symbol].qty += qty;
-  state.positions[symbol].cost += cost;
+  state.positions[symbol].cost += total;
   computeNetWorth(state);
-  return true;
+  return { success: true, commission, fees, total };
 }
 
 function sellStock(state, symbol, qty, price) {
   const pos = state.positions[symbol];
-  if (!pos || pos.qty < qty) return false;
+  if (!pos || pos.qty < qty) return { success: false };
+  const tradeValue = qty * price;
+  const commission = TRADE_COMMISSION;
+  const fees = +(tradeValue * TRADE_FEE_RATE).toFixed(2);
+  const proceeds = tradeValue - commission - fees;
   const avgCost = pos.cost / pos.qty;
   pos.qty -= qty;
   pos.cost -= avgCost * qty;
   if (pos.qty <= 0) delete state.positions[symbol];
-  state.cash += qty * price;
+  state.cash += proceeds;
   computeNetWorth(state);
-  return true;
+  return { success: true, commission, fees, total: proceeds };
 }
 
 function computeNetWorth(state) {
@@ -83,6 +93,8 @@ if (typeof module !== 'undefined') {
     computeNetWorth,
     calculateMaxDrawdown,
     calculateSharpeRatio,
-    calculateGainToPainRatio
+    calculateGainToPainRatio,
+    TRADE_COMMISSION,
+    TRADE_FEE_RATE
   };
 }

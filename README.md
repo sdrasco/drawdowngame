@@ -16,7 +16,7 @@ Play drawdown online at [drawdowngame.com](https://drawdowngame.com). Hopefully 
 | **Weekly Loop (up to 104)** | |
 | • Index Update         | The market chart gets another data point. |
 | • Headlines            | About ten news blurbs hint at coming moves. |
-| • Trade                | Check Analysis, peek at your Portfolio, then buy or sell a few shares. |
+| • Trade                | Check Analysis, peek at your Portfolio, then buy or sell a few shares (each trade includes a small commission and fee). |
 | • Advance Week         | Commit your trades. Prices jump and your rank might improve. |
 | **Retire**             | Cash out any time—or after week 104—and join the high score list. |
 
@@ -30,6 +30,8 @@ metrics, including:
   returns.
 - **Gain to Pain ratio:** total return divided by the absolute value of all
   negative returns.
+
+Every transaction carries a $4.95 commission plus 0.1% of the trade value in regulatory fees.
 
 ---
 
