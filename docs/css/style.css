@@ -225,6 +225,8 @@ select {
 #tradeQtySlider {
   width: 100%;
   accent-color: #33ff33;
+  /* Ensure mobile devices treat slider drag as a UI interaction */
+  touch-action: none;
 }
 
 .portfolio-container {
