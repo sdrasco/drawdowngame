@@ -61,7 +61,9 @@ export async function submitScore(player, score) {
     await addDoc(scoresRef, { player, score, ts: Date.now() });
   } catch (err) {
     console.error('Failed to save score', err);
-    alert('Saving your score failed. Please try again later.');
+    if (typeof showMessage === 'function') {
+      await showMessage('Saving your score failed. Please try again later.');
+    }
     throw err;
   }
 }
@@ -139,7 +141,9 @@ export async function check(score, cb) {
   const needsSave = board.length < MAX_SCORES ||
     (board.length && score > board[board.length - 1].score);
   if (needsSave) {
-    alert('Congratulations! You made the high score board!');
+    if (typeof showMessage === 'function') {
+      await showMessage('Congratulations! You made the high score board!');
+    }
     const defaultName =
       (typeof window !== 'undefined' && typeof window.getUser === 'function')
         ? window.getUser()
