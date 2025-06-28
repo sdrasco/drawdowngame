@@ -316,7 +316,9 @@ function cashOut() {
 }
 
 function showPlaceholder(msg) {
-  alert(msg + ' screen goes here.');
+  if (typeof showMessage === 'function') {
+    showMessage(msg + ' screen goes here.');
+  }
 }
 
 const doneEl = document.getElementById('doneBtn');

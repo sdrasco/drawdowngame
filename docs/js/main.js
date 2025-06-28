@@ -16,7 +16,9 @@ function nextWeek() {
 
 function saveGame() {
   localStorage.setItem("drawdownSave", JSON.stringify(state));
-  alert("Game saved.");
+  if (typeof showMessage === 'function') {
+    showMessage("Game saved.");
+  }
 }
 
 function loadGame() {
@@ -24,16 +26,22 @@ function loadGame() {
   if (saved) {
     state = JSON.parse(saved);
     updateDisplay();
-    alert("Game loaded.");
+    if (typeof showMessage === 'function') {
+      showMessage("Game loaded.");
+    }
   } else {
-    alert("No save found.");
+    if (typeof showMessage === 'function') {
+      showMessage("No save found.");
+    }
   }
 }
 
 function resetGame() {
   state = { week: 1, netWorth: 10000 };
   updateDisplay();
-  alert("Game reset.");
+  if (typeof showMessage === 'function') {
+    showMessage("Game reset.");
+  }
 }
 
 function exportSave() {
@@ -54,9 +62,13 @@ document.getElementById("fileInput").addEventListener("change", function(event) 
     try {
       state = JSON.parse(e.target.result);
       updateDisplay();
-      alert("Save loaded from file.");
+      if (typeof showMessage === 'function') {
+        showMessage("Save loaded from file.");
+      }
     } catch {
-      alert("Invalid save file.");
+      if (typeof showMessage === 'function') {
+        showMessage("Invalid save file.");
+      }
     }
   };
   reader.readAsText(file);

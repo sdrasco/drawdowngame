@@ -76,13 +76,17 @@ function doBuy() {
   if (!sym || !qty) return;
   const weeks = gameState.prices[sym];
   if (!weeks) {
-    alert('Unknown symbol');
+    if (typeof showMessage === 'function') {
+      showMessage('Unknown symbol');
+    }
     return;
   }
   const week = weeks[weeks.length - 1];
   const price = week[week.length - 1];
   if (!buyStock(gameState, sym, qty, price)) {
-    alert('Not enough cash');
+    if (typeof showMessage === 'function') {
+      showMessage('Not enough cash');
+    }
   } else {
     updateRank();
     if (!gameState.tradeHistory) gameState.tradeHistory = [];
@@ -101,13 +105,17 @@ function doSell() {
   if (!sym || !qty) return;
   const weeks = gameState.prices[sym];
   if (!weeks) {
-    alert('Unknown symbol');
+    if (typeof showMessage === 'function') {
+      showMessage('Unknown symbol');
+    }
     return;
   }
   const week = weeks[weeks.length - 1];
   const price = week[week.length - 1];
   if (!sellStock(gameState, sym, qty, price)) {
-    alert('Not enough shares');
+    if (typeof showMessage === 'function') {
+      showMessage('Not enough shares');
+    }
   } else {
     updateRank();
     if (!gameState.tradeHistory) gameState.tradeHistory = [];
