@@ -9,6 +9,10 @@ function init() {
       companies = data.companies.filter(c => !c.isIndex);
       populateSelect();
       gameState = loadState();
+      if (gameState && (gameState.week >= gameState.maxWeeks || gameState.gameOver)) {
+        window.location.href = 'game-over.html';
+        return;
+      }
       const sel = document.getElementById('companySelect');
       sel.addEventListener('change', () => {
         currentIndex = companies.findIndex(c => c.symbol === sel.value);

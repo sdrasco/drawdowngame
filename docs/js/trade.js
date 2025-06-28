@@ -122,6 +122,10 @@ function doSell() {
 
 document.addEventListener('DOMContentLoaded', () => {
   gameState = loadState();
+  if (gameState && (gameState.week >= gameState.maxWeeks || gameState.gameOver)) {
+    window.location.href = 'game-over.html';
+    return;
+  }
   renderMetrics();
   renderTradeHistory();
   fetch('data/company_master_data.json')
