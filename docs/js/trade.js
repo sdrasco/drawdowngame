@@ -1,5 +1,6 @@
 let companies = [];
 let gameState;
+let tradeMode = 'BUY';
 
 function renderMetrics() {
   if (!gameState) return;
@@ -60,6 +61,26 @@ function updateTradeInfo() {
   slider.max = max;
   slider.value = 1;
   input.value = 1;
+  updateTradeTotal();
+}
+
+function updateTradeTotal() {
+  const qty = parseInt(document.getElementById('tradeQty').value, 10) || 0;
+  const price = parseFloat(document.getElementById('tradePrice').textContent) || 0;
+  const tradeValue = qty * price;
+  const commission = TRADE_COMMISSION;
+  const fees = +(tradeValue * TRADE_FEE_RATE).toFixed(2);
+  let total;
+  const label = document.getElementById('tradeTotalLabel');
+  if (tradeMode === 'SELL') {
+    total = tradeValue - commission - fees;
+    if (label) label.textContent = 'Net Proceeds:';
+  } else {
+    total = tradeValue + commission + fees;
+    if (label) label.textContent = 'Total Cost:';
+  }
+  const span = document.getElementById('tradeTotal');
+  if (span) span.textContent = total.toFixed(2);
 }
 
 function updateRank() {
@@ -158,10 +179,16 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('tradeSymbol').addEventListener('change', updateTradeInfo);
   document.getElementById('tradeQtySlider').addEventListener('input', e => {
     document.getElementById('tradeQty').value = e.target.value;
+    updateTradeTotal();
   });
   document.getElementById('tradeQty').addEventListener('input', e => {
     document.getElementById('tradeQtySlider').value = e.target.value;
+    updateTradeTotal();
   });
   document.getElementById('buyBtn').addEventListener('click', doBuy);
   document.getElementById('sellBtn').addEventListener('click', doSell);
+  document.getElementById('buyBtn').addEventListener('mouseenter', () => { tradeMode = 'BUY'; updateTradeTotal(); });
+  document.getElementById('buyBtn').addEventListener('focus', () => { tradeMode = 'BUY'; updateTradeTotal(); });
+  document.getElementById('sellBtn').addEventListener('mouseenter', () => { tradeMode = 'SELL'; updateTradeTotal(); });
+  document.getElementById('sellBtn').addEventListener('focus', () => { tradeMode = 'SELL'; updateTradeTotal(); });
 });
