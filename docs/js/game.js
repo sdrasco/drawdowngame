@@ -159,7 +159,8 @@ function startGame() {
   }
   computeNetWorth(gameState);
   if (!gameState.netWorthHistory) {
-    gameState.netWorthHistory = [gameState.netWorth];
+    // Pre-fill history so the chart includes the pre-game weeks
+    gameState.netWorthHistory = Array(gameState.week).fill(gameState.netWorth);
   }
   displayUsername();
   updateStatus();
