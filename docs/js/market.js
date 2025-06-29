@@ -7,13 +7,18 @@ function initMarketHistory() {
   marketHistory.length = 0;
   portfolioHistory.length = 0;
   if (!gameState || !gameState.prices || !gameState.prices[INDEX_SYMBOL]) return;
-  gameState.prices[INDEX_SYMBOL].forEach(week => {
+  const indexWeeks = gameState.prices[INDEX_SYMBOL];
+  const netHist = gameState.netWorthHistory || [];
+  const startIdx = Math.max(indexWeeks.length - netHist.length, indexWeeks.length - 52);
+  for (let i = startIdx; i < indexWeeks.length; i++) {
+    const week = indexWeeks[i];
     marketHistory.push(week[week.length - 1]);
-  });
+  }
   if (gameState && gameState.netWorthHistory) {
-    gameState.netWorthHistory.forEach(w => {
-      portfolioHistory.push(w);
-    });
+    const worthStart = Math.max(0, gameState.netWorthHistory.length - 52);
+    for (let i = worthStart; i < gameState.netWorthHistory.length; i++) {
+      portfolioHistory.push(gameState.netWorthHistory[i]);
+    }
   }
 }
 
