@@ -40,6 +40,12 @@ function calculateGainToPainRatio(returns) {
 const TRADE_COMMISSION = 4.95;
 const TRADE_FEE_RATE = 0.001; // 0.1% of trade value
 
+function calculateMaxBuy(cash, price) {
+  if (cash <= TRADE_COMMISSION || price <= 0) return 0;
+  const perShare = price * (1 + TRADE_FEE_RATE);
+  return Math.max(0, Math.floor((cash - TRADE_COMMISSION) / perShare));
+}
+
 function buyStock(state, symbol, qty, price) {
   const tradeValue = qty * price;
   const commission = TRADE_COMMISSION;
@@ -94,6 +100,7 @@ if (typeof module !== 'undefined') {
     calculateMaxDrawdown,
     calculateSharpeRatio,
     calculateGainToPainRatio,
+    calculateMaxBuy,
     TRADE_COMMISSION,
     TRADE_FEE_RATE
   };

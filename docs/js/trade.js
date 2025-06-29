@@ -55,7 +55,7 @@ function updateTradeInfo() {
 
   const slider = document.getElementById('tradeQtySlider');
   const input = document.getElementById('tradeQty');
-  const maxBuy = Math.floor(gameState.cash / price);
+  const maxBuy = calculateMaxBuy(gameState.cash, price);
   const holdings = (gameState.positions[sym] && gameState.positions[sym].qty) || 0;
   const max = Math.max(maxBuy, holdings, 1);
   slider.max = max;
