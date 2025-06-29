@@ -5,6 +5,7 @@ const {
   calculateMaxDrawdown,
   calculateSharpeRatio,
   calculateGainToPainRatio,
+  calculateMaxBuy,
   TRADE_COMMISSION,
   TRADE_FEE_RATE
 } = require('../docs/js/player.js');
@@ -57,9 +58,19 @@ function testMetrics() {
   assert.ok(gp > 2.9 && gp < 2.92);
 }
 
+function testCalculateMaxBuy() {
+  const price = 50;
+  const cash = 1000;
+  const expected = Math.floor((cash - TRADE_COMMISSION) / (price * (1 + TRADE_FEE_RATE)));
+  const qty = calculateMaxBuy(cash, price);
+  assert.strictEqual(qty, expected);
+  assert.strictEqual(calculateMaxBuy(TRADE_COMMISSION - 1, price), 0);
+}
+
 try {
   testBuySell();
   testMetrics();
+  testCalculateMaxBuy();
   console.log('All tests passed');
 } catch (err) {
   console.error('Test failed');
