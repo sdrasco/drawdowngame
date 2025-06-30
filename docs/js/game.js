@@ -258,9 +258,6 @@ function showGameOverDialog() {
 }
 
 function endGame() {
-  const afterScore = () => {
-    showGameOverDialog();
-  };
   gameState.gameOver = true;
   const done = document.getElementById('doneBtn');
   if (done) {
@@ -268,10 +265,18 @@ function endGame() {
     done.classList.add('hidden');
   }
   saveState(gameState);
-  if (window.drawdownHighScores) {
-    window.drawdownHighScores.check(gameState.netWorth, afterScore);
+  if (window.drawdownHighScores &&
+      typeof window.drawdownHighScores.prepareEntry === 'function') {
+    window.drawdownHighScores.prepareEntry(gameState.netWorth)
+      .then(needsPage => {
+        if (needsPage) {
+          window.location.href = 'new-high-score.html';
+        } else {
+          showGameOverDialog();
+        }
+      });
   } else {
-    afterScore();
+    showGameOverDialog();
   }
 }
 
