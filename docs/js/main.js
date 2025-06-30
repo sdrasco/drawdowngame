@@ -5,7 +5,7 @@ let state = {
 
 function updateDisplay() {
   document.getElementById("week").textContent = state.week;
-  document.getElementById("netWorth").textContent = state.netWorth.toLocaleString();
+  document.getElementById("netWorth").textContent = Math.round(state.netWorth).toLocaleString();
 }
 
 function nextWeek() {
