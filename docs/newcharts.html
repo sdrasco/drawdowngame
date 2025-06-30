@@ -12,12 +12,26 @@
       padding-top: calc(350 / 600 * 100%);
     }
 
-    #marketChart {
+    #marketChart,
+    #marketChartMobile {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+    }
+
+    .mobile-chart {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .desktop-chart {
+        display: none;
+      }
+      .mobile-chart {
+        display: block;
+      }
     }
   </style>
   <script src="https://cdn.plot.ly/plotly-2.25.2.min.js"></script>
@@ -29,8 +43,11 @@
     <div>Rank: <span id="rank">Novice</span></div>
     <div>Cash: $<span id="cash">35000</span></div>
   </div>
-  <div class="chart-wrapper">
+  <div class="chart-wrapper desktop-chart">
     <div id="marketChart"></div>
+  </div>
+  <div class="chart-wrapper mobile-chart">
+    <div id="marketChartMobile"></div>
   </div>
   <div id="news" class="news"></div>
   <div class="menu">
@@ -106,7 +123,16 @@
       }
     };
 
-    Plotly.newPlot('marketChart', data, layout, {responsive: true});
+    const config = {
+      responsive: true,
+      staticPlot: true,
+      displaylogo: false,
+      displayModeBar: false
+    };
+
+    Plotly.newPlot('marketChart', data, layout, config);
+    const layoutMobile = Object.assign({}, layout);
+    Plotly.newPlot('marketChartMobile', data, layoutMobile, config);
   </script>
 </body>
 </html>
