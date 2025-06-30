@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Drawdown</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
   <div id="status" class="status">
@@ -13,8 +14,11 @@
     <div>Rank: <span id="rank">Novice</span></div>
     <div>Cash: $<span id="cash">35000</span></div>
   </div>
-  <div class="chart-wrapper">
-    <canvas id="marketChart" width="600" height="350"></canvas>
+  <div class="chart-wrapper desktop-chart">
+    <div id="marketChart"></div>
+  </div>
+  <div class="chart-wrapper mobile-chart">
+    <div id="marketChartMobile"></div>
   </div>
   <div id="news" class="news"></div>
   <div class="menu">
