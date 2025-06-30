@@ -86,88 +86,85 @@ function computeAverage(prices) {
   return prices.reduce((a, b) => a + b, 0) / prices.length;
 }
 
+let currentHistory = [];
+
 function drawChart(history) {
-  const canvas = document.getElementById('companyChart');
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  currentHistory = history;
+  const container = d3.select('#companyChart');
+  if (container.empty()) return;
+  container.selectAll('*').remove();
   if (history.length === 0) return;
-  const paddingLeft = 60;
-  const paddingRight = 10;
-  const paddingTop = 10;
-  const paddingBottom = 40;
-  const chartWidth = canvas.width - paddingLeft - paddingRight;
-  const chartHeight = canvas.height - paddingTop - paddingBottom;
-  const min = Math.min(...history);
-  const max = Math.max(...history);
-  const range = max - min || 1;
-  ctx.strokeStyle = '#39ff14';
-  ctx.lineWidth = 2;
-  ctx.shadowColor = 'transparent';
-  ctx.shadowBlur = 0;
-  ctx.beginPath();
-  ctx.moveTo(paddingLeft, paddingTop);
-  ctx.lineTo(paddingLeft, paddingTop + chartHeight);
-  ctx.lineTo(paddingLeft + chartWidth, paddingTop + chartHeight);
-  ctx.stroke();
-  ctx.font = '12px Courier New';
-  ctx.fillStyle = '#33ff33';
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'middle';
-  const yTicks = 4;
-  for (let i = 0; i <= yTicks; i++) {
-    const y = paddingTop + chartHeight - (i / yTicks) * chartHeight;
-    const raw = min + (i / yTicks) * range;
-    let label = raw.toFixed(0);
-    if (Math.abs(raw) >= 1000) {
-      label = `${Math.round(raw / 1000)}k`;
-    }
-    ctx.beginPath();
-    ctx.moveTo(paddingLeft - 5, y);
-    ctx.lineTo(paddingLeft, y);
-    ctx.stroke();
-    ctx.fillText(label, paddingLeft - 8, y);
-  }
-  ctx.save();
-  ctx.translate(15, paddingTop + chartHeight / 2);
-  ctx.rotate(-Math.PI / 2);
-  ctx.textAlign = 'center';
-  ctx.fillText('Price ($)', 0, 0);
-  ctx.restore();
-  const xStep = chartWidth / Math.max(1, history.length - 1);
-  const points = history.map((val, idx) => {
-    return { x: paddingLeft + idx * xStep, y: paddingTop + chartHeight - ((val - min) / range) * chartHeight };
-  });
-  ctx.shadowColor = '#39ff14';
-  ctx.shadowBlur = 4;
-  ctx.beginPath();
-  if (points.length > 0) {
-    ctx.moveTo(points[0].x, points[0].y);
-    for (let i = 0; i < points.length - 1; i++) {
-      const midX = (points[i].x + points[i + 1].x) / 2;
-      const midY = (points[i].y + points[i + 1].y) / 2;
-      ctx.quadraticCurveTo(points[i].x, points[i].y, midX, midY);
-    }
-    ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
-  }
-  ctx.stroke();
-  ctx.shadowColor = 'transparent';
-  ctx.shadowBlur = 0;
-  const labelStep = Math.ceil(history.length / 10);
-  history.forEach((_, idx) => {
-    const x = paddingLeft + idx * xStep;
-    ctx.beginPath();
-    ctx.moveTo(x, paddingTop + chartHeight);
-    ctx.lineTo(x, paddingTop + chartHeight + 5);
-    ctx.stroke();
-    if (idx % labelStep === 0 || idx === history.length - 1) {
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'top';
-      ctx.fillText(idx + 1, x, paddingTop + chartHeight + 8);
-    }
-  });
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'alphabetic';
-  ctx.fillText('Week', paddingLeft + chartWidth / 2, canvas.height - 10);
+  const width = container.node().clientWidth;
+  const height = width * 350 / 600;
+  const margin = { top: 20, right: 20, bottom: 40, left: 40 };
+  const svg = container.append('svg')
+    .attr('width', width)
+    .attr('height', height);
+  const chartWidth = width - margin.left - margin.right;
+  const chartHeight = height - margin.top - margin.bottom;
+  const g = svg.append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`);
+  const weeks = history.map((_, i) => i + 1);
+  const x = d3.scaleLinear()
+    .domain(d3.extent(weeks))
+    .range([0, chartWidth]);
+  const y = d3.scaleLinear()
+    .domain([d3.min(history), d3.max(history)])
+    .nice()
+    .range([chartHeight, 0]);
+  const line = d3.line()
+    .x((d, i) => x(weeks[i]))
+    .y(d => y(d))
+    .curve(d3.curveMonotoneX);
+
+  svg.style('touch-action', 'none');
+
+  const clipId = 'clip-companyChart';
+  svg.append('defs').append('clipPath')
+    .attr('id', clipId)
+    .append('rect')
+    .attr('width', chartWidth)
+    .attr('height', chartHeight);
+
+  const plot = g.append('g')
+    .attr('clip-path', `url(#${clipId})`);
+
+  const pricePath = plot.append('path')
+    .datum(history)
+    .attr('fill', 'none')
+    .attr('stroke', '#39ff14')
+    .attr('stroke-width', 2)
+    .attr('d', line);
+
+  const xAxis = g.append('g')
+    .attr('transform', `translate(0,${chartHeight})`)
+    .call(d3.axisBottom(x).ticks(10));
+  g.append('g')
+    .call(d3.axisLeft(y).ticks(5).tickFormat(d => {
+      return Math.abs(d) >= 1000 ? Math.round(d / 1000) + 'k' : d;
+    }));
+  g.append('text')
+    .attr('x', chartWidth / 2)
+    .attr('y', chartHeight + margin.bottom - 5)
+    .attr('text-anchor', 'middle')
+    .attr('fill', '#33ff33')
+    .text('Week');
+
+  const zoom = d3.zoom()
+    .scaleExtent([1, 10])
+    .translateExtent([[0, 0], [chartWidth, chartHeight]])
+    .extent([[0, 0], [chartWidth, chartHeight]])
+    .on('zoom', event => {
+      const newX = event.transform.rescaleX(x);
+      xAxis.call(d3.axisBottom(newX).ticks(10));
+      pricePath.attr('d', d3.line()
+        .x((d, i) => newX(weeks[i]))
+        .y(d => y(d))
+        .curve(d3.curveMonotoneX)
+      );
+    });
+
+  svg.call(zoom);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -177,4 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const dest = sessionStorage.getItem('backTo') || 'play.html';
     window.location.href = dest;
   });
+});
+
+window.addEventListener('resize', () => {
+  if (currentHistory.length > 0) drawChart(currentHistory);
 });

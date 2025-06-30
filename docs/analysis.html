@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Drawdown - Analysis</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
   <div class="analysis-container">
@@ -21,7 +22,7 @@
       <div>Low: $<span id="low">0</span></div>
     </div>
     <div class="chart-wrapper">
-      <canvas id="companyChart" width="600" height="350"></canvas>
+      <div id="companyChart"></div>
     </div>
     <div class="analysis-nav">
       <button id="nextBtn" type="button">Next Company</button>
