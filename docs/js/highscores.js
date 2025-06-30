@@ -135,6 +135,21 @@ function promptForScoreName(defaultName) {
   });
 }
 
+// Check if a score qualifies and stash data for the entry page
+export async function prepareEntry(score) {
+  const board = await loadBoard();
+  const qualifies = board.length < MAX_SCORES ||
+    (board.length && score > board[board.length - 1].score);
+  if (!qualifies) return false;
+  const defaultName =
+    (typeof window !== 'undefined' && typeof window.getUser === 'function')
+      ? window.getUser()
+      : '';
+  sessionStorage.setItem('pendingHighScore',
+    JSON.stringify({ score, board, defaultName }));
+  return true;
+}
+
 // 8. Determine if a score qualifies and submit if so
 export async function check(score, cb) {
   const board = await loadBoard();
@@ -160,5 +175,5 @@ export async function check(score, cb) {
 
 // expose to callers when loaded as a classic script
 if (typeof window !== 'undefined') {
-  window.drawdownHighScores = { check };
+  window.drawdownHighScores = { check, prepareEntry };
 }
