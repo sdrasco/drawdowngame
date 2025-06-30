@@ -5,8 +5,8 @@ let tradeMode = 'BUY';
 function renderMetrics() {
   if (!gameState) return;
   computeNetWorth(gameState);
-  document.getElementById('tNetWorth').textContent = gameState.netWorth.toLocaleString();
-  document.getElementById('tCash').textContent = gameState.cash.toLocaleString();
+  document.getElementById('tNetWorth').textContent = Math.round(gameState.netWorth).toLocaleString();
+  document.getElementById('tCash').textContent = Math.round(gameState.cash).toLocaleString();
 }
 
 function renderTradeHistory() {

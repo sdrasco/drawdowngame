@@ -184,8 +184,8 @@ function updateStatus() {
   const maxEl = document.getElementById('maxWeek');
   if (maxEl) maxEl.textContent = gameState.maxWeeks;
   document.getElementById('rank').textContent = gameState.rank;
-  document.getElementById('netWorth').textContent = gameState.netWorth.toLocaleString();
-  document.getElementById('cash').textContent = gameState.cash.toLocaleString();
+  document.getElementById('netWorth').textContent = Math.round(gameState.netWorth).toLocaleString();
+  document.getElementById('cash').textContent = Math.round(gameState.cash).toLocaleString();
 }
 
 function displayUsername() {

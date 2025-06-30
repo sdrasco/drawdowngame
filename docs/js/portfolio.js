@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!gameState) return;
   if (!gameState.positions) gameState.positions = {};
   computeNetWorth(gameState);
-  document.getElementById('pNetWorth').textContent = gameState.netWorth.toLocaleString();
-  document.getElementById('pCash').textContent = gameState.cash.toLocaleString();
+  document.getElementById('pNetWorth').textContent = Math.round(gameState.netWorth).toLocaleString();
+  document.getElementById('pCash').textContent = Math.round(gameState.cash).toLocaleString();
   renderPositions();
   renderMetrics();
   const back = document.getElementById('backBtn');
