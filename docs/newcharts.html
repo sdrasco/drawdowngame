@@ -117,19 +117,35 @@
         .x((d, i) => x(weeks[i]))
         .y(d => y(d))
         .curve(d3.curveMonotoneX);
-      g.append('path')
+
+      svg.style('touch-action', 'none');
+
+      const clipId = `clip-${id}`;
+      svg.append('defs').append('clipPath')
+        .attr('id', clipId)
+        .append('rect')
+        .attr('width', chartWidth)
+        .attr('height', chartHeight);
+
+      const plot = g.append('g')
+        .attr('clip-path', `url(#${clipId})`);
+
+      const indexPath = plot.append('path')
         .datum(indexPct)
+        .attr('class', 'index-line')
         .attr('fill', 'none')
         .attr('stroke', '#39ff14')
         .attr('stroke-width', 2)
         .attr('d', line);
-      g.append('path')
+      const portfolioPath = plot.append('path')
         .datum(portfolioPct)
+        .attr('class', 'portfolio-line')
         .attr('fill', 'none')
         .attr('stroke', '#ff8c00')
         .attr('stroke-width', 2)
         .attr('d', line);
-      g.append('g')
+
+      const xAxis = g.append('g')
         .attr('class', 'x-axis')
         .attr('transform', `translate(0,${chartHeight})`)
         .call(d3.axisBottom(x).ticks(10));
@@ -144,7 +160,7 @@
         .text('Week');
 
       // dotted zero line
-      g.append('line')
+      plot.append('line')
         .attr('x1', 0)
         .attr('x2', chartWidth)
         .attr('y1', y(0))
@@ -174,6 +190,29 @@
         .attr('dominant-baseline', 'middle')
         .attr('fill', '#33ff33')
         .text('Portfolio');
+
+      const zoom = d3.zoom()
+        .scaleExtent([1, 10])
+        .translateExtent([[0, 0], [chartWidth, chartHeight]])
+        .extent([[0, 0], [chartWidth, chartHeight]])
+        .on('zoom', event => {
+          const newX = event.transform.rescaleX(x);
+          xAxis.call(d3.axisBottom(newX).ticks(10));
+          indexPath.attr('d',
+            d3.line()
+              .x((d, i) => newX(weeks[i]))
+              .y(d => y(d))
+              .curve(d3.curveMonotoneX)
+          );
+          portfolioPath.attr('d',
+            d3.line()
+              .x((d, i) => newX(weeks[i]))
+              .y(d => y(d))
+              .curve(d3.curveMonotoneX)
+          );
+        });
+
+      svg.call(zoom);
     }
 
     function render() {
