@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drawdown - Plotly Demo</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.plot.ly/plotly-2.25.2.min.js"></script>
+</head>
+<body>
+  <div id="status" class="status">
+    <div>Week: <span id="week">14</span>/<span id="maxWeek">104</span></div>
+    <div>Net Worth: $<span id="netWorth">35000</span></div>
+    <div>Rank: <span id="rank">Novice</span></div>
+    <div>Cash: $<span id="cash">35000</span></div>
+  </div>
+  <div class="chart-wrapper">
+    <div id="marketChart"></div>
+  </div>
+  <div id="news" class="news"></div>
+  <div class="menu">
+    <button id="dataBtn">Analysis</button>
+    <button id="portfolioBtn">Portfolio</button>
+    <button id="tradeBtn" onclick="location.href='trade.html'">Trade</button>
+    <button id="doneBtn" class="advance">Advance to Next Week</button>
+    <button id="cashOutBtn">Retire</button>
+  </div>
+  <div id="username" class="username"></div>
+  <div id="usernamePrompt" class="username-prompt hidden">
+    <form>
+      <label for="usernameInput">Enter a username</label><br/>
+      <input id="usernameInput" type="text" autocomplete="off" /><br/>
+      <button type="button" id="usernameSubmit">Start</button>
+      <button type="button" id="usernameRandom">Random Name</button>
+    </form>
+  </div>
+  <div id="scorePrompt" class="username-prompt hidden">
+    <form>
+      <label for="scoreInput">High score name</label><br/>
+      <input id="scoreInput" type="text" autocomplete="off" /><br/>
+      <button type="button" id="scoreSubmit">Save</button>
+      <button type="button" id="scoreRandom">Random Name</button>
+    </form>
+  </div>
+  <div id="gameOverDialog" class="username-prompt hidden">
+    <form>
+      <p>Game over.</p>
+      <p class="final-worth">Final Net Worth: $<span id="gameOverNetWorth"></span></p>
+      <button type="button" id="gameOverAdmire">Admire Your Game</button>
+      <button type="button" id="gameOverScores">High Scores</button>
+      <button type="button" id="gameOverNew">Start New Game</button>
+      <button type="button" id="gameOverMenu">Main Menu</button>
+    </form>
+  </div>
+  <script>
+    // sample data for demonstration
+    const weeks = Array.from({ length: 52 }, (_, i) => i + 1);
+    const indexPct = weeks.map(w => Math.sin(w / 5) * 5 + w * 0.2);
+    const portfolioPct = weeks.map(w => Math.sin(w / 6) * 6 + w * 0.2 + 2);
+
+    const data = [
+      {
+        x: weeks,
+        y: indexPct,
+        name: 'Index',
+        line: { color: '#39ff14' }
+      },
+      {
+        x: weeks,
+        y: portfolioPct,
+        name: 'Portfolio',
+        line: { color: '#ff8c00' }
+      }
+    ];
+
+    const layout = {
+      plot_bgcolor: '#000',
+      paper_bgcolor: '#000',
+      font: {
+        color: '#33ff33',
+        family: 'Courier New, monospace'
+      },
+      xaxis: {
+        title: 'Week'
+      },
+      yaxis: {
+        title: 'Change (%)'
+      },
+      legend: {
+        orientation: 'h'
+      }
+    };
+
+    Plotly.newPlot('marketChart', data, layout, {responsive: true});
+  </script>
+</body>
+</html>
