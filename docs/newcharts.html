@@ -142,15 +142,18 @@
         .attr('text-anchor', 'middle')
         .attr('fill', '#33ff33')
         .text('Week');
-      g.append('text')
-        .attr('transform', 'rotate(-90)')
-        .attr('x', -chartHeight / 2)
-        .attr('y', -margin.left + 15)
-        .attr('text-anchor', 'middle')
-        .attr('fill', '#33ff33')
-        .text('Change (%)');
+
+      // dotted zero line
+      g.append('line')
+        .attr('x1', 0)
+        .attr('x2', chartWidth)
+        .attr('y1', y(0))
+        .attr('y2', y(0))
+        .attr('stroke', '#777')
+        .attr('stroke-dasharray', '3 3');
+      const legendWidth = 120;
       const legend = svg.append('g')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
+        .attr('transform', `translate(${(width - legendWidth) / 2},10)`);
       legend.append('line')
         .attr('x1', 0).attr('y1', 0)
         .attr('x2', 20).attr('y2', 0)
