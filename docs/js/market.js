@@ -88,7 +88,7 @@ function renderMarketChart() {
     const xAxis = g.append('g')
       .attr('transform', `translate(0,${chartHeight})`)
       .call(d3.axisBottom(x).ticks(10));
-    g.append('g')
+    const yAxis = g.append('g')
       .call(d3.axisLeft(y).ticks(5).tickFormat(d => d + '%'));
     g.append('text')
       .attr('x', chartWidth / 2)
@@ -97,7 +97,7 @@ function renderMarketChart() {
       .attr('fill', '#33ff33')
       .text('Week');
 
-    plot.append('line')
+    const zeroLine = plot.append('line')
       .attr('x1', 0)
       .attr('x2', chartWidth)
       .attr('y1', y(0))
@@ -136,6 +136,19 @@ function renderMarketChart() {
       .on('zoom', event => {
         const newX = event.transform.rescaleX(x);
         xAxis.call(d3.axisBottom(newX).ticks(10));
+        const [xStart, xEnd] = newX.domain();
+        const visible = [];
+        for (let i = 0; i < weeks.length; i++) {
+          if (weeks[i] >= xStart && weeks[i] <= xEnd) {
+            if (!isNaN(indexPct[i])) visible.push(indexPct[i]);
+            if (!isNaN(worthPct[i])) visible.push(worthPct[i]);
+          }
+        }
+        if (visible.length > 0) {
+          y.domain(d3.extent(visible)).nice();
+          yAxis.call(d3.axisLeft(y).ticks(5).tickFormat(d => d + '%'));
+          zeroLine.attr('y1', y(0)).attr('y2', y(0));
+        }
         indexPath.attr('d', d3.line()
           .x((d, i) => newX(weeks[i]))
           .y(d => y(d))

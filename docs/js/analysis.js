@@ -139,7 +139,7 @@ function drawChart(history) {
   const xAxis = g.append('g')
     .attr('transform', `translate(0,${chartHeight})`)
     .call(d3.axisBottom(x).ticks(10));
-  g.append('g')
+  const yAxis = g.append('g')
     .call(d3.axisLeft(y).ticks(5).tickFormat(d => {
       return Math.abs(d) >= 1000 ? Math.round(d / 1000) + 'k' : d;
     }));
@@ -157,6 +157,19 @@ function drawChart(history) {
     .on('zoom', event => {
       const newX = event.transform.rescaleX(x);
       xAxis.call(d3.axisBottom(newX).ticks(10));
+      const [xStart, xEnd] = newX.domain();
+      const visible = [];
+      for (let i = 0; i < weeks.length; i++) {
+        if (weeks[i] >= xStart && weeks[i] <= xEnd) {
+          visible.push(history[i]);
+        }
+      }
+      if (visible.length > 0) {
+        y.domain(d3.extent(visible)).nice();
+        yAxis.call(d3.axisLeft(y).ticks(5).tickFormat(d => {
+          return Math.abs(d) >= 1000 ? Math.round(d / 1000) + 'k' : d;
+        }));
+      }
       pricePath.attr('d', d3.line()
         .x((d, i) => newX(weeks[i]))
         .y(d => y(d))
