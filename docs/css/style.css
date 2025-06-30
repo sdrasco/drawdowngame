@@ -103,7 +103,9 @@ button:hover {
   max-width: 600px;
 }
 
-#marketChart {
+#marketChart,
+#marketChartMobile,
+#companyChart {
   display: block;
   width: 100%;
   height: auto;
@@ -112,10 +114,24 @@ button:hover {
 }
 
 /* Ensure all charts scale proportionally */
-.chart-wrapper canvas {
+.chart-wrapper canvas,
+.chart-wrapper svg {
   width: 100%;
   height: auto;
   aspect-ratio: 600 / 350;
+}
+
+.mobile-chart {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .desktop-chart {
+    display: none;
+  }
+  .mobile-chart {
+    display: block;
+  }
 }
 
 .news {

@@ -23,150 +23,136 @@ function initMarketHistory() {
 }
 
 function renderMarketChart() {
-  const canvas = document.getElementById('marketChart');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (marketHistory.length === 0) return;
-
+  const weeks = [];
   const historyLen = Math.max(marketHistory.length, portfolioHistory.length);
-
-  const paddingLeft = 60;
-  const paddingRight = 10;
-  const paddingTop = 10;
-  const paddingBottom = 40;
-
-  const chartWidth = canvas.width - paddingLeft - paddingRight;
-  const chartHeight = canvas.height - paddingTop - paddingBottom;
+  const startWeek = gameState.week - historyLen + 1;
+  for (let i = 0; i < historyLen; i++) weeks.push(startWeek + i);
 
   const startIndex = marketHistory[0];
   const startWorth = portfolioHistory[0] || gameState.netWorth;
   const indexPct = marketHistory.map(v => ((v - startIndex) / startIndex) * 100);
   const worthPct = portfolioHistory.map(v => ((v - startWorth) / startWorth) * 100);
 
-  const min = Math.min(...indexPct, ...worthPct);
-  const max = Math.max(...indexPct, ...worthPct);
-  const range = max - min || 1;
+  function drawChart(id) {
+    const container = d3.select('#' + id);
+    if (container.empty()) return;
+    container.selectAll('*').remove();
+    const width = container.node().clientWidth;
+    const height = width * 350 / 600;
+    const margin = { top: 20, right: 20, bottom: 40, left: 40 };
+    const svg = container.append('svg')
+      .attr('width', width)
+      .attr('height', height);
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+    const g = svg.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+    const x = d3.scaleLinear()
+      .domain(d3.extent(weeks))
+      .range([0, chartWidth]);
+    const y = d3.scaleLinear()
+      .domain([d3.min(indexPct.concat(worthPct)), d3.max(indexPct.concat(worthPct))])
+      .nice()
+      .range([chartHeight, 0]);
+    const line = d3.line()
+      .x((d, i) => x(weeks[i]))
+      .y(d => y(d))
+      .curve(d3.curveMonotoneX);
 
-  ctx.strokeStyle = '#39ff14';
-  ctx.lineWidth = 2;
-  // draw axes without glow
-  ctx.shadowColor = 'transparent';
-  ctx.shadowBlur = 0;
-  ctx.beginPath();
-  ctx.moveTo(paddingLeft, paddingTop);
-  ctx.lineTo(paddingLeft, paddingTop + chartHeight);
-  ctx.lineTo(paddingLeft + chartWidth, paddingTop + chartHeight);
-  ctx.stroke();
+    svg.style('touch-action', 'none');
 
-  ctx.font = '12px Courier New';
-  ctx.fillStyle = '#33ff33';
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'middle';
+    const clipId = `clip-${id}`;
+    svg.append('defs').append('clipPath')
+      .attr('id', clipId)
+      .append('rect')
+      .attr('width', chartWidth)
+      .attr('height', chartHeight);
 
-  const yTicks = 4;
-  for (let i = 0; i <= yTicks; i++) {
-    const y = paddingTop + chartHeight - (i / yTicks) * chartHeight;
-    const raw = min + (i / yTicks) * range;
-    const label = `${raw.toFixed(0)}%`;
-    ctx.beginPath();
-    ctx.moveTo(paddingLeft - 5, y);
-    ctx.lineTo(paddingLeft, y);
-    ctx.stroke();
-    ctx.fillText(label, paddingLeft - 8, y);
+    const plot = g.append('g')
+      .attr('clip-path', `url(#${clipId})`);
+
+    const indexPath = plot.append('path')
+      .datum(indexPct)
+      .attr('fill', 'none')
+      .attr('stroke', '#39ff14')
+      .attr('stroke-width', 2)
+      .attr('d', line);
+
+    const portfolioPath = plot.append('path')
+      .datum(worthPct)
+      .attr('fill', 'none')
+      .attr('stroke', '#ff8c00')
+      .attr('stroke-width', 2)
+      .attr('d', line);
+
+    const xAxis = g.append('g')
+      .attr('transform', `translate(0,${chartHeight})`)
+      .call(d3.axisBottom(x).ticks(10));
+    g.append('g')
+      .call(d3.axisLeft(y).ticks(5).tickFormat(d => d + '%'));
+    g.append('text')
+      .attr('x', chartWidth / 2)
+      .attr('y', chartHeight + margin.bottom - 5)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#33ff33')
+      .text('Week');
+
+    plot.append('line')
+      .attr('x1', 0)
+      .attr('x2', chartWidth)
+      .attr('y1', y(0))
+      .attr('y2', y(0))
+      .attr('stroke', '#777')
+      .attr('stroke-dasharray', '3 3');
+
+    const legendWidth = 120;
+    const legend = svg.append('g')
+      .attr('transform', `translate(${(width - legendWidth) / 2},10)`);
+    legend.append('line')
+      .attr('x1', 0).attr('y1', 0)
+      .attr('x2', 20).attr('y2', 0)
+      .attr('stroke', '#39ff14')
+      .attr('stroke-width', 2);
+    legend.append('text')
+      .attr('x', 24).attr('y', 0)
+      .attr('dominant-baseline', 'middle')
+      .attr('fill', '#33ff33')
+      .text('Index');
+    legend.append('line')
+      .attr('x1', 80).attr('y1', 0)
+      .attr('x2', 100).attr('y2', 0)
+      .attr('stroke', '#ff8c00')
+      .attr('stroke-width', 2);
+    legend.append('text')
+      .attr('x', 104).attr('y', 0)
+      .attr('dominant-baseline', 'middle')
+      .attr('fill', '#33ff33')
+      .text('Portfolio');
+
+    const zoom = d3.zoom()
+      .scaleExtent([1, 10])
+      .translateExtent([[0, 0], [chartWidth, chartHeight]])
+      .extent([[0, 0], [chartWidth, chartHeight]])
+      .on('zoom', event => {
+        const newX = event.transform.rescaleX(x);
+        xAxis.call(d3.axisBottom(newX).ticks(10));
+        indexPath.attr('d', d3.line()
+          .x((d, i) => newX(weeks[i]))
+          .y(d => y(d))
+          .curve(d3.curveMonotoneX)
+        );
+        portfolioPath.attr('d', d3.line()
+          .x((d, i) => newX(weeks[i]))
+          .y(d => y(d))
+          .curve(d3.curveMonotoneX)
+        );
+      });
+
+    svg.call(zoom);
   }
 
-  ctx.save();
-  ctx.translate(15, paddingTop + chartHeight / 2);
-  ctx.rotate(-Math.PI / 2);
-  ctx.textAlign = 'center';
-  ctx.fillText('Change (%)', 0, 0);
-  ctx.restore();
-
-  const xStep = chartWidth / Math.max(1, historyLen - 1);
-
-  // draw price line (smoothed)
-  const points = indexPct.map((val, idx) => {
-    return {
-      x: paddingLeft + idx * xStep,
-      y: paddingTop + chartHeight - ((val - min) / range) * chartHeight
-    };
-  });
-  // enable glow for the index line
-  ctx.shadowColor = '#39ff14';
-  ctx.shadowBlur = 4;
-  ctx.beginPath();
-  if (points.length > 0) {
-    ctx.moveTo(points[0].x, points[0].y);
-    for (let i = 0; i < points.length - 1; i++) {
-      const midX = (points[i].x + points[i + 1].x) / 2;
-      const midY = (points[i].y + points[i + 1].y) / 2;
-      ctx.quadraticCurveTo(points[i].x, points[i].y, midX, midY);
-    }
-    ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
-  }
-  ctx.stroke();
-
-  // draw portfolio line
-  const portPoints = worthPct.map((val, idx) => {
-    return {
-      x: paddingLeft + idx * xStep,
-      y: paddingTop + chartHeight - ((val - min) / range) * chartHeight
-    };
-  });
-  ctx.strokeStyle = '#ff8c00';
-  ctx.shadowColor = '#ff8c00';
-  ctx.shadowBlur = 4;
-  ctx.beginPath();
-  if (portPoints.length > 0) {
-    ctx.moveTo(portPoints[0].x, portPoints[0].y);
-    for (let i = 0; i < portPoints.length - 1; i++) {
-      const midX = (portPoints[i].x + portPoints[i + 1].x) / 2;
-      const midY = (portPoints[i].y + portPoints[i + 1].y) / 2;
-      ctx.quadraticCurveTo(portPoints[i].x, portPoints[i].y, midX, midY);
-    }
-    ctx.lineTo(portPoints[portPoints.length - 1].x, portPoints[portPoints.length - 1].y);
-  }
-  ctx.stroke();
-
-  // disable glow for remaining elements
-  ctx.shadowColor = 'transparent';
-  ctx.shadowBlur = 0;
-
-  // legend
-  const legendX = paddingLeft + 5;
-  const legendY = paddingTop + 10;
-  ctx.fillStyle = '#39ff14';
-  ctx.fillRect(legendX, legendY - 4, 10, 2);
-  ctx.fillStyle = '#33ff33';
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('Index', legendX + 14, legendY);
-  ctx.fillStyle = '#ff8c00';
-  ctx.fillRect(legendX, legendY + 12 - 4, 10, 2);
-  ctx.fillStyle = '#33ff33';
-  ctx.fillText('Portfolio', legendX + 14, legendY + 12);
-
-  // draw x-axis ticks and labels
-  const startWeek = gameState.week - historyLen + 1;
-  const labelStep = Math.ceil(historyLen / 10);
-  for (let idx = 0; idx < historyLen; idx++) {
-    const x = paddingLeft + idx * xStep;
-    ctx.beginPath();
-    ctx.moveTo(x, paddingTop + chartHeight);
-    ctx.lineTo(x, paddingTop + chartHeight + 5);
-    ctx.stroke();
-    if (idx % labelStep === 0 || idx === historyLen - 1) {
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'top';
-      ctx.fillText(startWeek + idx, x, paddingTop + chartHeight + 8);
-    }
-  }
-
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'alphabetic';
-  ctx.fillText('Week', paddingLeft + chartWidth / 2, canvas.height - 10);
+  drawChart('marketChart');
+  drawChart('marketChartMobile');
 }
 
 function updateMarket() {
@@ -185,3 +171,5 @@ function updateMarket() {
   }
   renderMarketChart();
 }
+
+window.addEventListener('resize', renderMarketChart);
