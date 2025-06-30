@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Drawdown - Plotly Demo</title>
+  <title>Drawdown - D3 Demo</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Maintain aspect ratio for the Plotly chart on small screens */
+    /* Maintain aspect ratio for the D3 chart on small screens */
     .chart-wrapper {
       position: relative;
       padding-top: calc(350 / 600 * 100%);
@@ -34,7 +34,7 @@
       }
     }
   </style>
-  <script src="https://cdn.plot.ly/plotly-2.25.2.min.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
   <div id="status" class="status">
@@ -90,49 +90,95 @@
     const indexPct = weeks.map(w => Math.sin(w / 5) * 5 + w * 0.2);
     const portfolioPct = weeks.map(w => Math.sin(w / 6) * 6 + w * 0.2 + 2);
 
-    const data = [
-      {
-        x: weeks,
-        y: indexPct,
-        name: 'Index',
-        line: { color: '#39ff14' }
-      },
-      {
-        x: weeks,
-        y: portfolioPct,
-        name: 'Portfolio',
-        line: { color: '#ff8c00' }
-      }
-    ];
+    function drawChart(id) {
+      const container = d3.select(`#${id}`);
+      container.selectAll('*').remove();
+      const width = container.node().clientWidth;
+      const height = width * 350 / 600;
+      const margin = { top: 20, right: 20, bottom: 40, left: 40 };
+      const svg = container.append('svg')
+        .attr('width', width)
+        .attr('height', height);
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
+      const g = svg.append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+      const x = d3.scaleLinear()
+        .domain(d3.extent(weeks))
+        .range([0, chartWidth]);
+      const y = d3.scaleLinear()
+        .domain([
+          d3.min(indexPct.concat(portfolioPct)),
+          d3.max(indexPct.concat(portfolioPct))
+        ])
+        .nice()
+        .range([chartHeight, 0]);
+      const line = d3.line()
+        .x((d, i) => x(weeks[i]))
+        .y(d => y(d))
+        .curve(d3.curveMonotoneX);
+      g.append('path')
+        .datum(indexPct)
+        .attr('fill', 'none')
+        .attr('stroke', '#39ff14')
+        .attr('stroke-width', 2)
+        .attr('d', line);
+      g.append('path')
+        .datum(portfolioPct)
+        .attr('fill', 'none')
+        .attr('stroke', '#ff8c00')
+        .attr('stroke-width', 2)
+        .attr('d', line);
+      g.append('g')
+        .attr('class', 'x-axis')
+        .attr('transform', `translate(0,${chartHeight})`)
+        .call(d3.axisBottom(x).ticks(10));
+      g.append('g')
+        .attr('class', 'y-axis')
+        .call(d3.axisLeft(y).ticks(5).tickFormat(d => d + '%'));
+      g.append('text')
+        .attr('x', chartWidth / 2)
+        .attr('y', chartHeight + margin.bottom - 5)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#33ff33')
+        .text('Week');
+      g.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('x', -chartHeight / 2)
+        .attr('y', -margin.left + 15)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#33ff33')
+        .text('Change (%)');
+      const legend = svg.append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+      legend.append('line')
+        .attr('x1', 0).attr('y1', 0)
+        .attr('x2', 20).attr('y2', 0)
+        .attr('stroke', '#39ff14')
+        .attr('stroke-width', 2);
+      legend.append('text')
+        .attr('x', 24).attr('y', 0)
+        .attr('dominant-baseline', 'middle')
+        .attr('fill', '#33ff33')
+        .text('Index');
+      legend.append('line')
+        .attr('x1', 80).attr('y1', 0)
+        .attr('x2', 100).attr('y2', 0)
+        .attr('stroke', '#ff8c00')
+        .attr('stroke-width', 2);
+      legend.append('text')
+        .attr('x', 104).attr('y', 0)
+        .attr('dominant-baseline', 'middle')
+        .attr('fill', '#33ff33')
+        .text('Portfolio');
+    }
 
-    const layout = {
-      plot_bgcolor: '#000',
-      paper_bgcolor: '#000',
-      font: {
-        color: '#33ff33',
-        family: 'Courier New, monospace'
-      },
-      xaxis: {
-        title: 'Week'
-      },
-      yaxis: {
-        title: 'Change (%)'
-      },
-      legend: {
-        orientation: 'h'
-      }
-    };
-
-    const config = {
-      responsive: true,
-      staticPlot: true,
-      displaylogo: false,
-      displayModeBar: false
-    };
-
-    Plotly.newPlot('marketChart', data, layout, config);
-    const layoutMobile = Object.assign({}, layout);
-    Plotly.newPlot('marketChartMobile', data, layoutMobile, config);
+    function render() {
+      drawChart('marketChart');
+      drawChart('marketChartMobile');
+    }
+    window.addEventListener('resize', render);
+    render();
   </script>
 </body>
 </html>
