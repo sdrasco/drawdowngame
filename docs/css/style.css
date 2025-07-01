@@ -220,6 +220,26 @@ select {
   margin-bottom: 1rem;
 }
 
+#tradeModeSelect {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#sellHoldingsTable {
+  margin: 0.5rem auto;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 400px;
+}
+
+#sellHoldingsTable th,
+#sellHoldingsTable td {
+  border: 1px solid #33ff33;
+  padding: 0.5rem;
+}
+
 #tradeHistoryTable {
   margin: 1rem auto;
   border-collapse: collapse;
