@@ -33,16 +33,60 @@ function showTradeDialog(trade) {
   }
 }
 
-function populateTradeSymbols() {
+function populateTradeSymbols(list) {
   const select = document.getElementById('tradeSymbol');
   if (!select) return;
-  if (select.childElementCount > 0) return; // already populated
-  companies.filter(c => !c.isIndex).forEach(c => {
+  select.innerHTML = '';
+  list.forEach(c => {
     const opt = document.createElement('option');
     opt.value = c.symbol;
     opt.textContent = `${c.symbol} - ${c.name}`;
     select.appendChild(opt);
   });
+}
+
+function getHoldingsList() {
+  const symbols = Object.keys(gameState.positions || {});
+  return companies.filter(c => symbols.includes(c.symbol));
+}
+
+function renderSellHoldings() {
+  const tbl = document.getElementById('sellHoldingsTable');
+  if (!tbl) return;
+  tbl.innerHTML = '';
+  const header = document.createElement('tr');
+  header.innerHTML = '<th>Symbol</th><th>Qty</th>';
+  tbl.appendChild(header);
+  Object.keys(gameState.positions || {}).forEach(sym => {
+    const row = document.createElement('tr');
+    const qty = gameState.positions[sym].qty;
+    row.innerHTML = `<td>${sym}</td><td>${qty}</td>`;
+    tbl.appendChild(row);
+  });
+}
+
+function showOrderForm(mode) {
+  tradeMode = mode;
+  document.getElementById('tradeModeSelect').classList.add('hidden');
+  document.getElementById('tradeForm').classList.remove('hidden');
+  document.getElementById('buyBtn').classList.toggle('hidden', mode !== 'BUY');
+  document.getElementById('sellBtn').classList.toggle('hidden', mode !== 'SELL');
+  const holdingsDiv = document.getElementById('sellHoldings');
+  if (mode === 'SELL') {
+    holdingsDiv.classList.remove('hidden');
+    renderSellHoldings();
+    populateTradeSymbols(getHoldingsList());
+  } else {
+    holdingsDiv.classList.add('hidden');
+    populateTradeSymbols(companies.filter(c => !c.isIndex));
+  }
+  updateTradeInfo();
+}
+
+function hideOrderForm() {
+  document.getElementById('tradeForm').classList.add('hidden');
+  document.getElementById('sellHoldings').classList.add('hidden');
+  document.getElementById('tradeModeSelect').classList.remove('hidden');
 }
 
 function updateTradeInfo() {
@@ -170,8 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(r => r.json())
     .then(data => {
       companies = data.companies;
-      populateTradeSymbols();
-      updateTradeInfo();
       renderMetrics();
       renderTradeHistory();
     });
@@ -187,8 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById('buyBtn').addEventListener('click', doBuy);
   document.getElementById('sellBtn').addEventListener('click', doSell);
-  document.getElementById('buyBtn').addEventListener('mouseenter', () => { tradeMode = 'BUY'; updateTradeTotal(); });
-  document.getElementById('buyBtn').addEventListener('focus', () => { tradeMode = 'BUY'; updateTradeTotal(); });
-  document.getElementById('sellBtn').addEventListener('mouseenter', () => { tradeMode = 'SELL'; updateTradeTotal(); });
-  document.getElementById('sellBtn').addEventListener('focus', () => { tradeMode = 'SELL'; updateTradeTotal(); });
+  document.getElementById('startBuyBtn').addEventListener('click', () => showOrderForm('BUY'));
+  document.getElementById('startSellBtn').addEventListener('click', () => showOrderForm('SELL'));
+  document.getElementById('cancelTradeBtn').addEventListener('click', hideOrderForm);
 });
