@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Drawdown - Portfolio</title>
   <link rel="stylesheet" href="css/style.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
   <div class="portfolio-container">
@@ -17,6 +18,14 @@
       <tr><th>Gain to Pain</th><td><span id="gainToPain">0</span></td></tr>
     </table>
     <table id="positionsTable"></table>
+    <h2>Sector Allocation</h2>
+    <div class="chart-wrapper">
+      <div id="sectorChart"></div>
+    </div>
+    <h2>Holdings by Company</h2>
+    <div class="chart-wrapper">
+      <div id="companyChartPie"></div>
+    </div>
     <div class="analysis-nav">
       <button id="backBtn" type="button">Back to Overview</button>
     </div>
