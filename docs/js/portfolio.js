@@ -106,15 +106,47 @@ function drawPie(id, obj) {
     .attr('height', height)
     .append('g')
     .attr('transform', `translate(${width / 2},${height / 2})`);
-  const color = d3.scaleOrdinal().range(d3.schemeSet3);
   const pie = d3.pie().sort(null).value(d => d.value);
   const arc = d3.arc().outerRadius(radius - 10).innerRadius(0);
   const labelArc = d3.arc().outerRadius(radius * 0.7).innerRadius(radius * 0.7);
+
+  const defs = svg.append('defs');
+  const patternTypes = ['diag1', 'diag2', 'grid', 'dots'];
+  entries.forEach((_, i) => {
+    const type = patternTypes[i % patternTypes.length];
+    const pat = defs.append('pattern')
+      .attr('id', `piePattern${i}`)
+      .attr('patternUnits', 'userSpaceOnUse')
+      .attr('width', 8)
+      .attr('height', 8);
+    pat.append('rect')
+      .attr('width', 8)
+      .attr('height', 8)
+      .attr('fill', '#000');
+    if (type === 'diag1') {
+      pat.append('path').attr('d', 'M0,8 l8,-8 M-2,6 l4,-4 M6,10 l4,-4')
+        .attr('stroke', '#33ff33').attr('stroke-width', 1);
+    } else if (type === 'diag2') {
+      pat.append('path').attr('d', 'M0,0 l8,8 M-2,2 l4,4 M6,-2 l4,4')
+        .attr('stroke', '#33ff33').attr('stroke-width', 1);
+    } else if (type === 'grid') {
+      pat.append('path').attr('d', 'M0,2 l8,0 M0,6 l8,0 M2,0 l0,8 M6,0 l0,8')
+        .attr('stroke', '#33ff33').attr('stroke-width', 1);
+    } else if (type === 'dots') {
+      pat.append('circle').attr('cx', 2).attr('cy', 2).attr('r', 1).attr('fill', '#33ff33');
+      pat.append('circle').attr('cx', 6).attr('cy', 6).attr('r', 1).attr('fill', '#33ff33');
+      pat.append('circle').attr('cx', 2).attr('cy', 6).attr('r', 1).attr('fill', '#33ff33');
+      pat.append('circle').attr('cx', 6).attr('cy', 2).attr('r', 1).attr('fill', '#33ff33');
+    }
+  });
+
   const arcs = svg.selectAll('path')
     .data(pie(entries))
     .enter().append('path')
     .attr('d', arc)
-    .attr('fill', d => color(d.data.name));
+    .attr('fill', (_, i) => `url(#piePattern${i})`)
+    .attr('stroke', '#33ff33')
+    .attr('stroke-width', 1);
   svg.selectAll('text')
     .data(pie(entries))
     .enter().append('text')
