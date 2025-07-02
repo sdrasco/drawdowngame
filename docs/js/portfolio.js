@@ -122,21 +122,21 @@ function drawPie(id, obj) {
     pat.append('rect')
       .attr('width', 8)
       .attr('height', 8)
-      .attr('fill', '#000');
+      .attr('fill', '#111');
     if (type === 'diag1') {
       pat.append('path').attr('d', 'M0,8 l8,-8 M-2,6 l4,-4 M6,10 l4,-4')
-        .attr('stroke', '#33ff33').attr('stroke-width', 1);
+        .attr('stroke', '#66ff66').attr('stroke-width', 2);
     } else if (type === 'diag2') {
       pat.append('path').attr('d', 'M0,0 l8,8 M-2,2 l4,4 M6,-2 l4,4')
-        .attr('stroke', '#33ff33').attr('stroke-width', 1);
+        .attr('stroke', '#66ff66').attr('stroke-width', 2);
     } else if (type === 'grid') {
       pat.append('path').attr('d', 'M0,2 l8,0 M0,6 l8,0 M2,0 l0,8 M6,0 l0,8')
-        .attr('stroke', '#33ff33').attr('stroke-width', 1);
+        .attr('stroke', '#66ff66').attr('stroke-width', 2);
     } else if (type === 'dots') {
-      pat.append('circle').attr('cx', 2).attr('cy', 2).attr('r', 1).attr('fill', '#33ff33');
-      pat.append('circle').attr('cx', 6).attr('cy', 6).attr('r', 1).attr('fill', '#33ff33');
-      pat.append('circle').attr('cx', 2).attr('cy', 6).attr('r', 1).attr('fill', '#33ff33');
-      pat.append('circle').attr('cx', 6).attr('cy', 2).attr('r', 1).attr('fill', '#33ff33');
+      pat.append('circle').attr('cx', 2).attr('cy', 2).attr('r', 1).attr('fill', '#66ff66');
+      pat.append('circle').attr('cx', 6).attr('cy', 6).attr('r', 1).attr('fill', '#66ff66');
+      pat.append('circle').attr('cx', 2).attr('cy', 6).attr('r', 1).attr('fill', '#66ff66');
+      pat.append('circle').attr('cx', 6).attr('cy', 2).attr('r', 1).attr('fill', '#66ff66');
     }
   });
 
@@ -145,7 +145,7 @@ function drawPie(id, obj) {
     .enter().append('path')
     .attr('d', arc)
     .attr('fill', (_, i) => `url(#piePattern${i})`)
-    .attr('stroke', '#33ff33')
+    .attr('stroke', '#66ff66')
     .attr('stroke-width', 1);
   svg.selectAll('text')
     .data(pie(entries))
@@ -153,7 +153,7 @@ function drawPie(id, obj) {
     .attr('transform', d => `translate(${labelArc.centroid(d)})`)
     .attr('dy', '0.35em')
     .attr('text-anchor', 'middle')
-    .attr('fill', '#33ff33')
+    .attr('fill', '#ccffcc')
     .attr('font-size', '0.75rem')
     .text(d => d.data.name);
 }
