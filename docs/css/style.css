@@ -291,3 +291,12 @@ select {
   font-weight: bold;
   color: #66ff66;
 }
+
+/* Smaller square pies for portfolio charts */
+.pie-chart-wrapper {
+  max-width: 300px;
+}
+
+.pie-chart-wrapper svg {
+  aspect-ratio: 1 / 1;
+}
