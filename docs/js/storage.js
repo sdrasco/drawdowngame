@@ -79,3 +79,11 @@ function loadState() {
 function saveState(state) {
   localStorage.setItem(getStorageKey(), JSON.stringify(state));
 }
+
+function hasSeenGreeting() {
+  return localStorage.getItem('drawdownGreeting_' + getUser()) === '1';
+}
+
+function setGreetingSeen() {
+  localStorage.setItem('drawdownGreeting_' + getUser(), '1');
+}

@@ -18,7 +18,14 @@ fetch('data/company_master_data.json')
     // keep mu as provided; drift direction will change week by week
     setupMarketIndex();
     ensureUser(() => {
-      showGreeting(startGame);
+      if (typeof hasSeenGreeting === 'function' && hasSeenGreeting()) {
+        startGame();
+      } else {
+        showGreeting(() => {
+          if (typeof setGreetingSeen === 'function') setGreetingSeen();
+          startGame();
+        });
+      }
     });
   });
 function getBeta(c) {
