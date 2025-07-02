@@ -18,7 +18,7 @@ fetch('data/company_master_data.json')
     // keep mu as provided; drift direction will change week by week
     setupMarketIndex();
     ensureUser(() => {
-      startGame();
+      showGreeting(startGame);
     });
   });
 function getBeta(c) {
@@ -325,6 +325,36 @@ function showPlaceholder(msg) {
   if (typeof showMessage === 'function') {
     showMessage(msg + ' screen goes here.');
   }
+}
+
+function showGreeting(callback) {
+  const overlay = document.getElementById('greetingOverlay');
+  const startBtn = document.getElementById('greetingStart');
+  const greetText = document.getElementById('greetingText');
+  const instructText = document.getElementById('greetingInstructions');
+  if (!overlay || !startBtn) {
+    callback();
+    return;
+  }
+  if (greetText) {
+    greetText.textContent = `Alright ${getUser()}, let's pretend you know what you're doing.`;
+  }
+  if (instructText) {
+    instructText.textContent = 'Advance weeks, trade some stocks, try not to go broke.';
+  }
+  function proceed() {
+    overlay.classList.add('hidden');
+    startBtn.removeEventListener('click', proceed);
+    document.removeEventListener('keydown', keyHandler);
+    callback();
+  }
+  function keyHandler(e) {
+    if (e.key === 'Enter') proceed();
+  }
+  startBtn.addEventListener('click', proceed);
+  document.addEventListener('keydown', keyHandler);
+  overlay.classList.remove('hidden');
+  startBtn.focus();
 }
 
 const doneEl = document.getElementById('doneBtn');
