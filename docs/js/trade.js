@@ -172,6 +172,7 @@ function doBuy() {
     showTradeDialog(trade);
     renderMetrics();
     updateTradeInfo();
+    renderSellHoldings();
     renderTradeHistory();
   }
 }
@@ -203,6 +204,7 @@ function doSell() {
     showTradeDialog(trade);
     renderMetrics();
     updateTradeInfo();
+    renderSellHoldings();
     renderTradeHistory();
   }
 }
