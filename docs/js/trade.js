@@ -101,7 +101,12 @@ function updateTradeInfo() {
   const input = document.getElementById('tradeQty');
   const maxBuy = calculateMaxBuy(gameState.cash, price);
   const holdings = (gameState.positions[sym] && gameState.positions[sym].qty) || 0;
-  const max = Math.max(maxBuy, holdings, 1);
+  let max;
+  if (tradeMode === 'SELL') {
+    max = Math.max(holdings, 1);
+  } else {
+    max = Math.max(maxBuy, 1);
+  }
   slider.max = max;
   slider.value = 1;
   input.value = 1;
