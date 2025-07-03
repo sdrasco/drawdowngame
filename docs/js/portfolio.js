@@ -122,7 +122,7 @@ function drawPie(id, obj) {
     pat.append('rect')
       .attr('width', 8)
       .attr('height', 8)
-      .attr('fill', '#111');
+      .attr('fill', '#222');
     if (type === 'diag1') {
       pat.append('path').attr('d', 'M0,8 l8,-8 M-2,6 l4,-4 M6,10 l4,-4')
         .attr('stroke', '#66ff66').attr('stroke-width', 2);
