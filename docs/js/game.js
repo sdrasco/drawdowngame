@@ -208,7 +208,7 @@ function updateRank() {
     gameState.rank = 'Tycoon';
   } else if (worth > 250000) {
     gameState.rank = 'Trader';
-  } else if (worth > 100000) {
+  } else if (worth > 50000) {
     gameState.rank = 'Apprentice';
   } else {
     gameState.rank = 'Novice';
