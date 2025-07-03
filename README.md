@@ -12,12 +12,12 @@ Play drawdown online at [drawdowngame.com](https://drawdowngame.com). Hopefully 
 
 | **Phase**              | **What Happens** |
 |------------------------|------------------------------------------------|
-| **Start Game**         | Choose new or resume; you start with $35k, a "Novice" badge and a few weeks of history. |
+| **Start Game**         | Choose new or resume; you start with $35k, a "Novice" badge and a few weeks of history. Options unlock once promoted. |
 | **Weekly Loop (up to 104)** | |
 | • Index Update         | The market chart gets another 5 days of data points. |
 | • Headlines            | News blurbs hint at coming moves. |
 | • Trade                | Check Analysis, peek at your Portfolio, then trade is you like (each trade includes a small commission and fee). |
-| • Advance Week         | Commit your trades. Prices jump, and once you pass $50k your rank can improve. |
+| • Advance Week         | Commit your trades. Prices jump; hitting $50k promotes you to Apprentice and unlocks long calls and puts. |
 | **Retire**             | Cash out any time—or after week 104—and join the high score list. |
 
 ### Portfolio Stats
