@@ -95,17 +95,21 @@ function computeNetWorth(state) {
     const price = week[week.length - 1];
     total += state.positions[sym].qty * price;
   });
+  const activeOpts = [];
   (state.options || []).forEach(opt => {
-    const priceData = state.prices[opt.symbol];
-    if (!priceData || priceData.length === 0) return;
-    const week = priceData[priceData.length - 1];
-    const S = week[week.length - 1];
     const remaining = opt.weeksToExpiry - (state.week - opt.purchaseWeek);
-    if (remaining <= 0 || !bsPrice) return;
-    const optionVal = bsPrice(S, opt.strike, OPTION_RISK_FREE_RATE,
-                              OPTION_VOLATILITY, remaining / 52, opt.type);
-    total += optionVal * opt.qty;
+    if (remaining <= 0) return;
+    const priceData = state.prices[opt.symbol];
+    if (priceData && priceData.length > 0 && bsPrice) {
+      const week = priceData[priceData.length - 1];
+      const S = week[week.length - 1];
+      const optionVal = bsPrice(S, opt.strike, OPTION_RISK_FREE_RATE,
+                                OPTION_VOLATILITY, remaining / 52, opt.type);
+      total += optionVal * opt.qty;
+    }
+    activeOpts.push(opt);
   });
+  state.options = activeOpts;
   state.netWorth = +total.toFixed(2);
   return state.netWorth;
 }

@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('pNetWorth').textContent = Math.round(gameState.netWorth).toLocaleString();
   document.getElementById('pCash').textContent = Math.round(gameState.cash).toLocaleString();
   renderPositions();
+  renderOptions();
   renderMetrics();
   fetch('data/company_master_data.json')
     .then(r => r.json())
@@ -44,6 +45,27 @@ function renderPositions() {
     const row = document.createElement('tr');
     const value = (pos.qty * price).toFixed(2);
     row.innerHTML = `<td>${sym}</td><td>${pos.qty}</td><td>$${parseFloat(value).toLocaleString()}</td>`;
+    tbl.appendChild(row);
+  });
+}
+
+function renderOptions() {
+  const tbl = document.getElementById('optionsTable');
+  if (!tbl) return;
+  tbl.innerHTML = '';
+  const header = document.createElement('tr');
+  header.innerHTML = '<th>Symbol</th><th>Type</th><th>Strike</th><th>Qty</th><th>Value</th><th>Weeks Left</th>';
+  tbl.appendChild(header);
+  (gameState.options || []).forEach(opt => {
+    const remaining = opt.weeksToExpiry - (gameState.week - opt.purchaseWeek);
+    if (remaining <= 0) return;
+    const weeks = gameState.prices[opt.symbol];
+    if (!weeks || !bsPrice) return;
+    const price = weeks[weeks.length - 1][weeks[weeks.length - 1].length - 1];
+    const optionVal = bsPrice(price, opt.strike, OPTION_RISK_FREE_RATE, OPTION_VOLATILITY, remaining / 52, opt.type);
+    const value = (optionVal * opt.qty).toFixed(2);
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${opt.symbol}</td><td>${opt.type}</td><td>${opt.strike}</td><td>${opt.qty}</td><td>$${parseFloat(value).toLocaleString()}</td><td>${remaining}</td>`;
     tbl.appendChild(row);
   });
 }
