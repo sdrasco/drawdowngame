@@ -361,7 +361,7 @@ function showGreeting(callback) {
     greetText.textContent = `Alright ${getUser()}, let's pretend you know what you're doing.`;
   }
   if (instructText) {
-    instructText.textContent = 'Advance weeks, trade some stocks, try not to go broke. Promotion to Apprentice at $50k unlocks long calls and puts.';
+    instructText.textContent = 'Advance weeks, trade some stocks, try not to go broke.';
   }
   function proceed() {
     overlay.classList.add('hidden');
