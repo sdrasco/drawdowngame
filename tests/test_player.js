@@ -82,12 +82,22 @@ function testUpdateRank() {
   assert.strictEqual(state.rank, 'Apprentice');
 }
 
+function testRankNeverDecreases() {
+  const state = { netWorth: 100000, rank: 'Novice' };
+  updateRank(state);
+  assert.strictEqual(state.rank, 'Apprentice');
+  state.netWorth = 40000;
+  updateRank(state);
+  assert.strictEqual(state.rank, 'Apprentice');
+}
+
 try {
   testBuySell();
   testMetrics();
   testCalculateMaxBuy();
   testBlackScholes();
   testUpdateRank();
+  testRankNeverDecreases();
   console.log('All tests passed');
 } catch (err) {
   console.error('Test failed');

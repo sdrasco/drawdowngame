@@ -206,17 +206,27 @@ function displayUsername() {
   }
 }
 
+const RANK_ORDER = ['Novice', 'Apprentice', 'Trader', 'Tycoon'];
+
+function rankIndex(rank) {
+  return RANK_ORDER.indexOf(rank);
+}
+
 function updateRank() {
   const prev = gameState.rank;
   const worth = gameState.netWorth;
+  let newRank;
   if (worth > 1000000) {
-    gameState.rank = 'Tycoon';
+    newRank = 'Tycoon';
   } else if (worth > 250000) {
-    gameState.rank = 'Trader';
+    newRank = 'Trader';
   } else if (worth > 50000) {
-    gameState.rank = 'Apprentice';
+    newRank = 'Apprentice';
   } else {
-    gameState.rank = 'Novice';
+    newRank = 'Novice';
+  }
+  if (rankIndex(newRank) > rankIndex(gameState.rank)) {
+    gameState.rank = newRank;
   }
   if (gameState.rank === 'Apprentice' && prev !== 'Apprentice' &&
       typeof hasSeenApprentice === 'function' &&

@@ -114,16 +114,26 @@ function computeNetWorth(state) {
   return state.netWorth;
 }
 
+const RANK_ORDER = ['Novice', 'Apprentice', 'Trader', 'Tycoon'];
+
+function rankIndex(rank) {
+  return RANK_ORDER.indexOf(rank);
+}
+
 function updateRank(state) {
   const worth = state.netWorth;
+  let newRank;
   if (worth > 1000000) {
-    state.rank = 'Tycoon';
+    newRank = 'Tycoon';
   } else if (worth > 250000) {
-    state.rank = 'Trader';
+    newRank = 'Trader';
   } else if (worth > 50000) {
-    state.rank = 'Apprentice';
+    newRank = 'Apprentice';
   } else {
-    state.rank = 'Novice';
+    newRank = 'Novice';
+  }
+  if (rankIndex(newRank) > rankIndex(state.rank)) {
+    state.rank = newRank;
   }
   return state.rank;
 }
