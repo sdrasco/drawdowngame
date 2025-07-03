@@ -11,7 +11,10 @@ const INDUSTRY_MAP = {
   Semiconductors: 'Computer / Tech',
   Retail: 'Retail',
   Energy: 'Oil and Gas',
-  Banking: 'Heavy Industry / Materials'
+  Banking: 'Heavy Industry / Materials',
+  Healthcare: 'Healthcare',
+  Utilities: 'Utilities',
+  'Financial Services': 'Financial Services'
 };
 
 function generateHeadlines() {

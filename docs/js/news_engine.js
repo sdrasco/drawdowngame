@@ -8,7 +8,7 @@ const TUNABLES = {
 };
 
 // List of supported industries
-const INDUSTRIES = ['Software', 'Semiconductors', 'Retail', 'Energy', 'Banking'];
+const INDUSTRIES = ['Software', 'Semiconductors', 'Retail', 'Energy', 'Banking', 'Healthcare', 'Utilities', 'Financial Services'];
 
 // Simple headline templates for each industry
 const INDUSTRY_HEADLINES = {
@@ -140,6 +140,84 @@ const INDUSTRY_HEADLINES = {
       'Investment banking revenues slump',
       'Branch closures anger local communities',
       'Litigation costs surge over compliance failures'
+    ]
+  },
+  Healthcare: {
+    pos: [
+      'New drug approval drives optimism',
+      'Strong clinical trial results boost sector',
+      'Health insurers report record enrollments',
+      'Government expands healthcare funding',
+      'Breakthrough in gene therapy announced',
+      'Medical device sales surge globally',
+      'M&A activity heats up among biotech firms',
+      'Telehealth usage continues rapid growth',
+      'Vaccine demand exceeds forecasts',
+      'Innovative treatments win regulatory support'
+    ],
+    neg: [
+      'Patent expirations threaten revenues',
+      'Pricing pressures squeeze pharma margins',
+      'Regulators question safety of new therapy',
+      'Healthcare reform bill sparks uncertainty',
+      'Hospital systems report rising costs',
+      'Data breach exposes patient information',
+      'Clinical trial setback delays drug launch',
+      'Insurance reimbursements cut by government',
+      'Major lawsuit targets medical device maker',
+      'Generic competition erodes market share'
+    ]
+  },
+  Utilities: {
+    pos: [
+      'Grid upgrades improve reliability',
+      'Utility earnings exceed analyst forecasts',
+      'Renewable capacity expands ahead of schedule',
+      'Regulators approve rate increase',
+      'Energy demand rises amid heatwave',
+      'Infrastructure bill boosts investment',
+      'Utility secures long-term power contract',
+      'Smart meter rollout reduces costs',
+      'Hydroelectric generation hits record levels',
+      'Utilities embrace battery storage solutions'
+    ],
+    neg: [
+      'Severe storm knocks out power to millions',
+      'Regulators deny requested rate hike',
+      'Aging infrastructure causes blackouts',
+      'Environmental protests delay project',
+      'Fuel price spike compresses margins',
+      'Cyberattack disrupts grid operations',
+      'Wildfires force widespread shutdowns',
+      'Renewables subsidies face political pushback',
+      'Unexpected outage triggers costly repairs',
+      'Rising interest rates increase debt burden'
+    ]
+  },
+  'Financial Services': {
+    pos: [
+      'Interest margins widen on strong economy',
+      'Trading revenue jumps amid market volatility',
+      'Fintech partnerships drive innovation',
+      'Credit card spending hits record levels',
+      'Wealth management assets surge',
+      'Banks raise dividends on solid profits',
+      'Loan growth accelerates across segments',
+      'Regulatory reforms ease compliance costs',
+      'IPO market revival boosts underwriting fees',
+      'Consumer confidence lifts mortgage demand'
+    ],
+    neg: [
+      'Loan defaults climb in key markets',
+      'Regulators impose hefty fines for misconduct',
+      'Market selloff hits investment portfolios',
+      'Cyber breach exposes customer accounts',
+      'Interest rate cuts squeeze margins',
+      'Trading losses spark management shakeup',
+      'Economic slowdown dampens lending',
+      'New fintech rivals erode fee income',
+      'Capital requirements tightened by regulators',
+      'Large hedge fund collapse rattles industry'
     ]
   }
 };
