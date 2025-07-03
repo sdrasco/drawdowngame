@@ -17,7 +17,7 @@ Play drawdown online at [drawdowngame.com](https://drawdowngame.com). Hopefully 
 | • Index Update         | The market chart gets another 5 days of data points. |
 | • Headlines            | News blurbs hint at coming moves. |
 | • Trade                | Check Analysis, peek at your Portfolio, then trade is you like (each trade includes a small commission and fee). |
-| • Advance Week         | Commit your trades. Prices jump and your rank might improve. |
+| • Advance Week         | Commit your trades. Prices jump, and once you pass $50k your rank can improve. |
 | **Retire**             | Cash out any time—or after week 104—and join the high score list. |
 
 ### Portfolio Stats
