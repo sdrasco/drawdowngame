@@ -87,3 +87,11 @@ function hasSeenGreeting() {
 function setGreetingSeen() {
   localStorage.setItem('drawdownGreeting_' + getUser(), '1');
 }
+
+function hasSeenApprentice() {
+  return localStorage.getItem('drawdownApprentice_' + getUser()) === '1';
+}
+
+function setApprenticeSeen() {
+  localStorage.setItem('drawdownApprentice_' + getUser(), '1');
+}

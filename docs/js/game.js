@@ -207,6 +207,7 @@ function displayUsername() {
 }
 
 function updateRank() {
+  const prev = gameState.rank;
   const worth = gameState.netWorth;
   if (worth > 1000000) {
     gameState.rank = 'Tycoon';
@@ -216,6 +217,15 @@ function updateRank() {
     gameState.rank = 'Apprentice';
   } else {
     gameState.rank = 'Novice';
+  }
+  if (gameState.rank === 'Apprentice' && prev !== 'Apprentice' &&
+      typeof hasSeenApprentice === 'function' &&
+      typeof setApprenticeSeen === 'function' &&
+      !hasSeenApprentice()) {
+    if (typeof showMessage === 'function') {
+      showMessage("Well look at that, you're an Apprentice. Options unlocked. Try not to blow up.");
+    }
+    setApprenticeSeen();
   }
 }
 
