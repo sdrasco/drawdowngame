@@ -112,10 +112,11 @@ function drawPie(id, obj) {
 
   const defs = svg.append('defs');
   const patternTypes = ['diag1', 'diag2', 'grid', 'dots'];
+  const patPrefix = `${id}-piePattern`;
   entries.forEach((_, i) => {
     const type = patternTypes[i % patternTypes.length];
     const pat = defs.append('pattern')
-      .attr('id', `piePattern${i}`)
+      .attr('id', `${patPrefix}${i}`)
       .attr('patternUnits', 'userSpaceOnUse')
       .attr('width', 8)
       .attr('height', 8);
@@ -144,7 +145,7 @@ function drawPie(id, obj) {
     .data(pie(entries))
     .enter().append('path')
     .attr('d', arc)
-    .attr('fill', (_, i) => `url(#piePattern${i})`)
+    .attr('fill', (_, i) => `url(#${patPrefix}${i})`)
     .attr('stroke', '#66ff66')
     .attr('stroke-width', 1);
   svg.selectAll('text')
