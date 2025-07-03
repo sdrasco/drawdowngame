@@ -31,6 +31,34 @@ button:hover {
   color: #000;
 }
 
+/* Amber styling for options section */
+#optionsForm,
+#optionsForm label,
+#optionsForm div,
+#optionsForm select,
+#optionsForm input,
+#optionsForm button,
+#optionsForm span,
+#optionsHoldings,
+#sellOptionsTable,
+#sellOptionsTable th,
+#sellOptionsTable td {
+  color: #ffbf00;
+}
+
+#optionsForm input,
+#optionsForm select,
+#optionsForm button,
+#sellOptionsTable th,
+#sellOptionsTable td {
+  border-color: #ffbf00;
+}
+
+#optionsForm button:hover {
+  background: #ffbf00;
+  color: #000;
+}
+
 .section {
   margin-bottom: 1.5rem;
 }
