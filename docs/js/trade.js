@@ -65,6 +65,58 @@ function renderSellHoldings() {
   });
 }
 
+function renderSellOptions() {
+  const tbl = document.getElementById('sellOptionsTable');
+  if (!tbl) return;
+  tbl.innerHTML = '';
+  const header = document.createElement('tr');
+  header.innerHTML = '<th>Symbol</th><th>Type</th><th>Strike</th><th>Qty</th><th>Value</th><th>Weeks Left</th><th></th>';
+  tbl.appendChild(header);
+  (gameState.options || []).forEach((opt, idx) => {
+    const remaining = opt.weeksToExpiry - (gameState.week - opt.purchaseWeek);
+    if (remaining <= 0) return;
+    const weeks = gameState.prices[opt.symbol];
+    if (!weeks || !bsPrice) return;
+    const price = weeks[weeks.length - 1][weeks[weeks.length - 1].length - 1];
+    const val = bsPrice(price, opt.strike, OPTION_RISK_FREE_RATE, OPTION_VOLATILITY, remaining / 52, opt.type) * opt.qty;
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${opt.symbol}</td><td>${opt.type}</td><td>${opt.strike}</td><td>${opt.qty}</td><td>$${val.toFixed(2)}</td><td>${remaining}</td>`;
+    const btnCell = document.createElement('td');
+    const btn = document.createElement('button');
+    btn.textContent = 'Sell';
+    btn.addEventListener('click', () => sellOptionPosition(idx));
+    btnCell.appendChild(btn);
+    row.appendChild(btnCell);
+    tbl.appendChild(row);
+  });
+}
+
+function sellOptionPosition(idx) {
+  const opt = (gameState.options || [])[idx];
+  if (!opt) return;
+  const remaining = opt.weeksToExpiry - (gameState.week - opt.purchaseWeek);
+  if (remaining <= 0) return;
+  const weeks = gameState.prices[opt.symbol];
+  if (!weeks || !bsPrice) { if (typeof showMessage==='function') showMessage('Unknown symbol'); return; }
+  const price = weeks[weeks.length-1][weeks[weeks.length-1].length-1];
+  const premium = bsPrice(price, opt.strike, OPTION_RISK_FREE_RATE, OPTION_VOLATILITY, remaining/52, opt.type);
+  const tradeValue = premium * opt.qty;
+  const commission = TRADE_COMMISSION;
+  const fees = +(tradeValue * TRADE_FEE_RATE).toFixed(2);
+  const proceeds = tradeValue - commission - fees;
+  gameState.cash += proceeds;
+  gameState.options.splice(idx,1);
+  updateRank();
+  if (!gameState.tradeHistory) gameState.tradeHistory = [];
+  const trade = { week: gameState.week, type: `SELL ${opt.type.toUpperCase()}`, symbol: opt.symbol, qty: opt.qty, price: premium, commission, fees, total: proceeds };
+  gameState.tradeHistory.push(trade);
+  saveState(gameState);
+  showTradeDialog(trade);
+  renderMetrics();
+  renderTradeHistory();
+  renderSellOptions();
+}
+
 function populateOptionSymbols(list) {
   const select = document.getElementById('optSymbol');
   if (!select) return;
@@ -267,6 +319,7 @@ function doBuyOption() {
   showTradeDialog(trade);
   renderMetrics();
   renderTradeHistory();
+  renderSellOptions();
 }
 
 function doSellOption() {
@@ -298,6 +351,7 @@ function doSellOption() {
   showTradeDialog(trade);
   renderMetrics();
   renderTradeHistory();
+  renderSellOptions();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -308,6 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   renderMetrics();
   renderTradeHistory();
+  renderSellOptions();
   fetch('data/company_master_data.json')
     .then(r => r.json())
     .then(data => {
@@ -318,6 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
         populateOptionSymbols(companies.filter(c => !c.isIndex));
         document.getElementById('optionsForm').classList.remove('hidden');
         updateOptionInfo();
+        renderSellOptions();
       }
     });
 
