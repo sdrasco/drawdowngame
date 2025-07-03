@@ -45,10 +45,12 @@
           <option value="call">Call</option>
           <option value="put">Put</option>
         </select><br/>
+        <label for="optStockPrice">Current Price</label><br/>
+        $<span id="optStockPrice">0.00</span><br/>
         <label for="optStrike">Strike</label><br/>
-        <input id="optStrike" type="number" /><br/>
+        <select id="optStrike"></select><br/>
         <label for="optWeeks">Weeks to Expiry</label><br/>
-        <input id="optWeeks" type="number" min="1" value="4" /><br/>
+        <select id="optWeeks"></select><br/>
         <label for="optQty">Contracts</label><br/>
         <input id="optQty" type="number" min="1" value="1" /><br/>
         <div>Premium: $<span id="optPremium">0.00</span></div>

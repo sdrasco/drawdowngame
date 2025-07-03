@@ -129,6 +129,36 @@ function populateOptionSymbols(list) {
   });
 }
 
+function populateOptionDetails() {
+  const sym = document.getElementById('optSymbol').value;
+  const weeksArr = gameState.prices[sym];
+  if (!weeksArr) return;
+  const week = weeksArr[weeksArr.length - 1];
+  const price = week[week.length - 1];
+
+  document.getElementById('optStockPrice').textContent = price.toFixed(2);
+
+  const strikeSelect = document.getElementById('optStrike');
+  strikeSelect.innerHTML = '';
+  const deltas = [-0.2, -0.1, 0, 0.1, 0.2];
+  deltas.forEach(d => {
+    const strike = Math.round((price * (1 + d)) / 5) * 5;
+    const opt = document.createElement('option');
+    opt.value = strike.toFixed(2);
+    opt.textContent = strike.toFixed(2);
+    strikeSelect.appendChild(opt);
+  });
+
+  const weeksSelect = document.getElementById('optWeeks');
+  weeksSelect.innerHTML = '';
+  [4, 8, 12, 16].forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w;
+    opt.textContent = w;
+    weeksSelect.appendChild(opt);
+  });
+}
+
 function updateOptionInfo() {
   const sym = document.getElementById('optSymbol').value;
   const strike = parseFloat(document.getElementById('optStrike').value) || 0;
@@ -139,6 +169,7 @@ function updateOptionInfo() {
   if (!weeksArr || !bsPrice) return;
   const week = weeksArr[weeksArr.length - 1];
   const S = week[week.length - 1];
+  document.getElementById('optStockPrice').textContent = S.toFixed(2);
   const premium = bsPrice(S, strike, OPTION_RISK_FREE_RATE, OPTION_VOLATILITY,
                          weeks / 52, type);
   document.getElementById('optPremium').textContent = premium.toFixed(2);
@@ -381,6 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderTradeHistory();
       if (gameState.rank !== 'Novice') {
         populateOptionSymbols(companies.filter(c => !c.isIndex));
+        populateOptionDetails();
         document.getElementById('optionsForm').classList.remove('hidden');
         updateOptionInfo();
         renderSellOptions();
@@ -403,10 +435,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('cancelTradeBtn').addEventListener('click', hideOrderForm);
 
   if (gameState.rank !== 'Novice') {
-    document.getElementById('optSymbol').addEventListener('change', updateOptionInfo);
+    document.getElementById('optSymbol').addEventListener('change', () => {
+      populateOptionDetails();
+      updateOptionInfo();
+    });
     document.getElementById('optType').addEventListener('change', updateOptionInfo);
-    document.getElementById('optStrike').addEventListener('input', updateOptionInfo);
-    document.getElementById('optWeeks').addEventListener('input', updateOptionInfo);
+    document.getElementById('optStrike').addEventListener('change', updateOptionInfo);
+    document.getElementById('optWeeks').addEventListener('change', updateOptionInfo);
     document.getElementById('optQty').addEventListener('input', updateOptionInfo);
     document.getElementById('optBuyBtn').addEventListener('click', doBuyOption);
     document.getElementById('optSellBtn').addEventListener('click', doSellOption);
