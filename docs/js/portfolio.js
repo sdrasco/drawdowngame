@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dest = sessionStorage.getItem('backTo') || 'play.html';
     window.location.href = dest;
   });
+  window.addEventListener('resize', renderTreemaps);
 });
 
 function renderPositions() {
@@ -99,7 +100,7 @@ function drawTreemap(id, obj) {
   container.selectAll('*').remove();
   if (entries.length === 0) return;
   const width = container.node().clientWidth;
-  const height = width * 0.6;
+  const height = width * 350 / 600;
   const svg = container.append('svg')
     .attr('width', width)
     .attr('height', height);
