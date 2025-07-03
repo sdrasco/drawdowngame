@@ -228,15 +228,6 @@ function updateRank() {
   if (rankIndex(newRank) > rankIndex(gameState.rank)) {
     gameState.rank = newRank;
   }
-  if (gameState.rank === 'Apprentice' && prev !== 'Apprentice' &&
-      typeof hasSeenApprentice === 'function' &&
-      typeof setApprenticeSeen === 'function' &&
-      !hasSeenApprentice()) {
-    if (typeof showMessage === 'function') {
-      showMessage("Well look at that, you're an Apprentice. Options unlocked. Try not to blow up.");
-    }
-    setApprenticeSeen();
-  }
 }
 
 function showGameOverDialog() {
@@ -317,6 +308,7 @@ function nextWeek() {
     return;
   }
   gameState.week += 1;
+  const prevRank = gameState.rank;
   const effects = newsImpactsForWeek(gameState.week - 1);
   const epsMarket = randn();
   Object.keys(gameState.prices).forEach(sym => {
@@ -339,6 +331,15 @@ function nextWeek() {
     gameState.netWorthHistory.push(gameState.netWorth);
   }
   updateRank();
+  if (gameState.rank === 'Apprentice' && prevRank !== 'Apprentice' &&
+      typeof hasSeenApprentice === 'function' &&
+      typeof setApprenticeSeen === 'function' &&
+      !hasSeenApprentice()) {
+    if (typeof showMessage === 'function') {
+      showMessage("Congratulations! You've been promoted to Apprentice. Options trading unlocked.");
+    }
+    setApprenticeSeen();
+  }
   updateStatus();
   updateMarket();
   saveState(gameState);
