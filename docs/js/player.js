@@ -4,6 +4,13 @@
 // - Sharpe ratio: average return divided by return standard deviation
 // - Gain to Pain ratio: total return divided by the absolute value of all negative returns
 
+let bsPrice = typeof blackScholesPrice === 'function' ? blackScholesPrice : null;
+if (typeof module !== 'undefined' && !bsPrice) {
+  try { bsPrice = require('./options.js').blackScholesPrice; } catch { /* ignore */ }
+}
+const OPTION_RISK_FREE_RATE = 0.01;
+const OPTION_VOLATILITY = 0.3;
+
 function calculateMaxDrawdown(history) {
   if (!history || history.length === 0) return 0;
   let peak = history[0];
@@ -87,6 +94,17 @@ function computeNetWorth(state) {
     const week = priceData[priceData.length - 1];
     const price = week[week.length - 1];
     total += state.positions[sym].qty * price;
+  });
+  (state.options || []).forEach(opt => {
+    const priceData = state.prices[opt.symbol];
+    if (!priceData || priceData.length === 0) return;
+    const week = priceData[priceData.length - 1];
+    const S = week[week.length - 1];
+    const remaining = opt.weeksToExpiry - (state.week - opt.purchaseWeek);
+    if (remaining <= 0 || !bsPrice) return;
+    const optionVal = bsPrice(S, opt.strike, OPTION_RISK_FREE_RATE,
+                              OPTION_VOLATILITY, remaining / 52, opt.type);
+    total += optionVal * opt.qty;
   });
   state.netWorth = +total.toFixed(2);
   return state.netWorth;
