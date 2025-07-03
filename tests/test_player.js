@@ -6,9 +6,11 @@ const {
   calculateSharpeRatio,
   calculateGainToPainRatio,
   calculateMaxBuy,
+  updateRank,
   TRADE_COMMISSION,
   TRADE_FEE_RATE
 } = require('../docs/js/player.js');
+const { blackScholesPrice } = require('../docs/js/options.js');
 const assert = require('assert');
 
 function testBuySell() {
@@ -67,10 +69,25 @@ function testCalculateMaxBuy() {
   assert.strictEqual(calculateMaxBuy(TRADE_COMMISSION - 1, price), 0);
 }
 
+function testBlackScholes() {
+  const call = blackScholesPrice(100, 100, 0.05, 0.2, 1, 'call');
+  const put = blackScholesPrice(100, 100, 0.05, 0.2, 1, 'put');
+  assert.ok(Math.abs(call - 10.4506) < 1e-4);
+  assert.ok(Math.abs(put - 5.5735) < 1e-4);
+}
+
+function testUpdateRank() {
+  const state = { netWorth: 50001, rank: 'Novice' };
+  updateRank(state);
+  assert.strictEqual(state.rank, 'Apprentice');
+}
+
 try {
   testBuySell();
   testMetrics();
   testCalculateMaxBuy();
+  testBlackScholes();
+  testUpdateRank();
   console.log('All tests passed');
 } catch (err) {
   console.error('Test failed');

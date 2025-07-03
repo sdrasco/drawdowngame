@@ -114,6 +114,20 @@ function computeNetWorth(state) {
   return state.netWorth;
 }
 
+function updateRank(state) {
+  const worth = state.netWorth;
+  if (worth > 1000000) {
+    state.rank = 'Tycoon';
+  } else if (worth > 250000) {
+    state.rank = 'Trader';
+  } else if (worth > 50000) {
+    state.rank = 'Apprentice';
+  } else {
+    state.rank = 'Novice';
+  }
+  return state.rank;
+}
+
 if (typeof module !== 'undefined') {
   module.exports = {
     buyStock,
@@ -123,6 +137,7 @@ if (typeof module !== 'undefined') {
     calculateSharpeRatio,
     calculateGainToPainRatio,
     calculateMaxBuy,
+    updateRank,
     TRADE_COMMISSION,
     TRADE_FEE_RATE
   };
