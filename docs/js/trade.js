@@ -65,6 +65,37 @@ function renderSellHoldings() {
   });
 }
 
+function populateOptionSymbols(list) {
+  const select = document.getElementById('optSymbol');
+  if (!select) return;
+  select.innerHTML = '';
+  list.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.symbol;
+    opt.textContent = `${c.symbol} - ${c.name}`;
+    select.appendChild(opt);
+  });
+}
+
+function updateOptionInfo() {
+  const sym = document.getElementById('optSymbol').value;
+  const strike = parseFloat(document.getElementById('optStrike').value) || 0;
+  const weeks = parseInt(document.getElementById('optWeeks').value, 10) || 0;
+  const qty = parseInt(document.getElementById('optQty').value, 10) || 0;
+  const type = document.getElementById('optType').value;
+  const weeksArr = gameState.prices[sym];
+  if (!weeksArr || !bsPrice) return;
+  const week = weeksArr[weeksArr.length - 1];
+  const S = week[week.length - 1];
+  const premium = bsPrice(S, strike, OPTION_RISK_FREE_RATE, OPTION_VOLATILITY,
+                         weeks / 52, type);
+  document.getElementById('optPremium').textContent = premium.toFixed(2);
+  const tradeValue = premium * qty;
+  const commission = TRADE_COMMISSION;
+  const fees = +(tradeValue * TRADE_FEE_RATE).toFixed(2);
+  document.getElementById('optTotal').textContent = (tradeValue + commission + fees).toFixed(2);
+}
+
 function showOrderForm(mode) {
   tradeMode = mode;
   document.getElementById('tradeModeSelect').classList.add('hidden');
@@ -209,6 +240,66 @@ function doSell() {
   }
 }
 
+function doBuyOption() {
+  const sym = document.getElementById('optSymbol').value.trim().toUpperCase();
+  const type = document.getElementById('optType').value;
+  const strike = parseFloat(document.getElementById('optStrike').value);
+  const qty = parseInt(document.getElementById('optQty').value, 10);
+  const w = parseInt(document.getElementById('optWeeks').value, 10);
+  if (!sym || !qty || isNaN(strike) || isNaN(w)) return;
+  const weeks = gameState.prices[sym];
+  if (!weeks || !bsPrice) { if (typeof showMessage==='function') showMessage('Unknown symbol'); return; }
+  const price = weeks[weeks.length-1][weeks[weeks.length-1].length-1];
+  const premium = bsPrice(price, strike, OPTION_RISK_FREE_RATE, OPTION_VOLATILITY, w/52, type);
+  const tradeValue = premium * qty;
+  const commission = TRADE_COMMISSION;
+  const fees = +(tradeValue * TRADE_FEE_RATE).toFixed(2);
+  const total = tradeValue + commission + fees;
+  if (gameState.cash < total) { if (typeof showMessage==='function') showMessage('Not enough cash'); return; }
+  gameState.cash -= total;
+  if (!gameState.options) gameState.options = [];
+  gameState.options.push({ symbol: sym, type, strike, premium, qty, weeksToExpiry: w, purchaseWeek: gameState.week });
+  updateRank();
+  if (!gameState.tradeHistory) gameState.tradeHistory = [];
+  const trade = { week: gameState.week, type: `BUY ${type.toUpperCase()}`, symbol: sym, qty, price: premium, commission, fees, total };
+  gameState.tradeHistory.push(trade);
+  saveState(gameState);
+  showTradeDialog(trade);
+  renderMetrics();
+  renderTradeHistory();
+}
+
+function doSellOption() {
+  const sym = document.getElementById('optSymbol').value.trim().toUpperCase();
+  const type = document.getElementById('optType').value;
+  const strike = parseFloat(document.getElementById('optStrike').value);
+  const qty = parseInt(document.getElementById('optQty').value, 10);
+  if (!sym || !qty || isNaN(strike)) return;
+  const idx = (gameState.options || []).findIndex(o => o.symbol===sym && o.type===type && o.strike===strike && o.qty>=qty && (o.weeksToExpiry - (gameState.week - o.purchaseWeek) > 0));
+  if (idx === -1) { if (typeof showMessage==='function') showMessage('No matching option position'); return; }
+  const optPos = gameState.options[idx];
+  const remaining = optPos.weeksToExpiry - (gameState.week - optPos.purchaseWeek);
+  const weeks = gameState.prices[sym];
+  if (!weeks || !bsPrice) { if (typeof showMessage==='function') showMessage('Unknown symbol'); return; }
+  const price = weeks[weeks.length-1][weeks[weeks.length-1].length-1];
+  const premium = bsPrice(price, strike, OPTION_RISK_FREE_RATE, OPTION_VOLATILITY, remaining/52, type);
+  const tradeValue = premium * qty;
+  const commission = TRADE_COMMISSION;
+  const fees = +(tradeValue * TRADE_FEE_RATE).toFixed(2);
+  const proceeds = tradeValue - commission - fees;
+  gameState.cash += proceeds;
+  optPos.qty -= qty;
+  if (optPos.qty <= 0) gameState.options.splice(idx,1);
+  updateRank();
+  if (!gameState.tradeHistory) gameState.tradeHistory = [];
+  const trade = { week: gameState.week, type: `SELL ${type.toUpperCase()}`, symbol: sym, qty, price: premium, commission, fees, total: proceeds };
+  gameState.tradeHistory.push(trade);
+  saveState(gameState);
+  showTradeDialog(trade);
+  renderMetrics();
+  renderTradeHistory();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   gameState = loadState();
   if (gameState && (gameState.week >= gameState.maxWeeks || gameState.gameOver)) {
@@ -223,6 +314,11 @@ document.addEventListener('DOMContentLoaded', () => {
       companies = data.companies;
       renderMetrics();
       renderTradeHistory();
+      if (gameState.rank !== 'Novice') {
+        populateOptionSymbols(companies.filter(c => !c.isIndex));
+        document.getElementById('optionsForm').classList.remove('hidden');
+        updateOptionInfo();
+      }
     });
 
   document.getElementById('tradeSymbol').addEventListener('change', updateTradeInfo);
@@ -239,4 +335,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('startBuyBtn').addEventListener('click', () => showOrderForm('BUY'));
   document.getElementById('startSellBtn').addEventListener('click', () => showOrderForm('SELL'));
   document.getElementById('cancelTradeBtn').addEventListener('click', hideOrderForm);
+
+  if (gameState.rank !== 'Novice') {
+    document.getElementById('optSymbol').addEventListener('change', updateOptionInfo);
+    document.getElementById('optType').addEventListener('change', updateOptionInfo);
+    document.getElementById('optStrike').addEventListener('input', updateOptionInfo);
+    document.getElementById('optWeeks').addEventListener('input', updateOptionInfo);
+    document.getElementById('optQty').addEventListener('input', updateOptionInfo);
+    document.getElementById('optBuyBtn').addEventListener('click', doBuyOption);
+    document.getElementById('optSellBtn').addEventListener('click', doSellOption);
+  }
 });

@@ -123,6 +123,9 @@ function startGame() {
   if (gameState && !gameState.positions) {
     gameState.positions = {};
   }
+  if (gameState && !gameState.options) {
+    gameState.options = [];
+  }
   if (gameState && !gameState.newsDrift) {
     gameState.newsDrift = {};
   }
@@ -136,6 +139,7 @@ function startGame() {
       cash: 35000,
       netWorth: 35000,
       positions: {},
+      options: [],
       rank: 'Novice',
       headlines: {},
       prices: {},

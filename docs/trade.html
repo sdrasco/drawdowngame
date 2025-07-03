@@ -35,6 +35,27 @@
         <button type="button" id="sellBtn">Execute Order</button>
         <button type="button" id="cancelTradeBtn">Cancel</button>
       </div>
+
+      <div id="optionsForm" class="hidden">
+        <h3>Options</h3>
+        <label for="optSymbol">Symbol</label><br/>
+        <select id="optSymbol"></select><br/>
+        <label for="optType">Type</label><br/>
+        <select id="optType">
+          <option value="call">Call</option>
+          <option value="put">Put</option>
+        </select><br/>
+        <label for="optStrike">Strike</label><br/>
+        <input id="optStrike" type="number" /><br/>
+        <label for="optWeeks">Weeks to Expiry</label><br/>
+        <input id="optWeeks" type="number" min="1" value="4" /><br/>
+        <label for="optQty">Contracts</label><br/>
+        <input id="optQty" type="number" min="1" value="1" /><br/>
+        <div>Premium: $<span id="optPremium">0.00</span></div>
+        <div>Total Cost: $<span id="optTotal">0.00</span></div>
+        <button type="button" id="optBuyBtn">Buy Option</button>
+        <button type="button" id="optSellBtn">Sell Option</button>
+      </div>
     <div id="tradeConfirm" class="confirm-message"></div>
     <table id="tradeHistoryTable"></table>
     <div class="analysis-nav">
@@ -42,6 +63,7 @@
     </div>
   </div>
   <script src="js/storage.js"></script>
+  <script src="js/options.js"></script>
   <script src="js/player.js"></script>
   <script src="js/dialog.js"></script>
   <script src="js/trade.js"></script>
