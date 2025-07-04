@@ -209,14 +209,14 @@ function displayUsername() {
 function updateRank() {
   const prev = gameState.rank;
   const worth = gameState.netWorth;
-  if (worth > 1000000) {
-    gameState.rank = 'Tycoon';
-  } else if (worth > 250000) {
-    gameState.rank = 'Trader';
-  } else if (worth > 50000) {
-    gameState.rank = 'Apprentice';
-  } else {
-    gameState.rank = 'Novice';
+  const ranks = ['Novice', 'Apprentice', 'Trader', 'Tycoon'];
+  const prevIndex = ranks.indexOf(prev);
+  const newIndex = worth > 1000000 ? 3
+                   : worth > 250000 ? 2
+                   : worth > 50000 ? 1
+                   : 0;
+  if (newIndex > prevIndex) {
+    gameState.rank = ranks[newIndex];
   }
   if (gameState.rank === 'Apprentice' && prev !== 'Apprentice' &&
       typeof hasSeenApprentice === 'function' &&

@@ -116,14 +116,14 @@ function computeNetWorth(state) {
 
 function updateRank(state) {
   const worth = state.netWorth;
-  if (worth > 1000000) {
-    state.rank = 'Tycoon';
-  } else if (worth > 250000) {
-    state.rank = 'Trader';
-  } else if (worth > 50000) {
-    state.rank = 'Apprentice';
-  } else {
-    state.rank = 'Novice';
+  const ranks = ['Novice', 'Apprentice', 'Trader', 'Tycoon'];
+  const prevIndex = ranks.indexOf(state.rank);
+  const newIndex = worth > 1000000 ? 3
+                   : worth > 250000 ? 2
+                   : worth > 50000 ? 1
+                   : 0;
+  if (newIndex > prevIndex) {
+    state.rank = ranks[newIndex];
   }
   return state.rank;
 }
