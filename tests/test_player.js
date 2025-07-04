@@ -80,6 +80,12 @@ function testUpdateRank() {
   const state = { netWorth: 50001, rank: 'Novice' };
   updateRank(state);
   assert.strictEqual(state.rank, 'Apprentice');
+  state.netWorth = 40000;
+  updateRank(state);
+  assert.strictEqual(state.rank, 'Apprentice');
+  state.netWorth = 300000;
+  updateRank(state);
+  assert.strictEqual(state.rank, 'Trader');
 }
 
 try {
