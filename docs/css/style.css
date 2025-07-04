@@ -320,3 +320,9 @@ select {
   color: #66ff66;
 }
 
+.promotion-container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
