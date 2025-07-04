@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drawdown - Apprentice</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    pre.fireworks {
+      font-weight: bold;
+      white-space: pre;
+      line-height: 1.2;
+    }
+    .green { color: #33ff33; }
+    .amber { color: #ffbf00; }
+  </style>
+</head>
+<body>
+  <h1>Promotion Achieved</h1>
+  <pre class="fireworks green">
+      .''.       
+     :_\/_:     
+ .''.: /\ :.''.
+  :  '.::.'  :  
+  '   ':'   '
+  </pre>
+  <pre class="fireworks amber">
+      .''.       
+     :_\/_:     
+ .''.: /\ :.''.
+  :  '.::.'  :  
+  '   ':'   '
+  </pre>
+  <p>Congratulations, you've stumbled your way up to <strong>Apprentice</strong>.</p>
+  <p>Wall Street now trusts you with the volatile world of stock options.</p>
+  <p>Don't spend all your premium money in one place.</p>
+  <a class="link-wrapper" href="play.html">Back to Trading</a>
+  <script src="js/storage.js"></script>
+  <script>
+    if (typeof setApprenticeSeen === 'function') {
+      setApprenticeSeen();
+    }
+  </script>
+</body>
+</html>

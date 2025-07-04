@@ -222,10 +222,8 @@ function updateRank() {
       typeof hasSeenApprentice === 'function' &&
       typeof setApprenticeSeen === 'function' &&
       !hasSeenApprentice()) {
-    if (typeof showMessage === 'function') {
-      showMessage("Well look at that, you're an Apprentice. Options unlocked. Try not to blow up.");
-    }
     setApprenticeSeen();
+    window.location.href = 'apprentice.html';
   }
 }
 
