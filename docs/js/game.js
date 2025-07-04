@@ -27,6 +27,12 @@ fetch('data/company_master_data.json')
         });
       }
     });
+  })
+  .catch(err => {
+    console.error('Failed to load company data', err);
+    if (typeof showMessage === 'function') {
+      showMessage('Unable to load company data. Please refresh and try again.');
+    }
   });
 function getBeta(c) {
   if (c.beta !== undefined) return c.beta;

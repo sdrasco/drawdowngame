@@ -418,6 +418,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateOptionInfo();
         renderSellOptions();
       }
+    })
+    .catch(err => {
+      console.error('Failed to load company data', err);
+      if (typeof showMessage === 'function') {
+        showMessage('Unable to load company data. Please refresh and try again.');
+      }
     });
 
   document.getElementById('tradeSymbol').addEventListener('change', updateTradeInfo);
