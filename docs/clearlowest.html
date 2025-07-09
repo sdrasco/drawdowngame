@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drawdown - Clear Lowest</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    #board {
+      border: 1px solid #33ff33;
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 600px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Clear Lowest High Score</h1>
+  <div id="board" class="section"></div>
+  <button id="clearBtn" type="button">Set Lowest Score to 0</button>
+  <p><a href="index.html">Back</a></p>
+  <script src="js/storage.js"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import {
+      getFirestore,
+      collection,
+      query,
+      orderBy,
+      limit,
+      getDocs,
+      doc,
+      updateDoc
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyARFwJOMSm3h_nyf4EbS4vPtHhJfiDAVjc",
+      authDomain: "drawdowngame-high-scores.firebaseapp.com",
+      projectId: "drawdowngame-high-scores",
+      storageBucket: "drawdowngame-high-scores.firebasestorage.app",
+      messagingSenderId: "740833941473",
+      appId: "1:740833941473:web:61e4436f417c4f8535e4a0"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const scoresRef = collection(db, 'scores');
+
+    async function loadBoard() {
+      const q = query(scoresRef, orderBy('score', 'desc'), limit(10));
+      const snap = await getDocs(q);
+      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    }
+
+    async function render() {
+      const boardEl = document.getElementById('board');
+      const scores = await loadBoard();
+      boardEl.textContent = JSON.stringify(scores, null, 2);
+    }
+
+    async function clearLowest() {
+      const q = query(scoresRef, orderBy('score'), limit(1));
+      const snap = await getDocs(q);
+      if (snap.empty) return;
+      const docSnap = snap.docs[0];
+      await updateDoc(doc(db, 'scores', docSnap.id), { score: 0 });
+      await render();
+    }
+
+    document.getElementById('clearBtn').addEventListener('click', clearLowest);
+    render();
+  </script>
+</body>
+</html>
