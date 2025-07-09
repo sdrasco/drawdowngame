@@ -64,14 +64,13 @@
   <a id="saveBtn" href="#" class="link-wrapper">Save My High Score</a>
   <p><a href="index.html">Back</a></p>
   <script type="module">
-    import { initScores, loadBoard, submitScore } from './js/highscores.js';
+    import { submitScore } from './js/highscores.js';
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      await initScores();
-      const board = await loadBoard();
-      const lowest = board.length ? board[board.length - 1].score : 0;
-      const score = lowest + 1;
-      const defaultName = '';
+    const data = sessionStorage.getItem('pendingHighScore');
+    if (!data) {
+      window.location.href = 'game-over.html';
+    } else {
+      const { score, board, defaultName } = JSON.parse(data);
       const tbl = document.getElementById('scoresTable');
       let inserted = false;
       const all = [];
@@ -103,7 +102,7 @@
           inputEl.id = 'nameInput';
           inputEl.type = 'text';
           inputEl.autocomplete = 'off';
-          inputEl.value = defaultName;
+          inputEl.value = defaultName || '';
           inputEl.classList.add('blink-cursor');
           nameCell.appendChild(inputEl);
           const val = document.createElement('td');
@@ -124,10 +123,11 @@
         } catch (err) {
           console.error('submitScore failed', err);
         }
-        window.location.href = 'high-scores.html';
+        sessionStorage.removeItem('pendingHighScore');
+        window.location.href = 'game-over.html';
       });
       if (inputEl) inputEl.focus();
-    });
+    }
   </script>
 </body>
 </html>
