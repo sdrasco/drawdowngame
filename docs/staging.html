@@ -13,10 +13,6 @@
       padding: 40px 20px;
       text-align: center;
     }
-    h1 {
-      margin-bottom: 40px;
-      font-size: 2rem;
-    }
     table {
       margin: 0 auto;
       border-collapse: collapse;
@@ -27,100 +23,110 @@
       border: 1px solid #33ff33;
       padding: 8px;
     }
-    .section {
-      margin: 1rem auto;
-      max-width: 600px;
+    .new-row {
+      color: #ff9933;
     }
-    .username-prompt {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    input {
+      background: #000;
+      color: #ff9933;
+      border: 1px solid #ff9933;
+      caret-color: #ff9933;
     }
-    .username-prompt.hidden {
-      display: none;
+    .blink-cursor {
+      border-right: 1px solid #ff9933;
+      animation: blink 1s step-end infinite;
     }
-    pre {
-      text-align: left;
-      white-space: pre-wrap;
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+    .link-wrapper {
+      font-size: 0.95rem;
+      color: #33ff33;
+      text-decoration: none;
+      border: 1px solid #33ff33;
+      background: #222;
+      padding: 8px 12px;
+      margin: 20px auto;
+      width: 100%;
+      max-width: 400px;
+      display: block;
+      cursor: pointer;
+    }
+    .link-wrapper:hover {
+      background: #33ff33;
+      color: #000;
     }
   </style>
 </head>
 <body>
-  <h1>High Score Staging</h1>
+  <h1>Congratulations! You made the high score board!</h1>
   <table id="scoresTable"></table>
-  <div class="section">
-    <label for="testScore">Score:</label>
-    <input id="testScore" type="number" />
-    <button id="checkBtn" type="button">Run Check</button>
-  </div>
-  <div id="scorePrompt" class="username-prompt hidden">
-    <form>
-      <label for="scoreInput">High score name</label><br/>
-      <input id="scoreInput" type="text" autocomplete="off" /><br/>
-      <button type="button" id="scoreSubmit">Save</button>
-      <button type="button" id="scoreRandom">Random Name</button>
-    </form>
-  </div>
-  <pre id="output" class="section"></pre>
+  <a id="saveBtn" href="#" class="link-wrapper">Save My High Score</a>
   <p><a href="index.html">Back</a></p>
-  <script src="js/storage.js"></script>
   <script type="module">
-    import { initScores, loadBoard, watchBoard, check } from './js/highscores.js';
+    import { initScores, loadBoard, submitScore } from './js/highscores.js';
 
-    const tbl = document.getElementById('scoresTable');
-    const output = document.getElementById('output');
-
-    function log(msg) {
-      output.textContent += msg + '\n';
-    }
-
-    // Intercept fetch to log network calls
-    const origFetch = window.fetch.bind(window);
-    window.fetch = async (...args) => {
-      log('fetch ' + args[0]);
-      try {
-        const resp = await origFetch(...args);
-        log('-> ' + resp.status + ' ' + resp.url);
-        return resp;
-      } catch (err) {
-        log('fetch failed: ' + err.message);
-        throw err;
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initScores();
+      const board = await loadBoard();
+      const lowest = board.length ? board[board.length - 1].score : 0;
+      const score = lowest + 1;
+      const defaultName = '';
+      const tbl = document.getElementById('scoresTable');
+      let inserted = false;
+      const all = [];
+      for (const entry of board) {
+        if (!inserted && score > entry.score) {
+          all.push({ player: '', score, isNew: true });
+          inserted = true;
+        }
+        all.push(entry);
       }
-    };
-
-    function render(scores) {
+      if (!inserted && all.length < 10) {
+        all.push({ player: '', score, isNew: true });
+        inserted = true;
+      }
+      const display = all.slice(0, 10);
+      let inputEl = null;
       tbl.innerHTML = '';
       const header = document.createElement('tr');
       header.innerHTML = '<th>Rank</th><th>Name</th><th>Worth</th>';
       tbl.appendChild(header);
-      scores.forEach((s, idx) => {
+      display.forEach((s, idx) => {
         const row = document.createElement('tr');
-        row.innerHTML =
-          `<td>${idx + 1}</td>` +
-          `<td>${s.player}</td>` +
-          `<td>$${s.score.toLocaleString()}</td>`;
+        if (s.isNew) {
+          row.classList.add('new-row');
+          const rank = document.createElement('td');
+          rank.textContent = idx + 1;
+          const nameCell = document.createElement('td');
+          inputEl = document.createElement('input');
+          inputEl.id = 'nameInput';
+          inputEl.type = 'text';
+          inputEl.autocomplete = 'off';
+          inputEl.value = defaultName;
+          inputEl.classList.add('blink-cursor');
+          nameCell.appendChild(inputEl);
+          const val = document.createElement('td');
+          val.textContent = '$' + s.score.toLocaleString();
+          row.appendChild(rank);
+          row.appendChild(nameCell);
+          row.appendChild(val);
+        } else {
+          row.innerHTML = `<td>${idx + 1}</td><td>${s.player}</td><td>$${s.score.toLocaleString()}</td>`;
+        }
         tbl.appendChild(row);
       });
-    }
-
-    document.getElementById('checkBtn').addEventListener('click', async () => {
-      const score = Number(document.getElementById('testScore').value) || 0;
-      log('check(' + score + ')');
-      try {
-        await check(score, () => log('check complete'));
-      } catch (err) {
-        log('check failed: ' + err.message);
-      }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-      initScores().then(() => {
-        loadBoard().then(render);
-        watchBoard(render);
+      document.getElementById('saveBtn').addEventListener('click', async (e) => {
+        e.preventDefault();
+        const name = (inputEl.value || defaultName || 'default').trim();
+        try {
+          await submitScore(name, score);
+        } catch (err) {
+          console.error('submitScore failed', err);
+        }
+        window.location.href = 'high-scores.html';
       });
+      if (inputEl) inputEl.focus();
     });
   </script>
 </body>
