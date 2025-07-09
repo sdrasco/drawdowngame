@@ -289,7 +289,7 @@ function endGame() {
     window.drawdownHighScores.prepareEntry(gameState.netWorth)
       .then(needsPage => {
         if (needsPage) {
-          window.location.href = 'staging.html';
+          window.location.href = 'new-high-score.html';
         } else {
           showGameOverDialog();
         }
