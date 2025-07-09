@@ -63,15 +63,15 @@
   <h1>Congratulations! You made the high score board!</h1>
   <table id="scoresTable"></table>
   <a id="saveBtn" href="#" class="link-wrapper">Save My High Score</a>
-  <p><a href="index.html">Back</a></p>
   <script type="module">
-    import { submitScore } from './js/highscores.js';
+    import { initScores, loadBoard, submitScore } from './js/highscores.js';
 
-    const data = sessionStorage.getItem('pendingHighScore');
-    if (!data) {
-      window.location.href = 'game-over.html';
-    } else {
-      const { score, board, defaultName } = JSON.parse(data);
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initScores();
+      const board = await loadBoard();
+      const score = (board.length ? board[board.length - 1].score + 1 : 1);
+      const defaultName =
+        (typeof window.getUser === 'function') ? window.getUser() : '';
       const tbl = document.getElementById('scoresTable');
       let inserted = false;
       const all = [];
@@ -124,11 +124,10 @@
         } catch (err) {
           console.error('submitScore failed', err);
         }
-        sessionStorage.removeItem('pendingHighScore');
         window.location.href = 'game-over.html';
       });
       if (inputEl) inputEl.focus();
-    }
+    });
   </script>
 </body>
 </html>
