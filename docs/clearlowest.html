@@ -6,21 +6,24 @@
   <title>Drawdown - Clear Lowest</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    #board {
-      border: 1px solid #33ff33;
-      padding: 1rem;
+    table {
       margin: 1rem auto;
-      max-width: 600px;
-      white-space: pre-wrap;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 400px;
+    }
+    th,
+    td {
+      border: 1px solid #33ff33;
+      padding: 8px;
     }
   </style>
 </head>
 <body>
   <h1>Clear Lowest High Score</h1>
-  <div id="board" class="section"></div>
-  <button id="clearBtn" type="button">Set Lowest Score to 0</button>
+  <table id="board" class="section"></table>
+  <button id="clearBtn" type="button">Clear Lowest Score</button>
   <p><a href="index.html">Back</a></p>
-  <script src="js/storage.js"></script>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import {
@@ -54,9 +57,20 @@
     }
 
     async function render() {
-      const boardEl = document.getElementById('board');
+      const tbl = document.getElementById('board');
       const scores = await loadBoard();
-      boardEl.textContent = JSON.stringify(scores, null, 2);
+      tbl.innerHTML = '';
+      const header = document.createElement('tr');
+      header.innerHTML = '<th>Rank</th><th>Name</th><th>Worth</th>';
+      tbl.appendChild(header);
+      scores.forEach((s, idx) => {
+        const row = document.createElement('tr');
+        row.innerHTML =
+          `<td>${idx + 1}</td>` +
+          `<td>${s.player}</td>` +
+          `<td>$${s.score.toLocaleString()}</td>`;
+        tbl.appendChild(row);
+      });
     }
 
     async function clearLowest() {
