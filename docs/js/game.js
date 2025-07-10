@@ -210,10 +210,12 @@ function displayUsername() {
 function updateOptionsAccess() {
   const btn = document.getElementById('tradeOptionsBtn');
   if (!btn) return;
-  if (gameState.rank === 'Novice') {
-    btn.classList.add('hidden');
-  } else {
+  const unlocked = gameState.rank !== 'Novice' ||
+                   (typeof hasSeenApprentice === 'function' && hasSeenApprentice());
+  if (unlocked) {
     btn.classList.remove('hidden');
+  } else {
+    btn.classList.add('hidden');
   }
 }
 
