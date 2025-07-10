@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drawdown - Trade Stocks</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <div class="trade-container">
+    <h1>Trade</h1>
+    <table class="metrics-table">
+      <tr><th>Worth</th><td>$<span id="tNetWorth">0</span></td></tr>
+      <tr><th>Cash</th><td>$<span id="tCash">0</span></td></tr>
+    </table>
+    <div id="tradeModeSelect">
+        <button type="button" id="startBuyBtn">Buy Order</button>
+        <button type="button" id="startSellBtn">Sell Order</button>
+      </div>
+
+      <div id="sellHoldings" class="hidden">
+        <h3>Your Holdings</h3>
+        <table id="sellHoldingsTable"></table>
+      </div>
+
+      <div id="tradeForm" class="hidden">
+        <label for="tradeSymbol">Symbol</label><br/>
+        <select id="tradeSymbol"></select><br/>
+        <div id="analysisPanel" class="hidden">
+          <div id="metrics">
+            <div>Price: $<span id="price">0</span></div>
+            <div>Volatility: <span id="volatility">0</span></div>
+            <div>Average: $<span id="average">0</span></div>
+            <div>High: $<span id="high">0</span></div>
+            <div>Low: $<span id="low">0</span></div>
+          </div>
+          <div class="chart-wrapper">
+            <div id="companyChart"></div>
+          </div>
+          <p class="analysis-note">Options prices are calculated using the Black-Scholes model.</p>
+        </div>
+        <div>Price: $<span id="tradePrice">0.00</span></div>
+        <label for="tradeQty">Quantity</label><br/>
+        <input id="tradeQty" type="number" min="1" value="1" /><br/>
+        <input id="tradeQtySlider" type="range" min="1" value="1" /><br/>
+        <div><span id="tradeTotalLabel">Total Cost:</span> $<span id="tradeTotal">0.00</span></div>
+        <button type="button" id="buyBtn">Execute Order</button>
+        <button type="button" id="sellBtn">Execute Order</button>
+        <button type="button" id="cancelTradeBtn">Cancel</button>
+      </div>
+
+      
+    <div id="tradeConfirm" class="confirm-message"></div>
+    <table id="tradeHistoryTable"></table>
+    <div class="analysis-nav">
+      <button type="button" onclick="location.href='play.html'">Back</button>
+    </div>
+  </div>
+  <script src="js/storage.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/dialog.js"></script>
+  <script src="js/trade.js"></script>
+</body>
+</html>

@@ -1,7 +1,18 @@
 * { box-sizing: border-box; }
+
+:root {
+  --accent-color: #33ff33;
+  --accent-color-light: #66ff66;
+}
+
+body.amber {
+  --accent-color: #ffbf00;
+  --accent-color-light: #ffcf40;
+}
+
 body {
   background: #000;
-  color: #33ff33;
+  color: var(--accent-color);
   font-family: 'Courier New', Courier, monospace;
   margin: 0;
   padding: 2rem;
@@ -16,19 +27,19 @@ input, button {
 
 input {
   background: #000;
-  color: #33ff33;
-  border: 1px solid #33ff33;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
 }
 
 button {
   background: #222;
-  color: #33ff33;
-  border: 1px solid #33ff33;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
   cursor: pointer;
 }
 
 button:hover {
-  background: #33ff33;
+  background: var(--accent-color);
   color: #000;
 }
 
@@ -44,7 +55,7 @@ button:hover {
 #sellOptionsTable,
 #sellOptionsTable th,
 #sellOptionsTable td {
-  color: #ffbf00;
+  color: var(--accent-color);
 }
 
 #optionsForm input,
@@ -52,11 +63,11 @@ button:hover {
 #optionsForm button,
 #sellOptionsTable th,
 #sellOptionsTable td {
-  border-color: #ffbf00;
+  border-color: var(--accent-color);
 }
 
 #optionsForm button:hover {
-  background: #ffbf00;
+  background: var(--accent-color);
   color: #000;
 }
 
@@ -180,7 +191,7 @@ button:hover {
   content: '\25ba';
   position: absolute;
   left: 0;
-  color: #33ff33;
+  color: var(--accent-color);
 }
 
 .username {
@@ -204,7 +215,7 @@ button:hover {
 
 .username-prompt form {
   background: #000;
-  border: 1px solid #33ff33;
+  border: 1px solid var(--accent-color);
   padding: 1rem;
   text-align: center;
 }
@@ -225,8 +236,8 @@ button:hover {
 
 select {
   background: #000;
-  color: #33ff33;
-  border: 1px solid #33ff33;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
   padding: 0.5rem;
 }
 
@@ -265,7 +276,7 @@ select {
 
 #sellHoldingsTable th,
 #sellHoldingsTable td {
-  border: 1px solid #33ff33;
+  border: 1px solid var(--accent-color);
   padding: 0.5rem;
 }
 
@@ -278,18 +289,18 @@ select {
 
 #tradeHistoryTable th,
 #tradeHistoryTable td {
-  border: 1px solid #33ff33;
+  border: 1px solid var(--accent-color);
   padding: 0.5rem;
 }
 
 .confirm-message {
   margin: 0.5rem auto;
-  color: #66ff66;
+  color: var(--accent-color-light);
 }
 
 #tradeQtySlider {
   width: 100%;
-  accent-color: #33ff33;
+  accent-color: var(--accent-color);
   /* Ensure mobile devices treat slider drag as a UI interaction */
   touch-action: none;
 }
@@ -312,13 +323,13 @@ select {
 .metrics-table td,
 #positionsTable th,
 #positionsTable td {
-  border: 1px solid #33ff33;
+  border: 1px solid var(--accent-color);
   padding: 0.5rem;
 }
 
 .final-worth {
   font-weight: bold;
-  color: #66ff66;
+  color: var(--accent-color-light);
 }
 
 .promotion-container {

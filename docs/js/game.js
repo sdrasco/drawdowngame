@@ -399,7 +399,7 @@ function populateTradeSymbols() {
 }
 
 function openTrade() {
-  window.location.href = 'trade.html';
+  window.location.href = 'trade-stocks.html';
 }
 
 const tradeEl = document.getElementById('tradeBtn');
