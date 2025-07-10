@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Drawdown - Trade</title>
   <link rel="stylesheet" href="css/style.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
   <div class="trade-container">
@@ -26,6 +27,19 @@
       <div id="tradeForm" class="hidden">
         <label for="tradeSymbol">Symbol</label><br/>
         <select id="tradeSymbol"></select><br/>
+        <div id="analysisPanel" class="hidden">
+          <div id="metrics">
+            <div>Price: $<span id="price">0</span></div>
+            <div>Volatility: <span id="volatility">0</span></div>
+            <div>Average: $<span id="average">0</span></div>
+            <div>High: $<span id="high">0</span></div>
+            <div>Low: $<span id="low">0</span></div>
+          </div>
+          <div class="chart-wrapper">
+            <div id="companyChart"></div>
+          </div>
+          <p class="analysis-note">Options prices are calculated using the Black-Scholes model.</p>
+        </div>
         <div>Price: $<span id="tradePrice">0.00</span></div>
         <label for="tradeQty">Quantity</label><br/>
         <input id="tradeQty" type="number" min="1" value="1" /><br/>
