@@ -62,7 +62,8 @@
   <script src="js/storage.js"></script>
   <script>
     const state = loadState();
-    if (!state || state.rank === 'Novice') {
+    const apprentice = typeof hasSeenApprentice === 'function' && hasSeenApprentice();
+    if (!state || (state.rank === 'Novice' && !apprentice)) {
       window.location.href = 'play.html';
     }
   </script>

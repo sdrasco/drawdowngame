@@ -550,7 +550,9 @@ document.addEventListener('DOMContentLoaded', () => {
       renderMetrics();
       renderTradeHistory();
       const optForm = document.getElementById('optionsForm');
-      if (gameState.rank !== 'Novice' && optForm) {
+      const unlocked = gameState.rank !== 'Novice' ||
+                       (typeof hasSeenApprentice === 'function' && hasSeenApprentice());
+      if (unlocked && optForm) {
         populateOptionSymbols(companies.filter(c => !c.isIndex));
         populateOptionDetails();
         optForm.classList.remove('hidden');
@@ -582,7 +584,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const cancelTradeBtn = document.getElementById('cancelTradeBtn');
   if (cancelTradeBtn) cancelTradeBtn.addEventListener('click', hideOrderForm);
 
-  if (gameState.rank !== 'Novice') {
+  const unlocked = gameState.rank !== 'Novice' ||
+                   (typeof hasSeenApprentice === 'function' && hasSeenApprentice());
+  if (unlocked) {
     const optSymbol = document.getElementById('optSymbol');
     if (optSymbol) optSymbol.addEventListener('change', () => {
       populateOptionDetails();
