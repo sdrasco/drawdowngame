@@ -60,6 +60,12 @@
     </div>
   </div>
   <script src="js/storage.js"></script>
+  <script>
+    const state = loadState();
+    if (!state || state.rank === 'Novice') {
+      window.location.href = 'play.html';
+    }
+  </script>
   <script src="js/options.js"></script>
   <script src="js/player.js"></script>
   <script src="js/dialog.js"></script>

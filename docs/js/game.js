@@ -175,6 +175,7 @@ function startGame() {
   }
   displayUsername();
   updateStatus();
+  updateOptionsAccess();
   initMarketHistory();
   renderMarketChart();
   renderNews();
@@ -206,6 +207,16 @@ function displayUsername() {
   }
 }
 
+function updateOptionsAccess() {
+  const btn = document.getElementById('tradeOptionsBtn');
+  if (!btn) return;
+  if (gameState.rank === 'Novice') {
+    btn.classList.add('hidden');
+  } else {
+    btn.classList.remove('hidden');
+  }
+}
+
 function updateRank() {
   const prev = gameState.rank;
   const worth = gameState.netWorth;
@@ -225,6 +236,7 @@ function updateRank() {
     setApprenticeSeen();
     window.location.href = 'apprentice.html';
   }
+  updateOptionsAccess();
 }
 
 function showGameOverDialog() {
