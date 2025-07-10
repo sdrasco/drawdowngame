@@ -378,10 +378,6 @@ function showGreeting(callback) {
 
 const doneEl = document.getElementById('doneBtn');
 if (doneEl) doneEl.addEventListener('click', nextWeek);
-const dataEl = document.getElementById('dataBtn');
-if (dataEl) dataEl.addEventListener('click', () => {
-  window.location.href = 'analysis.html';
-});
 // TODO: replace placeholder with a full portfolio screen showing
 // open positions and trading performance metrics like max drawdown,
 // sharpe ratio, and gain to pain ratio.
