@@ -179,6 +179,7 @@ function updateOptionInfo() {
   const commission = TRADE_COMMISSION;
   const fees = +(tradeValue * TRADE_FEE_RATE).toFixed(2);
   document.getElementById('optTotal').textContent = (tradeValue + commission + fees).toFixed(2);
+  updateAnalysisPanel();
 }
 
 function showOrderForm(mode) {
@@ -361,7 +362,12 @@ function drawChart(history) {
 }
 
 function updateAnalysisPanel() {
-  const sym = document.getElementById('tradeSymbol').value;
+  const tradeSel = document.getElementById('tradeSymbol');
+  const optSel = document.getElementById('optSymbol');
+  const sym = tradeSel ? tradeSel.value : (optSel ? optSel.value : null);
+  if (!sym) return;
+  const panel = document.getElementById('analysisPanel');
+  if (panel) panel.classList.remove('hidden');
   const historyWeeks = gameState.prices[sym] || [];
   const closes = historyWeeks.map(w => w[w.length - 1]);
   drawChart(closes);
@@ -543,41 +549,57 @@ document.addEventListener('DOMContentLoaded', () => {
       companies = data.companies;
       renderMetrics();
       renderTradeHistory();
-      if (gameState.rank !== 'Novice') {
+      const optForm = document.getElementById('optionsForm');
+      if (gameState.rank !== 'Novice' && optForm) {
         populateOptionSymbols(companies.filter(c => !c.isIndex));
         populateOptionDetails();
-        document.getElementById('optionsForm').classList.remove('hidden');
+        optForm.classList.remove('hidden');
         updateOptionInfo();
         renderSellOptions();
       }
     });
 
-  document.getElementById('tradeSymbol').addEventListener('change', updateTradeInfo);
-  document.getElementById('tradeQtySlider').addEventListener('input', e => {
-    document.getElementById('tradeQty').value = e.target.value;
+  const tradeSymbol = document.getElementById('tradeSymbol');
+  if (tradeSymbol) tradeSymbol.addEventListener('change', updateTradeInfo);
+  const tradeQtySlider = document.getElementById('tradeQtySlider');
+  const tradeQtyInput = document.getElementById('tradeQty');
+  if (tradeQtySlider) tradeQtySlider.addEventListener('input', e => {
+    if (tradeQtyInput) tradeQtyInput.value = e.target.value;
     updateTradeTotal();
   });
-  document.getElementById('tradeQty').addEventListener('input', e => {
-    document.getElementById('tradeQtySlider').value = e.target.value;
+  if (tradeQtyInput) tradeQtyInput.addEventListener('input', e => {
+    if (tradeQtySlider) tradeQtySlider.value = e.target.value;
     updateTradeTotal();
   });
-  document.getElementById('buyBtn').addEventListener('click', doBuy);
-  document.getElementById('sellBtn').addEventListener('click', doSell);
-  document.getElementById('startBuyBtn').addEventListener('click', () => showOrderForm('BUY'));
-  document.getElementById('startSellBtn').addEventListener('click', () => showOrderForm('SELL'));
-  document.getElementById('cancelTradeBtn').addEventListener('click', hideOrderForm);
+  const buyBtn = document.getElementById('buyBtn');
+  if (buyBtn) buyBtn.addEventListener('click', doBuy);
+  const sellBtn = document.getElementById('sellBtn');
+  if (sellBtn) sellBtn.addEventListener('click', doSell);
+  const startBuyBtn = document.getElementById('startBuyBtn');
+  if (startBuyBtn) startBuyBtn.addEventListener('click', () => showOrderForm('BUY'));
+  const startSellBtn = document.getElementById('startSellBtn');
+  if (startSellBtn) startSellBtn.addEventListener('click', () => showOrderForm('SELL'));
+  const cancelTradeBtn = document.getElementById('cancelTradeBtn');
+  if (cancelTradeBtn) cancelTradeBtn.addEventListener('click', hideOrderForm);
 
   if (gameState.rank !== 'Novice') {
-    document.getElementById('optSymbol').addEventListener('change', () => {
+    const optSymbol = document.getElementById('optSymbol');
+    if (optSymbol) optSymbol.addEventListener('change', () => {
       populateOptionDetails();
       updateOptionInfo();
     });
-    document.getElementById('optType').addEventListener('change', updateOptionInfo);
-    document.getElementById('optStrike').addEventListener('change', updateOptionInfo);
-    document.getElementById('optWeeks').addEventListener('change', updateOptionInfo);
-    document.getElementById('optQty').addEventListener('input', updateOptionInfo);
-    document.getElementById('optBuyBtn').addEventListener('click', doBuyOption);
-    document.getElementById('optSellBtn').addEventListener('click', doSellOption);
+    const optType = document.getElementById('optType');
+    if (optType) optType.addEventListener('change', updateOptionInfo);
+    const optStrike = document.getElementById('optStrike');
+    if (optStrike) optStrike.addEventListener('change', updateOptionInfo);
+    const optWeeks = document.getElementById('optWeeks');
+    if (optWeeks) optWeeks.addEventListener('change', updateOptionInfo);
+    const optQty = document.getElementById('optQty');
+    if (optQty) optQty.addEventListener('input', updateOptionInfo);
+    const optBuyBtn = document.getElementById('optBuyBtn');
+    if (optBuyBtn) optBuyBtn.addEventListener('click', doBuyOption);
+    const optSellBtn = document.getElementById('optSellBtn');
+    if (optSellBtn) optSellBtn.addEventListener('click', doSellOption);
   }
 });
 
