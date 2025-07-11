@@ -53,11 +53,4 @@ This is a personal software project. It is **not** financial advice, an investme
 MIT License. Do what you want, but don’t blame me when your portfolio goes to zero.
 
 ---
-
-## Support
-
-If Drawdown has entertained you, consider [buying me a coffee](https://coff.ee/stevedrasco). Even a small donation helps keep the caffeine flowing during those inevitable drawdowns.
-
----
-
 © 2025 Steve Drasco · steve.drasco@gmail.com
