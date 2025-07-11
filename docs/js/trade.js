@@ -21,6 +21,8 @@ function renderTradeHistory() {
   let history = gameState.tradeHistory || [];
   if (window.stockTradeHistoryOnly) {
     history = history.filter(t => t.type === 'BUY' || t.type === 'SELL');
+  } else if (window.optionsTradeHistoryOnly) {
+    history = history.filter(t => t.type !== 'BUY' && t.type !== 'SELL');
   }
   history.forEach(t => {
     const row = document.createElement('tr');
