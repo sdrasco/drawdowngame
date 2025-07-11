@@ -266,7 +266,7 @@ function showGameOverDialog() {
 
   function onScores() {
     cleanup();
-    window.location.href = 'high-scores.html';
+    window.location.href = 'new-high-score.html';
   }
 
   function onNew() {
@@ -298,19 +298,7 @@ function endGame() {
     done.classList.add('hidden');
   }
   saveState(gameState);
-  if (window.drawdownHighScores &&
-      typeof window.drawdownHighScores.prepareEntry === 'function') {
-    window.drawdownHighScores.prepareEntry(gameState.netWorth)
-      .then(needsPage => {
-        if (needsPage) {
-          window.location.href = 'new-high-score.html';
-        } else {
-          showGameOverDialog();
-        }
-      });
-  } else {
-    showGameOverDialog();
-  }
+  showGameOverDialog();
 }
 
 function nextWeek() {

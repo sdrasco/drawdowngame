@@ -1,179 +1,48 @@
 // highscores.js
-// — Firebase + Firestore high-score board with initial fake seeding
+// Local-storage-based high score board for Drawdown
 
-// 1. Firebase SDK imports
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  query,
-  orderBy,
-  limit,
-  getDocs,
-  onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const BOARD_KEY = 'drawdown_high_scores';
+export const MAX_SCORES = 10;
 
-// 2. Your Firebase config (from console)
-const firebaseConfig = {
-  apiKey: "AIzaSyARFwJOMSm3h_nyf4EbS4vPtHhJfiDAVjc",
-  authDomain: "drawdowngame-high-scores.firebaseapp.com",
-  projectId: "drawdowngame-high-scores",
-  storageBucket: "drawdowngame-high-scores.firebasestorage.app",
-  messagingSenderId: "740833941473",
-  appId: "1:740833941473:web:61e4436f417c4f8535e4a0"
-};
+function saveBoard(board) {
+  localStorage.setItem(BOARD_KEY, JSON.stringify(board.slice(0, MAX_SCORES)));
+}
 
-// 3. Init Firebase & Firestore refs
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const scoresRef = collection(db, "scores");
-const MAX_SCORES = 10;
+export function loadBoard() {
+  const raw = localStorage.getItem(BOARD_KEY);
+  if (!raw) return [];
+  try {
+    const list = JSON.parse(raw);
+    return Array.isArray(list) ? list.sort((a, b) => b.score - a.score) : [];
+  } catch {
+    return [];
+  }
+}
 
-// 4. Seed initial fake scores if the collection is empty
 export async function initScores() {
-  // check how many scores exist
-  const existingSnap = await getDocs(scoresRef);
-  const existingCount = existingSnap.size;
-  if (existingCount >= MAX_SCORES) return; // already seeded
-
-  const seedCount = MAX_SCORES - existingCount;
-
-  // load random names
+  if (loadBoard().length) return;
   const resp = await fetch('data/random_names.json');
   const names = await resp.json();
-
-  // build & write seedCount fake entries
-  const writes = [];
-  for (let i = 0; i < seedCount; i++) {
+  const board = [];
+  for (let i = 0; i < MAX_SCORES; i++) {
     const player = names[Math.floor(Math.random() * names.length)];
-    const score  = Math.floor(Math.random() * 500000 + 5000);
-    writes.push(
-      addDoc(scoresRef, { player, score, ts: Date.now() })
-    );
+    const score = Math.floor(Math.random() * 500000 + 5000);
+    board.push({ player, score });
   }
-  await Promise.all(writes);
+  saveBoard(board);
 }
 
-// 5. Submit a new real score
-export async function submitScore(player, score) {
-  try {
-    await addDoc(scoresRef, { player, score, ts: Date.now() });
-  } catch (err) {
-    console.error('Failed to save score', err);
-    if (typeof showMessage === 'function') {
-      await showMessage('Saving your score failed. Please try again later.');
-    }
-    throw err;
-  }
+export function submitScore(player, score) {
+  const board = loadBoard();
+  board.push({ player, score });
+  board.sort((a, b) => b.score - a.score);
+  saveBoard(board);
 }
 
-// 6. Load top-10 once
-export async function loadBoard() {
-  const q = query(scoresRef, orderBy("score", "desc"), limit(MAX_SCORES));
-  const snap = await getDocs(q);
-  return snap.docs.map(d => d.data());
-}
-
-// 7. Live-update listener
 export function watchBoard(callback) {
-  const q = query(scoresRef, orderBy("score", "desc"), limit(MAX_SCORES));
-  return onSnapshot(q, snap => {
-    callback(snap.docs.map(d => d.data()));
-  });
-}
-
-// Prompt the player for a leaderboard name using the retro style overlay
-function promptForScoreName(defaultName) {
-  return new Promise(resolve => {
-    const promptEl = document.getElementById('scorePrompt');
-    const inputEl = document.getElementById('scoreInput');
-    const submitBtn = document.getElementById('scoreSubmit');
-    const randomBtn = document.getElementById('scoreRandom');
-    let nameList = null;
-
-    function finish(value) {
-      promptEl.classList.add('hidden');
-      submitBtn.removeEventListener('click', submit);
-      randomBtn.removeEventListener('click', pickRandom);
-      inputEl.removeEventListener('keypress', keyHandler);
-      resolve(value);
-    }
-
-    function submit() {
-      let value = inputEl.value.trim();
-      if (!value) value = defaultName || 'default';
-      finish(value);
-    }
-
-    function pickRandom() {
-      const choose = () => {
-        const value = nameList[Math.floor(Math.random() * nameList.length)];
-        finish(value);
-      };
-      if (nameList) {
-        choose();
-      } else {
-        fetch('data/random_names.json')
-          .then(r => r.json())
-          .then(d => { nameList = d; choose(); });
-      }
-    }
-
-    function keyHandler(e) {
-      if (e.key === 'Enter') {
-        submit();
-      }
-    }
-
-    submitBtn.addEventListener('click', submit);
-    randomBtn.addEventListener('click', pickRandom);
-    inputEl.addEventListener('keypress', keyHandler);
-    inputEl.value = defaultName || '';
-    promptEl.classList.remove('hidden');
-    inputEl.focus();
-  });
-}
-
-// Check if a score qualifies and stash data for the entry page
-export async function prepareEntry(score) {
-  const board = await loadBoard();
-  const qualifies = board.length < MAX_SCORES ||
-    (board.length && score > board[board.length - 1].score);
-  if (!qualifies) return false;
-  const defaultName =
-    (typeof window !== 'undefined' && typeof window.getUser === 'function')
-      ? window.getUser()
-      : '';
-  sessionStorage.setItem('pendingHighScore',
-    JSON.stringify({ score, board, defaultName }));
-  return true;
-}
-
-// 8. Determine if a score qualifies and submit if so
-export async function check(score, cb) {
-  const board = await loadBoard();
-  const needsSave = board.length < MAX_SCORES ||
-    (board.length && score > board[board.length - 1].score);
-  if (needsSave) {
-    if (typeof showMessage === 'function') {
-      await showMessage('Congratulations! You made the high score board!');
-    }
-    const defaultName =
-      (typeof window !== 'undefined' && typeof window.getUser === 'function')
-        ? window.getUser()
-        : '';
-    const name = await promptForScoreName(defaultName);
-    try {
-      await submitScore(name, score);
-    } catch (err) {
-      console.error('submitScore failed', err);
-    }
-  }
-  if (typeof cb === 'function') cb();
-}
-
-// expose to callers when loaded as a classic script
-if (typeof window !== 'undefined') {
-  window.drawdownHighScores = { check, prepareEntry };
+  const handler = (e) => {
+    if (e.key === BOARD_KEY) callback(loadBoard());
+  };
+  window.addEventListener('storage', handler);
+  return () => window.removeEventListener('storage', handler);
 }
