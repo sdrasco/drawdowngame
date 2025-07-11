@@ -59,18 +59,32 @@
   </style>
 </head>
 <body>
-  <h1>Congratulations! You made the high score board!</h1>
-  <table id="scoresTable"></table>
-  <a id="saveBtn" href="#" class="link-wrapper">Save My High Score</a>
+  <div id="content"></div>
+  <a id="saveBtn" href="#" class="link-wrapper hidden">Save My High Score</a>
+  <script src="js/storage.js"></script>
   <script type="module">
-    import { submitScore } from './js/highscores.js';
+    import { initScores, loadBoard, submitScore, MAX_SCORES } from './js/highscores.js';
 
-    const data = sessionStorage.getItem('pendingHighScore');
-    if (!data) {
-      window.location.href = 'game-over.html';
-    } else {
-      const { score, board, defaultName } = JSON.parse(data);
-      const tbl = document.getElementById('scoresTable');
+    async function setup() {
+      await initScores();
+      const state = window.loadState ? window.loadState() : null;
+      const score = state && state.gameOver ? state.netWorth : null;
+      const content = document.getElementById('content');
+      const saveBtn = document.getElementById('saveBtn');
+
+      if (!score) {
+        content.innerHTML = '<p>No finished game found. Come back after you actually play!</p>';
+        return;
+      }
+
+      const board = loadBoard();
+      const qualifies = board.length < MAX_SCORES || (board.length && score > board[board.length - 1].score);
+
+      if (!qualifies) {
+        content.innerHTML = `<p>Your score of $${score.toLocaleString()} isn\'t good enough for the leaderboard. Try again!</p>`;
+        return;
+      }
+
       let inserted = false;
       const all = [];
       for (const entry of board) {
@@ -80,16 +94,20 @@
         }
         all.push(entry);
       }
-      if (!inserted && all.length < 10) {
+      if (!inserted && all.length < MAX_SCORES) {
         all.push({ player: '', score, isNew: true });
-        inserted = true;
       }
-      const display = all.slice(0, 10);
-      let inputEl = null;
+      const display = all.slice(0, MAX_SCORES);
+
+      const tbl = document.createElement('table');
+      tbl.id = 'scoresTable';
+      content.appendChild(tbl);
       tbl.innerHTML = '';
       const header = document.createElement('tr');
       header.innerHTML = '<th>Rank</th><th>Name</th><th>Worth</th>';
       tbl.appendChild(header);
+
+      let inputEl = null;
       display.forEach((s, idx) => {
         const row = document.createElement('tr');
         if (s.isNew) {
@@ -101,7 +119,6 @@
           inputEl.id = 'nameInput';
           inputEl.type = 'text';
           inputEl.autocomplete = 'off';
-          inputEl.value = defaultName || '';
           inputEl.classList.add('blink-cursor');
           nameCell.appendChild(inputEl);
           const val = document.createElement('td');
@@ -114,19 +131,19 @@
         }
         tbl.appendChild(row);
       });
-      document.getElementById('saveBtn').addEventListener('click', async (e) => {
+
+      saveBtn.classList.remove('hidden');
+      saveBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const name = (inputEl.value || defaultName || 'default').trim();
-        try {
-          await submitScore(name, score);
-        } catch (err) {
-          console.error('submitScore failed', err);
-        }
-        sessionStorage.removeItem('pendingHighScore');
-        window.location.href = 'game-over.html';
+        const name = (inputEl.value || 'anonymous').trim();
+        submitScore(name, score);
+        window.location.href = 'high-scores.html';
       });
+
       if (inputEl) inputEl.focus();
     }
+
+    setup();
   </script>
 </body>
 </html>
