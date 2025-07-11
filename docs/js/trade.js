@@ -270,6 +270,7 @@ function computeAverage(prices) {
 }
 
 function drawChart(history) {
+  const accentColor = getComputedStyle(document.body).getPropertyValue('--accent-color').trim() || '#39ff14';
   currentHistory = history;
   const container = d3.select('#companyChart');
   if (container.empty()) return;
@@ -313,7 +314,7 @@ function drawChart(history) {
   const pricePath = plot.append('path')
     .datum(history)
     .attr('fill', 'none')
-    .attr('stroke', '#39ff14')
+    .attr('stroke', accentColor)
     .attr('stroke-width', 2)
     .attr('d', line);
 
@@ -328,7 +329,7 @@ function drawChart(history) {
     .attr('x', chartWidth / 2)
     .attr('y', chartHeight + margin.bottom - 5)
     .attr('text-anchor', 'middle')
-    .attr('fill', '#33ff33')
+    .attr('fill', accentColor)
     .text('Week');
 
   const zoom = d3.zoom()
