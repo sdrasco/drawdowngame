@@ -23,24 +23,11 @@
     <button id="readBtn" type="button">Load Scores</button>
     <button id="watchBtn" type="button">Toggle Watch</button>
   </div>
-  <div class="section">
-    <label for="checkScore">Score:</label>
-    <input id="checkScore" type="number" />
-    <button id="checkBtn" type="button">Run High Score Check</button>
-  </div>
-  <div id="scorePrompt" class="username-prompt hidden">
-    <form>
-      <label for="scoreInput">High score name</label><br/>
-      <input id="scoreInput" type="text" autocomplete="off" /><br/>
-      <button type="button" id="scoreSubmit">Save</button>
-      <button type="button" id="scoreRandom">Random Name</button>
-    </form>
-  </div>
   <pre id="output" class="section"></pre>
   <p><a href="index.html">Back</a></p>
   <script src="js/storage.js"></script>
   <script type="module">
-    import { initScores, loadBoard, watchBoard, check } from './js/highscores.js';
+    import { initScores, loadBoard, watchBoard } from './js/highscores.js';
 
     const output = document.getElementById('output');
     const boardEl = document.getElementById('board');
@@ -88,16 +75,6 @@
       }
     });
 
-    document.getElementById('checkBtn').addEventListener('click', async () => {
-      const score = Number(document.getElementById('checkScore').value) || 0;
-      log('Running check with score ' + score);
-      try {
-        await check(score, () => log('Check complete'));
-      } catch (err) {
-        console.error(err);
-        log('Check failed: ' + err.message);
-      }
-    });
   </script>
 </body>
 </html>

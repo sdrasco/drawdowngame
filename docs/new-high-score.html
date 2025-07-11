@@ -59,18 +59,43 @@
   </style>
 </head>
 <body>
-  <h1>Congratulations! You made the high score board!</h1>
-  <table id="scoresTable"></table>
-  <a id="saveBtn" href="#" class="link-wrapper">Save My High Score</a>
+  <h1 id="headline"></h1>
+  <div id="boardContainer" class="hidden">
+    <table id="scoresTable"></table>
+    <a id="saveBtn" href="#" class="link-wrapper">Save My High Score</a>
+  </div>
+  <p id="message"></p>
+  <script src="js/storage.js"></script>
   <script type="module">
-    import { submitScore } from './js/highscores.js';
+    import { initScores, loadBoard, submitScore } from './js/highscores.js';
 
-    const data = sessionStorage.getItem('pendingHighScore');
-    if (!data) {
-      window.location.href = 'game-over.html';
-    } else {
-      const { score, board, defaultName } = JSON.parse(data);
+    document.addEventListener('DOMContentLoaded', async () => {
+      const state = loadState();
+      await initScores();
+      const board = await loadBoard();
+
+      const headline = document.getElementById('headline');
+      const messageEl = document.getElementById('message');
+      const container = document.getElementById('boardContainer');
       const tbl = document.getElementById('scoresTable');
+
+      if (!state || !state.gameOver) {
+        headline.textContent = 'Hold your horses!';
+        messageEl.textContent = "Finish a game before trying to claim fame.";
+        return;
+      }
+
+      const score = Math.round(state.netWorth || 0);
+      const qualifies = board.length < 10 ||
+        (board.length && score > board[board.length - 1].score);
+      if (!qualifies) {
+        headline.textContent = 'Nice try!';
+        messageEl.textContent = "Your final worth didn't crack the top ten.";
+        return;
+      }
+
+      headline.textContent = 'Congratulations! You made the high score board!';
+
       let inserted = false;
       const all = [];
       for (const entry of board) {
@@ -82,14 +107,15 @@
       }
       if (!inserted && all.length < 10) {
         all.push({ player: '', score, isNew: true });
-        inserted = true;
       }
+
       const display = all.slice(0, 10);
       let inputEl = null;
       tbl.innerHTML = '';
       const header = document.createElement('tr');
       header.innerHTML = '<th>Rank</th><th>Name</th><th>Worth</th>';
       tbl.appendChild(header);
+
       display.forEach((s, idx) => {
         const row = document.createElement('tr');
         if (s.isNew) {
@@ -101,7 +127,7 @@
           inputEl.id = 'nameInput';
           inputEl.type = 'text';
           inputEl.autocomplete = 'off';
-          inputEl.value = defaultName || '';
+          inputEl.value = getUser ? getUser() : '';
           inputEl.classList.add('blink-cursor');
           nameCell.appendChild(inputEl);
           const val = document.createElement('td');
@@ -114,19 +140,20 @@
         }
         tbl.appendChild(row);
       });
+
+      container.classList.remove('hidden');
       document.getElementById('saveBtn').addEventListener('click', async (e) => {
         e.preventDefault();
-        const name = (inputEl.value || defaultName || 'default').trim();
+        const name = (inputEl.value || getUser() || 'default').trim();
         try {
           await submitScore(name, score);
         } catch (err) {
           console.error('submitScore failed', err);
         }
-        sessionStorage.removeItem('pendingHighScore');
         window.location.href = 'game-over.html';
       });
       if (inputEl) inputEl.focus();
-    }
+    });
   </script>
 </body>
 </html>
