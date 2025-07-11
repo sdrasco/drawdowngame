@@ -509,6 +509,55 @@ function doBuyOption() {
   renderSellOptions();
 }
 
+function showOptionSellPopup() {
+  const popup = document.getElementById('optionSellPopup');
+  if (!popup) return;
+  const select = document.getElementById('sellOptionSelect');
+  select.innerHTML = '';
+  (gameState.options || []).forEach((opt, idx) => {
+    const remaining = opt.weeksToExpiry - (gameState.week - opt.purchaseWeek);
+    if (remaining <= 0) return;
+    const o = document.createElement('option');
+    o.value = idx;
+    o.textContent = `${opt.symbol} ${opt.type} ${opt.strike} (qty ${opt.qty})`;
+    select.appendChild(o);
+  });
+  updateSellOptionQty();
+  popup.classList.remove('hidden');
+}
+
+function hideOptionSellPopup() {
+  const popup = document.getElementById('optionSellPopup');
+  if (popup) popup.classList.add('hidden');
+}
+
+function updateSellOptionQty() {
+  const select = document.getElementById('sellOptionSelect');
+  const slider = document.getElementById('sellOptionQtySlider');
+  const label = document.getElementById('sellOptionQtyLabel');
+  const idx = parseInt(select.value, 10) || 0;
+  const opt = (gameState.options || [])[idx];
+  const max = opt ? opt.qty : 1;
+  slider.max = max;
+  slider.value = 1;
+  if (label) label.textContent = '1';
+}
+
+function confirmSellOption() {
+  const select = document.getElementById('sellOptionSelect');
+  const slider = document.getElementById('sellOptionQtySlider');
+  const idx = parseInt(select.value, 10) || 0;
+  const qty = parseInt(slider.value, 10) || 1;
+  const optPos = (gameState.options || [])[idx];
+  if (!optPos || qty <= 0) { hideOptionSellPopup(); return; }
+  document.getElementById('optSymbol').value = optPos.symbol;
+  document.getElementById('optType').value = optPos.type;
+  document.getElementById('optStrike').value = optPos.strike;
+  document.getElementById('optQty').value = qty;
+  hideOptionSellPopup();
+  doSellOption();
+}
+
 function doSellOption() {
   const sym = document.getElementById('optSymbol').value.trim().toUpperCase();
   const type = document.getElementById('optType').value;
@@ -610,7 +659,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const optBuyBtn = document.getElementById('optBuyBtn');
     if (optBuyBtn) optBuyBtn.addEventListener('click', doBuyOption);
     const optSellBtn = document.getElementById('optSellBtn');
-    if (optSellBtn) optSellBtn.addEventListener('click', doSellOption);
+    if (optSellBtn) optSellBtn.addEventListener('click', showOptionSellPopup);
+    const sellSelect = document.getElementById('sellOptionSelect');
+    if (sellSelect) sellSelect.addEventListener('change', updateSellOptionQty);
+    const sellSlider = document.getElementById('sellOptionQtySlider');
+    if (sellSlider) sellSlider.addEventListener('input', e => {
+      const lbl = document.getElementById('sellOptionQtyLabel');
+      if (lbl) lbl.textContent = e.target.value;
+    });
+    const sellConfirm = document.getElementById('sellOptionConfirm');
+    if (sellConfirm) sellConfirm.addEventListener('click', confirmSellOption);
+    const sellCancel = document.getElementById('sellOptionCancel');
+    if (sellCancel) sellCancel.addEventListener('click', hideOptionSellPopup);
   }
 });
 

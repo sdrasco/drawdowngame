@@ -305,6 +305,12 @@ select {
   touch-action: none;
 }
 
+#sellOptionQtySlider {
+  width: 100%;
+  accent-color: var(--accent-color);
+  touch-action: none;
+}
+
 .portfolio-container {
   max-width: 600px;
   margin: 0 auto;
