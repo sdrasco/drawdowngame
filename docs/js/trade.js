@@ -18,7 +18,11 @@ function renderTradeHistory() {
   const header = document.createElement('tr');
   header.innerHTML = '<th>Week</th><th>Type</th><th>Symbol</th><th>Qty</th><th>Price</th><th>Commission</th><th>Fees</th><th>Total</th>';
   tbl.appendChild(header);
-  (gameState.tradeHistory || []).forEach(t => {
+  let history = gameState.tradeHistory || [];
+  if (window.stockTradeHistoryOnly) {
+    history = history.filter(t => t.type === 'BUY' || t.type === 'SELL');
+  }
+  history.forEach(t => {
     const row = document.createElement('tr');
     row.innerHTML = `<td>${t.week}</td><td>${t.type}</td><td>${t.symbol}</td><td>${t.qty}</td><td>$${t.price.toFixed(2)}</td><td>$${t.commission.toFixed(2)}</td><td>$${t.fees.toFixed(2)}</td><td>$${t.total.toFixed(2)}</td>`;
     tbl.appendChild(row);
