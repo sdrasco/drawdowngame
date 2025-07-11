@@ -64,6 +64,15 @@
     <table id="scoresTable"></table>
     <a id="saveBtn" href="#" class="link-wrapper">Save My High Score</a>
   </div>
+  <div id="exitContainer" class="hidden">
+    <a id="exitMenu" class="link-wrapper" href="index.html"
+       onclick="sessionStorage.removeItem('backTo'); localStorage.clear();">
+       Back to Main Menu</a>
+    <a id="exitNew" class="link-wrapper" href="play.html"
+       onclick="sessionStorage.removeItem('backTo'); localStorage.clear();">
+       Start New Game</a>
+    <a id="exitAdmire" class="link-wrapper" href="game-over.html">Admire Game</a>
+  </div>
   <p id="message"></p>
   <script src="js/storage.js"></script>
   <script type="module">
@@ -77,11 +86,13 @@
       const headline = document.getElementById('headline');
       const messageEl = document.getElementById('message');
       const container = document.getElementById('boardContainer');
+      const exitContainer = document.getElementById('exitContainer');
       const tbl = document.getElementById('scoresTable');
 
       if (!state || !state.gameOver) {
         headline.textContent = 'Hold your horses!';
         messageEl.textContent = "Finish a game before trying to claim fame.";
+        exitContainer.classList.remove('hidden');
         return;
       }
 
@@ -91,6 +102,7 @@
       if (!qualifies) {
         headline.textContent = 'Nice try!';
         messageEl.textContent = "Your final worth didn't crack the top ten.";
+        exitContainer.classList.remove('hidden');
         return;
       }
 
