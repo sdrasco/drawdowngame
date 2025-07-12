@@ -5,7 +5,8 @@
   --accent-color-light: #66ff66;
 }
 
-body.amber {
+body.amber,
+.amber {
   --accent-color: #ffbf00;
   --accent-color-light: #ffcf40;
 }
