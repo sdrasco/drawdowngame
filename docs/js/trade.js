@@ -16,7 +16,11 @@ function renderTradeHistory() {
   if (!tbl) return;
   tbl.innerHTML = '';
   const header = document.createElement('tr');
-  header.innerHTML = '<th>Week</th><th>Type</th><th>Symbol</th><th>Qty</th><th>Price</th><th>Commission</th><th>Fees</th><th>Total</th>';
+  if (window.optionsTradeHistoryOnly) {
+    header.innerHTML = '<th>Week</th><th>Action</th><th>Symbol</th><th>Type</th><th>Strike</th><th>Weeks</th><th>Qty</th><th>Price</th><th>Commission</th><th>Fees</th><th>Total</th>';
+  } else {
+    header.innerHTML = '<th>Week</th><th>Type</th><th>Symbol</th><th>Qty</th><th>Price</th><th>Commission</th><th>Fees</th><th>Total</th>';
+  }
   tbl.appendChild(header);
   let history = gameState.tradeHistory || [];
   if (window.stockTradeHistoryOnly) {
@@ -26,13 +30,22 @@ function renderTradeHistory() {
   }
   history.forEach(t => {
     const row = document.createElement('tr');
-    row.innerHTML = `<td>${t.week}</td><td>${t.type}</td><td>${t.symbol}</td><td>${t.qty}</td><td>$${t.price.toFixed(2)}</td><td>$${t.commission.toFixed(2)}</td><td>$${t.fees.toFixed(2)}</td><td>$${t.total.toFixed(2)}</td>`;
+    if (window.optionsTradeHistoryOnly) {
+      const act = t.type.startsWith('BUY') ? 'BUY' : 'SELL';
+      const optType = t.optionType || (t.type.includes('CALL') ? 'call' : 'put');
+      const strike = t.strike !== undefined ? t.strike : '';
+      const weeks = t.weeks !== undefined ? t.weeks : '';
+      row.innerHTML = `<td>${t.week}</td><td>${act}</td><td>${t.symbol}</td><td>${optType}</td><td>${strike}</td><td>${weeks}</td><td>${t.qty}</td><td>$${t.price.toFixed(2)}</td><td>$${t.commission.toFixed(2)}</td><td>$${t.fees.toFixed(2)}</td><td>$${t.total.toFixed(2)}</td>`;
+    } else {
+      row.innerHTML = `<td>${t.week}</td><td>${t.type}</td><td>${t.symbol}</td><td>${t.qty}</td><td>$${t.price.toFixed(2)}</td><td>$${t.commission.toFixed(2)}</td><td>$${t.fees.toFixed(2)}</td><td>$${t.total.toFixed(2)}</td>`;
+    }
     tbl.appendChild(row);
   });
 }
 
 function showTradeDialog(trade) {
-  const totalLabel = trade.type === 'BUY' ? 'Total Cost' : 'Net Proceeds';
+  const totalLabel = (trade.type && trade.type.startsWith('BUY')) ?
+                     'Total Cost' : 'Net Proceeds';
   const msg = `${trade.type} ${trade.qty} ${trade.symbol} @ $${trade.price.toFixed(2)}<br/>` +
     `Commission: $${trade.commission.toFixed(2)}<br/>Fees: $${trade.fees.toFixed(2)}<br/>` +
     `${totalLabel}: $${trade.total.toFixed(2)}`;
@@ -500,7 +513,7 @@ function doBuyOption() {
   gameState.options.push({ symbol: sym, type, strike, premium, qty, weeksToExpiry: w, purchaseWeek: gameState.week });
   updateRank();
   if (!gameState.tradeHistory) gameState.tradeHistory = [];
-  const trade = { week: gameState.week, type: `BUY ${type.toUpperCase()}`, symbol: sym, qty, price: premium, commission, fees, total };
+  const trade = { week: gameState.week, type: `BUY ${type.toUpperCase()}`, symbol: sym, strike, optionType: type, weeks: w, qty, price: premium, commission, fees, total };
   gameState.tradeHistory.push(trade);
   saveState(gameState);
   showTradeDialog(trade);
@@ -581,7 +594,7 @@ function doSellOption() {
   if (optPos.qty <= 0) gameState.options.splice(idx,1);
   updateRank();
   if (!gameState.tradeHistory) gameState.tradeHistory = [];
-  const trade = { week: gameState.week, type: `SELL ${type.toUpperCase()}`, symbol: sym, qty, price: premium, commission, fees, total: proceeds };
+  const trade = { week: gameState.week, type: `SELL ${type.toUpperCase()}`, symbol: sym, strike, optionType: type, weeks: remaining, qty, price: premium, commission, fees, total: proceeds };
   gameState.tradeHistory.push(trade);
   saveState(gameState);
   showTradeDialog(trade);
