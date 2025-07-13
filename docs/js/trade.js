@@ -93,6 +93,7 @@ function renderSellOptions() {
   const header = document.createElement('tr');
   header.innerHTML = '<th>Symbol</th><th>Type</th><th>Strike</th><th>Qty</th><th>Value</th><th>Weeks Left</th><th></th>';
   tbl.appendChild(header);
+  populateSellOptionSelect();
   (gameState.options || []).forEach((opt, idx) => {
     const remaining = opt.weeksToExpiry - (gameState.week - opt.purchaseWeek);
     if (remaining <= 0) return;
@@ -105,38 +106,13 @@ function renderSellOptions() {
     const btnCell = document.createElement('td');
     const btn = document.createElement('button');
     btn.textContent = 'Sell';
-    btn.addEventListener('click', () => sellOptionPosition(idx));
+    btn.addEventListener('click', () => selectOptionForSell(idx));
     btnCell.appendChild(btn);
     row.appendChild(btnCell);
     tbl.appendChild(row);
   });
 }
 
-function sellOptionPosition(idx) {
-  const opt = (gameState.options || [])[idx];
-  if (!opt) return;
-  const remaining = opt.weeksToExpiry - (gameState.week - opt.purchaseWeek);
-  if (remaining <= 0) return;
-  const weeks = gameState.prices[opt.symbol];
-  if (!weeks || !bsPrice) { if (typeof showMessage==='function') showMessage('Unknown symbol'); return; }
-  const price = weeks[weeks.length-1][weeks[weeks.length-1].length-1];
-  const premium = bsPrice(price, opt.strike, OPTION_RISK_FREE_RATE, OPTION_VOLATILITY, remaining/52, opt.type);
-  const tradeValue = premium * opt.qty;
-  const commission = TRADE_COMMISSION;
-  const fees = +(tradeValue * TRADE_FEE_RATE).toFixed(2);
-  const proceeds = tradeValue - commission - fees;
-  gameState.cash += proceeds;
-  gameState.options.splice(idx,1);
-  updateRank();
-  if (!gameState.tradeHistory) gameState.tradeHistory = [];
-  const trade = { week: gameState.week, type: `SELL ${opt.type.toUpperCase()}`, symbol: opt.symbol, qty: opt.qty, price: premium, commission, fees, total: proceeds };
-  gameState.tradeHistory.push(trade);
-  saveState(gameState);
-  showTradeDialog(trade);
-  renderMetrics();
-  renderTradeHistory();
-  renderSellOptions();
-}
 
 function populateOptionSymbols(list) {
   const select = document.getElementById('optSymbol');
@@ -522,10 +498,9 @@ function doBuyOption() {
   renderSellOptions();
 }
 
-function showOptionSellPopup() {
-  const popup = document.getElementById('optionSellPopup');
-  if (!popup) return;
+function populateSellOptionSelect() {
   const select = document.getElementById('sellOptionSelect');
+  if (!select) return;
   select.innerHTML = '';
   (gameState.options || []).forEach((opt, idx) => {
     const remaining = opt.weeksToExpiry - (gameState.week - opt.purchaseWeek);
@@ -535,40 +510,31 @@ function showOptionSellPopup() {
     o.textContent = `${opt.symbol} ${opt.type} ${opt.strike} (qty ${opt.qty})`;
     select.appendChild(o);
   });
-  updateSellOptionQty();
-  popup.classList.remove('hidden');
+  updateSellOptionSelection();
 }
 
-function hideOptionSellPopup() {
-  const popup = document.getElementById('optionSellPopup');
-  if (popup) popup.classList.add('hidden');
-}
-
-function updateSellOptionQty() {
+function updateSellOptionSelection() {
   const select = document.getElementById('sellOptionSelect');
-  const slider = document.getElementById('sellOptionQtySlider');
-  const label = document.getElementById('sellOptionQtyLabel');
   const idx = parseInt(select.value, 10) || 0;
   const opt = (gameState.options || [])[idx];
-  const max = opt ? opt.qty : 1;
-  slider.max = max;
-  slider.value = 1;
-  if (label) label.textContent = '1';
+  if (!opt) return;
+  document.getElementById('optSymbol').value = opt.symbol;
+  document.getElementById('optType').value = opt.type;
+  document.getElementById('optStrike').value = opt.strike;
+  const qtyInput = document.getElementById('optQty');
+  if (qtyInput) {
+    qtyInput.max = opt.qty;
+    if (+qtyInput.value > opt.qty) qtyInput.value = opt.qty;
+  }
 }
 
-function confirmSellOption() {
+function selectOptionForSell(idx) {
   const select = document.getElementById('sellOptionSelect');
-  const slider = document.getElementById('sellOptionQtySlider');
-  const idx = parseInt(select.value, 10) || 0;
-  const qty = parseInt(slider.value, 10) || 1;
-  const optPos = (gameState.options || [])[idx];
-  if (!optPos || qty <= 0) { hideOptionSellPopup(); return; }
-  document.getElementById('optSymbol').value = optPos.symbol;
-  document.getElementById('optType').value = optPos.type;
-  document.getElementById('optStrike').value = optPos.strike;
-  document.getElementById('optQty').value = qty;
-  hideOptionSellPopup();
-  doSellOption();
+  if (!select) return;
+  select.value = idx;
+  updateSellOptionSelection();
+  const qtyInput = document.getElementById('optQty');
+  if (qtyInput) qtyInput.focus();
 }
 
 function doSellOption() {
@@ -672,18 +638,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const optBuyBtn = document.getElementById('optBuyBtn');
     if (optBuyBtn) optBuyBtn.addEventListener('click', doBuyOption);
     const optSellBtn = document.getElementById('optSellBtn');
-    if (optSellBtn) optSellBtn.addEventListener('click', showOptionSellPopup);
+    if (optSellBtn) optSellBtn.addEventListener('click', doSellOption);
     const sellSelect = document.getElementById('sellOptionSelect');
-    if (sellSelect) sellSelect.addEventListener('change', updateSellOptionQty);
-    const sellSlider = document.getElementById('sellOptionQtySlider');
-    if (sellSlider) sellSlider.addEventListener('input', e => {
-      const lbl = document.getElementById('sellOptionQtyLabel');
-      if (lbl) lbl.textContent = e.target.value;
-    });
-    const sellConfirm = document.getElementById('sellOptionConfirm');
-    if (sellConfirm) sellConfirm.addEventListener('click', confirmSellOption);
-    const sellCancel = document.getElementById('sellOptionCancel');
-    if (sellCancel) sellCancel.addEventListener('click', hideOptionSellPopup);
+    if (sellSelect) sellSelect.addEventListener('change', updateSellOptionSelection);
   }
 });
 

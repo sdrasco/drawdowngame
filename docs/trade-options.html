@@ -42,6 +42,8 @@
         <select id="optStrike"></select><br/>
         <label for="optWeeks">Weeks to Expiry</label><br/>
         <select id="optWeeks"></select><br/>
+        <label for="sellOptionSelect">Owned Option</label><br/>
+        <select id="sellOptionSelect"></select><br/>
         <label for="optQty">Contracts</label><br/>
         <input id="optQty" type="number" min="1" value="1" /><br/>
         <div>Premium: $<span id="optPremium">0.00</span></div>
@@ -52,16 +54,6 @@
       <div id="optionsHoldings" class="hidden">
         <h3>Your Options</h3>
         <table id="sellOptionsTable"></table>
-      </div>
-      <div id="optionSellPopup" class="username-prompt hidden">
-        <form>
-          <label for="sellOptionSelect">Select Option</label><br/>
-          <select id="sellOptionSelect"></select><br/>
-          <label for="sellOptionQtySlider">Contracts to Sell: <span id="sellOptionQtyLabel">1</span></label><br/>
-          <input id="sellOptionQtySlider" type="range" min="1" value="1" /><br/>
-          <button type="button" id="sellOptionConfirm">Sell</button>
-          <button type="button" id="sellOptionCancel">Cancel</button>
-        </form>
       </div>
     <div id="tradeConfirm" class="confirm-message"></div>
     <table id="tradeHistoryTable"></table>
