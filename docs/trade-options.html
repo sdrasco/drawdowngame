@@ -1,23 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Drawdown - Trade Options</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-</head>
-<body class="amber">
-  <div class="trade-container">
-    <h1>Trade Stock Options</h1>
-    <table class="metrics-table">
-      <tr><th>Worth</th><td>$<span id="tNetWorth">0</span></td></tr>
-      <tr><th>Cash</th><td>$<span id="tCash">0</span></td></tr>
-    </table>
-    <div id="optionsForm">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drawdown - Trade Options</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body class="amber">
+    <div class="trade-container">
+      <h1>Trade Stock Options</h1>
+      <table class="metrics-table">
+        <tr>
+          <th>Worth</th>
+          <td>$<span id="tNetWorth">0</span></td>
+        </tr>
+        <tr>
+          <th>Cash</th>
+          <td>$<span id="tCash">0</span></td>
+        </tr>
+      </table>
+      <div id="optionsForm">
         <h3>Options</h3>
-        <label for="optSymbol">Symbol</label><br/>
-        <select id="optSymbol"></select><br/>
+        <label for="optSymbol">Symbol</label><br />
+        <select id="optSymbol"></select
+        ><br />
         <div id="analysisPanel" class="hidden">
           <div id="metrics">
             <div>Price: $<span id="price">0</span></div>
@@ -29,50 +36,54 @@
           <div class="chart-wrapper">
             <div id="companyChart"></div>
           </div>
-          <p class="analysis-note">Options prices are calculated using the Black-Scholes model.</p>
+          <p class="analysis-note">
+            Options prices are calculated using the Black-Scholes model.
+          </p>
         </div>
-        <label for="optType">Type</label><br/>
+        <label for="optType">Type</label><br />
         <select id="optType">
           <option value="call">Call</option>
-          <option value="put">Put</option>
-        </select><br/>
-        <label for="optStockPrice">Current Price</label><br/>
-        $<span id="optStockPrice">0.00</span><br/>
-        <label for="optStrike">Strike</label><br/>
-        <select id="optStrike"></select><br/>
-        <label for="optWeeks">Weeks to Expiry</label><br/>
-        <select id="optWeeks"></select><br/>
-        <label for="sellOptionSelect">Owned Option</label><br/>
-        <select id="sellOptionSelect"></select><br/>
-        <label for="optQty">Contracts</label><br/>
-        <input id="optQty" type="number" min="1" value="1" /><br/>
+          <option value="put">Put</option></select
+        ><br />
+        <label for="optStockPrice">Current Price</label><br />
+        $<span id="optStockPrice">0.00</span><br />
+        <label for="optStrike">Strike</label><br />
+        <select id="optStrike"></select
+        ><br />
+        <label for="optWeeks">Weeks to Expiry</label><br />
+        <select id="optWeeks"></select
+        ><br />
+        <label for="optQty">Contracts</label><br />
+        <input id="optQty" type="number" min="1" value="1" /><br />
         <div>Premium: $<span id="optPremium">0.00</span></div>
         <div>Total Cost: $<span id="optTotal">0.00</span></div>
         <button type="button" id="optBuyBtn">Buy Option</button>
-        <button type="button" id="optSellBtn">Sell Option</button>
       </div>
       <div id="optionsHoldings" class="hidden">
         <h3>Your Options</h3>
         <table id="sellOptionsTable"></table>
       </div>
-    <div id="tradeConfirm" class="confirm-message"></div>
-    <table id="tradeHistoryTable"></table>
-    <div class="analysis-nav">
-      <button type="button" onclick="location.href='play.html'">Back</button>
+      <div id="tradeConfirm" class="confirm-message"></div>
+      <table id="tradeHistoryTable"></table>
+      <div class="analysis-nav">
+        <button type="button" onclick="location.href='play.html'">Back</button>
+      </div>
     </div>
-  </div>
-  <script src="js/storage.js"></script>
-  <script>
-    const state = loadState();
-    const apprentice = typeof hasSeenApprentice === 'function' && hasSeenApprentice();
-    if (!state || (state.rank === 'Novice' && !apprentice)) {
-      window.location.href = 'play.html';
-    }
-  </script>
-  <script src="js/options.js"></script>
-  <script src="js/player.js"></script>
-  <script src="js/dialog.js"></script>
-  <script>window.optionsTradeHistoryOnly = true;</script>
-  <script src="js/trade.js"></script>
-</body>
+    <script src="js/storage.js"></script>
+    <script>
+      const state = loadState();
+      const apprentice =
+        typeof hasSeenApprentice === "function" && hasSeenApprentice();
+      if (!state || (state.rank === "Novice" && !apprentice)) {
+        window.location.href = "play.html";
+      }
+    </script>
+    <script src="js/options.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/dialog.js"></script>
+    <script>
+      window.optionsTradeHistoryOnly = true;
+    </script>
+    <script src="js/trade.js"></script>
+  </body>
 </html>
