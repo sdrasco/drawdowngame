@@ -58,7 +58,7 @@ function populateTradeSymbols(list) {
   const select = document.getElementById('tradeSymbol');
   if (!select) return;
   select.innerHTML = '';
-  list.forEach(c => {
+  list.slice().sort((a, b) => a.symbol.localeCompare(b.symbol)).forEach(c => {
     const opt = document.createElement('option');
     opt.value = c.symbol;
     opt.textContent = `${c.symbol} - ${c.name}`;
@@ -142,7 +142,7 @@ function populateOptionSymbols(list) {
   const select = document.getElementById('optSymbol');
   if (!select) return;
   select.innerHTML = '';
-  list.forEach(c => {
+  list.slice().sort((a, b) => a.symbol.localeCompare(b.symbol)).forEach(c => {
     const opt = document.createElement('option');
     opt.value = c.symbol;
     opt.textContent = `${c.symbol} - ${c.name}`;
