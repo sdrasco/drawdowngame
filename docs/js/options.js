@@ -66,5 +66,8 @@ function blackScholesPrice(S, K, r, sigma, T, type) {
 /* ── module exports (CommonJS + ESM) ──────────────────────────────────── */
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { blackScholesPrice, normCdf, erf: erfFallback };
+} else if (typeof window !== 'undefined') {
+  window.blackScholesPrice = blackScholesPrice;
+  window.normCdf = normCdf;
+  window.erf = erf;
 }
-export { blackScholesPrice, normCdf, erf };
