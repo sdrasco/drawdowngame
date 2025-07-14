@@ -7,12 +7,12 @@ let currentHistory = [];
 function renderMetrics() {
   if (!gameState) return;
   computeNetWorth(gameState);
-  document.getElementById("tNetWorth").textContent = Math.round(
-    gameState.netWorth,
-  ).toLocaleString();
-  document.getElementById("tCash").textContent = Math.round(
-    gameState.cash,
-  ).toLocaleString();
+  const worthEl = document.getElementById("tNetWorth");
+  if (worthEl)
+    worthEl.textContent = Math.round(gameState.netWorth).toLocaleString();
+  const cashEl = document.getElementById("tCash");
+  if (cashEl)
+    cashEl.textContent = Math.round(gameState.cash).toLocaleString();
 }
 
 function renderTradeHistory() {
@@ -429,21 +429,25 @@ function updateAnalysisPanel() {
   const closes = historyWeeks.map((w) => w[w.length - 1]);
   drawChart(closes);
   if (closes.length > 0) {
-    document.getElementById("price").textContent =
-      closes[closes.length - 1].toFixed(2);
-    document.getElementById("average").textContent =
-      computeAverage(closes).toFixed(2);
-    document.getElementById("high").textContent = Math.max(...closes).toFixed(
-      2,
-    );
-    document.getElementById("low").textContent = Math.min(...closes).toFixed(2);
+    const priceEl = document.getElementById("price");
+    if (priceEl) priceEl.textContent = closes[closes.length - 1].toFixed(2);
+    const avgEl = document.getElementById("average");
+    if (avgEl) avgEl.textContent = computeAverage(closes).toFixed(2);
+    const highEl = document.getElementById("high");
+    if (highEl) highEl.textContent = Math.max(...closes).toFixed(2);
+    const lowEl = document.getElementById("low");
+    if (lowEl) lowEl.textContent = Math.min(...closes).toFixed(2);
   } else {
-    document.getElementById("average").textContent = "0";
-    document.getElementById("high").textContent = "0";
-    document.getElementById("low").textContent = "0";
+    const avgEl = document.getElementById("average");
+    if (avgEl) avgEl.textContent = "0";
+    const highEl = document.getElementById("high");
+    if (highEl) highEl.textContent = "0";
+    const lowEl = document.getElementById("low");
+    if (lowEl) lowEl.textContent = "0";
   }
   const vol = computeVolatility(closes);
-  document.getElementById("volatility").textContent = vol.toFixed(4);
+  const volEl = document.getElementById("volatility");
+  if (volEl) volEl.textContent = vol.toFixed(4);
 }
 
 function updateRank() {
