@@ -552,8 +552,9 @@ function doSell() {
     saveState(gameState);
     showTradeDialog(trade);
     renderMetrics();
-    updateTradeInfo();
     renderSellHoldings();
+    populateTradeSymbols(getHoldingsList());
+    updateTradeInfo();
     renderTradeHistory();
   }
 }
