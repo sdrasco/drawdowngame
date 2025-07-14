@@ -143,7 +143,8 @@ button:hover {
 
 .chart-wrapper {
   margin: 1rem auto;
-  max-width: 600px;
+  width: 90%;
+  max-width: 540px;
 }
 
 #marketChart,
