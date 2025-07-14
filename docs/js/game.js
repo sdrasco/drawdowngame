@@ -119,6 +119,11 @@ function newsImpactsForWeek(week) {
 
 }
 function startGame() {
+  const params = new URLSearchParams(window.location.search);
+  const debugApprentice = params.get('debug') === 'apprentice';
+  if (debugApprentice) {
+    localStorage.removeItem(getStorageKey());
+  }
   gameState = loadState();
   if (gameState && !gameState.positions) {
     gameState.positions = {};
@@ -166,6 +171,16 @@ function startGame() {
       gameState.prices[INDEX_SYMBOL].push(computeIndexWeekPrices(i));
     }
 
+    saveState(gameState);
+  }
+
+  if (debugApprentice) {
+    gameState.cash = 60000;
+    gameState.netWorth = 60000;
+    gameState.rank = 'Apprentice';
+    if (typeof setApprenticeSeen === 'function') {
+      setApprenticeSeen();
+    }
     saveState(gameState);
   }
   computeNetWorth(gameState);
