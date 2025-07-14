@@ -9,11 +9,7 @@
 </head>
 <body>
   <div class="trade-container">
-    <h1>Trade Stocks</h1>
-    <table class="metrics-table">
-      <tr><th>Worth</th><td>$<span id="tNetWorth">0</span></td></tr>
-      <tr><th>Cash</th><td>$<span id="tCash">0</span></td></tr>
-    </table>
+    <h1>Trade Stocks (Cash: $<span id="tCash">0</span>)</h1>
     <div id="tradeModeSelect">
         <button type="button" id="startBuyBtn">Buy Order</button>
         <button type="button" id="startSellBtn">Sell Order</button>
@@ -28,13 +24,6 @@
         <label for="tradeSymbol">Symbol</label><br/>
         <select id="tradeSymbol"></select><br/>
         <div id="analysisPanel" class="hidden">
-          <div id="metrics">
-            <div>Price: $<span id="price">0</span></div>
-            <div>Volatility: <span id="volatility">0</span></div>
-            <div>Average: $<span id="average">0</span></div>
-            <div>High: $<span id="high">0</span></div>
-            <div>Low: $<span id="low">0</span></div>
-          </div>
           <div class="chart-wrapper">
             <div id="companyChart"></div>
           </div>
