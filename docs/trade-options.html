@@ -9,7 +9,7 @@
   </head>
   <body class="amber">
     <div class="trade-container">
-      <h1>Trade Stock Options</h1>
+      <h1>Trade Stock Options (Cash: $<span id="headerCash">0</span>)</h1>
       <table class="metrics-table">
         <tr>
           <th>Worth</th>
@@ -26,19 +26,9 @@
         <select id="optSymbol"></select
         ><br />
         <div id="analysisPanel" class="hidden">
-          <div id="metrics">
-            <div>Price: $<span id="price">0</span></div>
-            <div>Volatility: <span id="volatility">0</span></div>
-            <div>Average: $<span id="average">0</span></div>
-            <div>High: $<span id="high">0</span></div>
-            <div>Low: $<span id="low">0</span></div>
-          </div>
           <div class="chart-wrapper">
             <div id="companyChart"></div>
           </div>
-          <p class="analysis-note">
-            Options prices are calculated using the Black-Scholes model.
-          </p>
         </div>
         <label for="optType">Type</label><br />
         <select id="optType">
@@ -58,6 +48,7 @@
         <div>Premium: $<span id="optPremium">0.00</span></div>
         <div>Total Cost: $<span id="optTotal">0.00</span></div>
         <button type="button" id="optBuyBtn">Buy Option</button>
+        <button type="button" onclick="location.href='play.html'">Back to Weekly Summary</button>
       </div>
       <div id="optionsHoldings" class="hidden">
         <h3>Your Options</h3>
@@ -65,9 +56,6 @@
       </div>
       <div id="tradeConfirm" class="confirm-message"></div>
       <table id="tradeHistoryTable"></table>
-      <div class="analysis-nav">
-        <button type="button" onclick="location.href='play.html'">Back</button>
-      </div>
     </div>
     <script src="js/storage.js"></script>
     <script>

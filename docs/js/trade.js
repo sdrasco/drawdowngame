@@ -13,6 +13,9 @@ function renderMetrics() {
   const cashEl = document.getElementById("tCash");
   if (cashEl)
     cashEl.textContent = Math.round(gameState.cash).toLocaleString();
+  const headerCash = document.getElementById("headerCash");
+  if (headerCash)
+    headerCash.textContent = Math.round(gameState.cash).toLocaleString();
 }
 
 function renderTradeHistory() {
