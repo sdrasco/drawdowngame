@@ -70,6 +70,19 @@ button:hover {
   border-color: var(--accent-color);
 }
 
+#sellOptionsTable {
+  margin: 0.5rem auto;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 600px;
+}
+
+#sellOptionsTable th,
+#sellOptionsTable td {
+  border: 1px solid var(--accent-color);
+  padding: 0.5rem;
+}
+
 #optionsForm button:hover {
   background: var(--accent-color);
   color: #000;
