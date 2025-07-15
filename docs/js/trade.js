@@ -240,6 +240,39 @@ function hideOrderForm() {
   document.getElementById("analysisPanel").classList.add("hidden");
 }
 
+function showOptionOrder(mode) {
+  document.getElementById("optModeSelect").classList.add("hidden");
+  const form = document.getElementById("optionsForm");
+  const holdings = document.getElementById("optionsHoldings");
+  const cancel1 = document.getElementById("cancelOptBtn");
+  const cancel2 = document.getElementById("cancelOptBtn2");
+  if (cancel1) cancel1.classList.remove("hidden");
+  if (cancel2) cancel2.classList.remove("hidden");
+  if (mode === "BUY") {
+    if (form) form.classList.remove("hidden");
+    if (holdings) holdings.classList.add("hidden");
+    updateOptionInfo();
+  } else {
+    if (form) form.classList.add("hidden");
+    if (holdings) {
+      holdings.classList.remove("hidden");
+      renderSellOptions();
+    }
+  }
+}
+
+function hideOptionOrder() {
+  const form = document.getElementById("optionsForm");
+  const holdings = document.getElementById("optionsHoldings");
+  if (form) form.classList.add("hidden");
+  if (holdings) holdings.classList.add("hidden");
+  const cancel1 = document.getElementById("cancelOptBtn");
+  const cancel2 = document.getElementById("cancelOptBtn2");
+  if (cancel1) cancel1.classList.add("hidden");
+  if (cancel2) cancel2.classList.add("hidden");
+  document.getElementById("optModeSelect").classList.remove("hidden");
+}
+
 function updateTradeInfo() {
   const sym = document.getElementById("tradeSymbol").value;
   const weeks = gameState.prices[sym];
@@ -698,7 +731,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (unlocked && optForm) {
         populateOptionSymbols(companies.filter((c) => !c.isIndex));
         populateOptionDetails();
-        optForm.classList.remove("hidden");
         updateOptionInfo();
         renderSellOptions();
       }
@@ -730,6 +762,19 @@ document.addEventListener("DOMContentLoaded", () => {
     startSellBtn.addEventListener("click", () => showOrderForm("SELL"));
   const cancelTradeBtn = document.getElementById("cancelTradeBtn");
   if (cancelTradeBtn) cancelTradeBtn.addEventListener("click", hideOrderForm);
+
+  const startOptBuyBtn = document.getElementById("startOptBuyBtn");
+  if (startOptBuyBtn)
+    startOptBuyBtn.addEventListener("click", () => showOptionOrder("BUY"));
+  const startOptSellBtn = document.getElementById("startOptSellBtn");
+  if (startOptSellBtn)
+    startOptSellBtn.addEventListener("click", () => showOptionOrder("SELL"));
+  const cancelOptBtn = document.getElementById("cancelOptBtn");
+  if (cancelOptBtn) cancelOptBtn.addEventListener("click", hideOptionOrder);
+  const cancelOptBtn2 = document.getElementById("cancelOptBtn2");
+  if (cancelOptBtn2) cancelOptBtn2.addEventListener("click", hideOptionOrder);
+
+  hideOptionOrder();
 
   const unlocked =
     gameState.rank !== "Novice" ||

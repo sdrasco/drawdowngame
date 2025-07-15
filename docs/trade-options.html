@@ -20,7 +20,11 @@
           <td>$<span id="tCash">0</span></td>
         </tr>
       </table>
-      <div id="optionsForm">
+      <div id="optModeSelect">
+        <button type="button" id="startOptBuyBtn">Buy Order</button>
+        <button type="button" id="startOptSellBtn">Sell Order</button>
+      </div>
+      <div id="optionsForm" class="hidden">
         <h3>Options</h3>
         <label for="optSymbol">Symbol</label><br />
         <select id="optSymbol"></select
@@ -48,11 +52,13 @@
         <div>Premium: $<span id="optPremium">0.00</span></div>
         <div>Total Cost: $<span id="optTotal">0.00</span></div>
         <button type="button" id="optBuyBtn">Buy Option</button>
+        <button type="button" id="cancelOptBtn" class="hidden">Cancel</button>
         <button type="button" onclick="location.href='play.html'">Back to Weekly Summary</button>
       </div>
       <div id="optionsHoldings" class="hidden">
         <h3>Your Options</h3>
         <table id="sellOptionsTable"></table>
+        <button type="button" id="cancelOptBtn2" class="hidden">Cancel</button>
       </div>
       <div id="tradeConfirm" class="confirm-message"></div>
       <table id="tradeHistoryTable"></table>
