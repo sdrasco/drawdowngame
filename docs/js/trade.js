@@ -240,6 +240,33 @@ function hideOrderForm() {
   document.getElementById("analysisPanel").classList.add("hidden");
 }
 
+function showOptionFlow(mode) {
+  const select = document.getElementById("optionsModeSelect");
+  const form = document.getElementById("optionsForm");
+  const holdings = document.getElementById("optionsHoldings");
+  if (select) select.classList.add("hidden");
+  if (mode === "BUY") {
+    if (form) form.classList.remove("hidden");
+    if (holdings) holdings.classList.add("hidden");
+    updateOptionInfo();
+  } else {
+    if (form) form.classList.add("hidden");
+    if (holdings) {
+      holdings.classList.remove("hidden");
+      renderSellOptions();
+    }
+  }
+}
+
+function hideOptionFlow() {
+  const form = document.getElementById("optionsForm");
+  const holdings = document.getElementById("optionsHoldings");
+  const select = document.getElementById("optionsModeSelect");
+  if (form) form.classList.add("hidden");
+  if (holdings) holdings.classList.add("hidden");
+  if (select) select.classList.remove("hidden");
+}
+
 function updateTradeInfo() {
   const sym = document.getElementById("tradeSymbol").value;
   const weeks = gameState.prices[sym];
@@ -698,7 +725,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (unlocked && optForm) {
         populateOptionSymbols(companies.filter((c) => !c.isIndex));
         populateOptionDetails();
-        optForm.classList.remove("hidden");
         updateOptionInfo();
         renderSellOptions();
       }
@@ -730,6 +756,12 @@ document.addEventListener("DOMContentLoaded", () => {
     startSellBtn.addEventListener("click", () => showOrderForm("SELL"));
   const cancelTradeBtn = document.getElementById("cancelTradeBtn");
   if (cancelTradeBtn) cancelTradeBtn.addEventListener("click", hideOrderForm);
+  const optStartBuyBtn = document.getElementById("optStartBuyBtn");
+  if (optStartBuyBtn)
+    optStartBuyBtn.addEventListener("click", () => showOptionFlow("BUY"));
+  const optStartSellBtn = document.getElementById("optStartSellBtn");
+  if (optStartSellBtn)
+    optStartSellBtn.addEventListener("click", () => showOptionFlow("SELL"));
 
   const unlocked =
     gameState.rank !== "Novice" ||
