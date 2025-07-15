@@ -25,10 +25,10 @@ function renderTradeHistory() {
   const header = document.createElement("tr");
   if (window.optionsTradeHistoryOnly) {
     header.innerHTML =
-      "<th>Week</th><th>Action</th><th>Symbol</th><th>Type</th><th>Strike</th><th>Weeks</th><th>Qty</th><th>Price</th><th>Commission</th><th>Fees</th><th>Total</th>";
+      "<th>Act</th><th>Sym</th><th>Typ</th><th>Str</th><th>Wks</th><th>Qty</th><th>Px</th><th>Comm</th><th>Fees</th><th>Tot</th>";
   } else {
     header.innerHTML =
-      "<th>Week</th><th>Type</th><th>Symbol</th><th>Qty</th><th>Price</th><th>Commission</th><th>Fees</th><th>Total</th>";
+      "<th>Typ</th><th>Sym</th><th>Qty</th><th>Px</th><th>Comm</th><th>Fees</th><th>Tot</th>";
   }
   tbl.appendChild(header);
   let history = gameState.tradeHistory || [];
@@ -43,11 +43,11 @@ function renderTradeHistory() {
       const act = t.type.startsWith("BUY") ? "BUY" : "SELL";
       const optType =
         t.optionType || (t.type.includes("CALL") ? "call" : "put");
-      const strike = t.strike !== undefined ? t.strike : "";
-      const weeks = t.weeks !== undefined ? t.weeks : "";
-      row.innerHTML = `<td>${t.week}</td><td>${act}</td><td>${t.symbol}</td><td>${optType}</td><td>${strike}</td><td>${weeks}</td><td>${t.qty}</td><td>$${t.price.toFixed(2)}</td><td>$${t.commission.toFixed(2)}</td><td>$${t.fees.toFixed(2)}</td><td>$${t.total.toFixed(2)}</td>`;
+      const strike = t.strike !== undefined ? Math.round(t.strike) : "";
+      const weeks = t.weeks !== undefined ? Math.round(t.weeks) : "";
+      row.innerHTML = `<td>${act}</td><td>${t.symbol}</td><td>${optType}</td><td>${strike}</td><td>${weeks}</td><td>${Math.round(t.qty)}</td><td>$${Math.round(t.price)}</td><td>$${Math.round(t.commission)}</td><td>$${Math.round(t.fees)}</td><td>$${Math.round(t.total)}</td>`;
     } else {
-      row.innerHTML = `<td>${t.week}</td><td>${t.type}</td><td>${t.symbol}</td><td>${t.qty}</td><td>$${t.price.toFixed(2)}</td><td>$${t.commission.toFixed(2)}</td><td>$${t.fees.toFixed(2)}</td><td>$${t.total.toFixed(2)}</td>`;
+      row.innerHTML = `<td>${t.type}</td><td>${t.symbol}</td><td>${Math.round(t.qty)}</td><td>$${Math.round(t.price)}</td><td>$${Math.round(t.commission)}</td><td>$${Math.round(t.fees)}</td><td>$${Math.round(t.total)}</td>`;
     }
     tbl.appendChild(row);
   });
