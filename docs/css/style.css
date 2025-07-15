@@ -311,17 +311,17 @@ select {
 #tradeHistoryTable {
   margin: 1rem auto;
   border-collapse: collapse;
-  width: auto;
-  max-width: 400px;
+  width: 100%;
+  max-width: 600px;
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  table-layout: fixed;
 }
 
 #tradeHistoryTable th,
 #tradeHistoryTable td {
   border: 1px solid var(--accent-color);
   padding: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .confirm-message {
