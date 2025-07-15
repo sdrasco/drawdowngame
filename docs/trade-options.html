@@ -20,25 +20,33 @@
         <select id="optSymbol"></select
         ><br />
         <div id="analysisPanel" class="hidden">
-          <div class="chart-wrapper">
+          <div id="optionChartWrapper" class="chart-wrapper">
             <div id="companyChart"></div>
           </div>
         </div>
-        <label for="optType">Type</label><br />
-        <select id="optType">
-          <option value="call">Call</option>
-          <option value="put">Put</option></select
-        ><br />
         <label for="optStockPrice">Current Price</label><br />
         $<span id="optStockPrice">0.00</span><br />
-        <label for="optStrike">Strike</label><br />
-        <select id="optStrike"></select
-        ><br />
-        <label for="optWeeks">Weeks to Expiry</label><br />
-        <select id="optWeeks"></select
-        ><br />
-        <label for="optQty">Contracts</label><br />
-        <input id="optQty" type="number" min="1" value="1" /><br />
+        <div class="option-input-row">
+          <div class="option-field">
+            <label for="optType">Type</label><br />
+            <select id="optType">
+              <option value="call">Call</option>
+              <option value="put">Put</option>
+            </select>
+          </div>
+          <div class="option-field">
+            <label for="optStrike">Strike</label><br />
+            <select id="optStrike"></select>
+          </div>
+          <div class="option-field">
+            <label for="optWeeks">Weeks to Expiry</label><br />
+            <select id="optWeeks"></select>
+          </div>
+          <div class="option-field">
+            <label for="optQty">Contracts</label><br />
+            <input id="optQty" type="number" min="1" value="1" />
+          </div>
+        </div>
         <div>Premium: $<span id="optPremium">0.00</span></div>
         <div>Total Cost: $<span id="optTotal">0.00</span></div>
         <button type="button" id="optBuyBtn">Buy Option</button>
