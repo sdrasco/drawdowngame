@@ -8,9 +8,13 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
   <body class="amber">
-    <div class="trade-container">
-      <h1>Trade Stock Options (Cash: $<span id="headerCash">0</span>)</h1>
-      <div id="optionsForm">
+      <div class="trade-container">
+        <h1>Trade Stock Options (Cash: $<span id="headerCash">0</span>)</h1>
+        <div id="optionsModeSelect">
+          <button type="button" id="optStartBuyBtn">Buy Order</button>
+          <button type="button" id="optStartSellBtn">Sell Order</button>
+        </div>
+        <div id="optionsForm" class="hidden">
         <h3>Options</h3>
         <label for="optSymbol">Symbol</label><br />
         <select id="optSymbol"></select

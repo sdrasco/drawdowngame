@@ -271,6 +271,13 @@ select {
   gap: 1rem;
 }
 
+#optionsModeSelect {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
 #sellHoldingsTable {
   margin: 0.5rem auto;
   border-collapse: collapse;
